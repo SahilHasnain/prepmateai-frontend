@@ -23,6 +23,13 @@ export default function Dashboard() {
       <Text className="text-lg text-gray-600 mb-8">
         Welcome, {user?.name}!
       </Text>
+      
+      {/* Temporary Navigation for Testing */}
+      <View className="w-full gap-3 mb-8">
+        <Button title="Study Planner" onPress={() => router.push('/(main)/planner')} />
+        <Button title="Flashcards" onPress={() => router.push('/(main)/flashcards')} />
+      </View>
+
       <Button title="Logout" onPress={handleLogout} variant="outline" />
     </View>
   );

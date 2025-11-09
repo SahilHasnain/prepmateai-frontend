@@ -11,8 +11,8 @@ const showToast = (message) => {
   }
 };
 
-// Flashcard Item Component
-function FlashcardItem({ question, answer }) {
+// Flashcard Item Component (internal)
+const FlashcardItem = ({ question, answer }) => {
   const rotation = useSharedValue(0);
 
   // Flip card animation
@@ -47,9 +47,10 @@ function FlashcardItem({ question, answer }) {
       </View>
     </TouchableOpacity>
   );
-}
+};
 
-export default function Flashcards() {
+// Main Flashcards Screen
+function Flashcards() {
   const [topic, setTopic] = useState('');
   const [loading, setLoading] = useState(false);
   const [flashcards, setFlashcards] = useState([]);
@@ -151,3 +152,5 @@ export default function Flashcards() {
     </View>
   );
 }
+
+export default Flashcards;
