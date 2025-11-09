@@ -24,4 +24,4 @@ export const APPWRITE_SECRET_KEY = process.env.APPWRITE_SECRET_KEY;
 
 export const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-export const NODE_API_BASE_URL = process.env.NODE_API_BASE_URL;
+export const NODE_API_BASE_URL = process.env.EXPO_PUBLIC_NODE_API_BASE_URL || 'http://10.0.2.2:5000';

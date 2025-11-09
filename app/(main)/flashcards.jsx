@@ -1,6 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, FlatList, ActivityIndicator, Alert, ToastAndroid, Platform } from 'react-native';
 import { useState, useCallback } from 'react';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, interpolate } from 'react-native-reanimated';
+import { useAuth } from '../../hooks/useAuth';
 
 // Show toast notification
 const showToast = (message) => {
@@ -31,18 +32,18 @@ const FlashcardItem = ({ question, answer }) => {
   }));
 
   return (
-    <TouchableOpacity onPress={flipCard} className="w-80 h-96 mx-4">
+    <TouchableOpacity onPress={flipCard} className="mx-4 w-80 h-96">
       <View className="relative w-full h-full">
         {/* Front */}
-        <Animated.View style={frontAnimatedStyle} className="absolute w-full h-full bg-blue-500 rounded-2xl p-6 items-center justify-center">
-          <Text className="text-white text-xl font-bold text-center">{question}</Text>
-          <Text className="text-white/70 text-sm mt-4">Tap to flip</Text>
+        <Animated.View style={frontAnimatedStyle} className="absolute items-center justify-center w-full h-full p-6 bg-blue-500 rounded-2xl">
+          <Text className="text-xl font-bold text-center text-white">{question}</Text>
+          <Text className="mt-4 text-sm text-white/70">Tap to flip</Text>
         </Animated.View>
 
         {/* Back */}
-        <Animated.View style={backAnimatedStyle} className="absolute w-full h-full bg-green-500 rounded-2xl p-6 items-center justify-center">
-          <Text className="text-white text-lg text-center">{answer}</Text>
-          <Text className="text-white/70 text-sm mt-4">Tap to flip</Text>
+        <Animated.View style={backAnimatedStyle} className="absolute items-center justify-center w-full h-full p-6 bg-green-500 rounded-2xl">
+          <Text className="text-lg text-center text-white">{answer}</Text>
+          <Text className="mt-4 text-sm text-white/70">Tap to flip</Text>
         </Animated.View>
       </View>
     </TouchableOpacity>
@@ -51,6 +52,7 @@ const FlashcardItem = ({ question, answer }) => {
 
 // Main Flashcards Screen
 function Flashcards() {
+  const { user } = useAuth();
   const [topic, setTopic] = useState('');
   const [loading, setLoading] = useState(false);
   const [flashcards, setFlashcards] = useState([]);
@@ -65,11 +67,11 @@ function Flashcards() {
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/ai/generate-flashcards', {
+      const response = await fetch('http://192.168.31.143:5000/api/ai/generate-flashcards', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: 'USER_123', // Replace with actual userId from auth
+          userId: user?.$id,
           topic: topic.trim()
         })
       });
@@ -93,7 +95,7 @@ function Flashcards() {
     <View className="flex-1 bg-white">
       {/* Header */}
       <View className="p-4 bg-blue-500">
-        <Text className="text-2xl font-bold text-white mb-4">Flashcards</Text>
+        <Text className="mb-4 text-2xl font-bold text-white">Flashcards</Text>
 
         {/* Topic Input */}
         <TextInput
@@ -101,26 +103,26 @@ function Flashcards() {
           onChangeText={setTopic}
           placeholder="Enter topic (e.g., Thermodynamics)"
           placeholderTextColor="#fff9"
-          className="bg-white/20 text-white rounded-lg p-3 mb-3"
+          className="p-3 mb-3 text-white rounded-lg bg-white/20"
         />
 
         {/* Generate Button */}
         <TouchableOpacity
           onPress={generateFlashcards}
           disabled={loading}
-          className="bg-white rounded-lg p-3 items-center"
+          className="items-center p-3 bg-white rounded-lg"
         >
           {loading ? (
             <ActivityIndicator color="#3b82f6" />
           ) : (
-            <Text className="text-blue-500 font-bold">Generate Flashcards</Text>
+            <Text className="font-bold text-blue-500">Generate Flashcards</Text>
           )}
         </TouchableOpacity>
       </View>
 
       {/* Flashcards Display */}
       {flashcards.length > 0 ? (
-        <View className="flex-1 justify-center">
+        <View className="justify-center flex-1">
           <FlatList
             data={flashcards}
             horizontal
@@ -137,16 +139,16 @@ function Flashcards() {
           />
 
           {/* Progress Indicator */}
-          <View className="flex-row justify-center items-center py-4">
-            <Text className="text-gray-600 font-medium">
+          <View className="flex-row items-center justify-center py-4">
+            <Text className="font-medium text-gray-600">
               {activeIndex + 1} / {flashcards.length}
             </Text>
           </View>
         </View>
       ) : (
-        <View className="flex-1 items-center justify-center">
-          <Text className="text-gray-400 text-lg">No flashcards yet</Text>
-          <Text className="text-gray-400 text-sm mt-2">Enter a topic to generate</Text>
+        <View className="items-center justify-center flex-1">
+          <Text className="text-lg text-gray-400">No flashcards yet</Text>
+          <Text className="mt-2 text-sm text-gray-400">Enter a topic to generate</Text>
         </View>
       )}
     </View>

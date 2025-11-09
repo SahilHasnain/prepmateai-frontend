@@ -1,5 +1,6 @@
 import { View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Alert, ToastAndroid, Platform } from 'react-native';
 import { useState } from 'react';
+import { useAuth } from '../../hooks/useAuth';
 
 // Show toast notification
 const showToast = (message) => {
@@ -11,6 +12,7 @@ const showToast = (message) => {
 };
 
 export default function Planner() {
+  const { user } = useAuth();
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [hours, setHours] = useState('');
   const [loading, setLoading] = useState(false);
@@ -38,11 +40,11 @@ export default function Planner() {
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/ai/generate-plan', {
+      const response = await fetch('http://192.168.31.143:5000/api/ai/generate-plan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: 'USER_123', // Replace with actual userId from auth
+          userId: user?.$id,
           weakTopics: selectedTopics,
           availableHours: parseFloat(hours)
         })
@@ -74,11 +76,11 @@ export default function Planner() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-white p-4">
-      <Text className="text-2xl font-bold mb-4">Study Planner</Text>
+    <ScrollView className="flex-1 p-4 bg-white">
+      <Text className="mb-4 text-2xl font-bold">Study Planner</Text>
 
       {/* Topic Selection */}
-      <Text className="text-lg font-semibold mb-2">Select Weak Topics</Text>
+      <Text className="mb-2 text-lg font-semibold">Select Weak Topics</Text>
       <View className="flex-row flex-wrap gap-2 mb-4">
         {topics.map(topic => (
           <TouchableOpacity
@@ -96,38 +98,38 @@ export default function Planner() {
       </View>
 
       {/* Hours Input */}
-      <Text className="text-lg font-semibold mb-2">Available Hours</Text>
+      <Text className="mb-2 text-lg font-semibold">Available Hours</Text>
       <TextInput
         value={hours}
         onChangeText={setHours}
         keyboardType="numeric"
         placeholder="Enter hours (e.g., 5)"
-        className="border border-gray-300 rounded-lg p-3 mb-4"
+        className="p-3 mb-4 border border-gray-300 rounded-lg"
       />
 
       {/* Generate Button */}
       <TouchableOpacity
         onPress={generatePlan}
         disabled={loading}
-        className="bg-blue-500 rounded-lg p-4 items-center mb-6"
+        className="items-center p-4 mb-6 bg-blue-500 rounded-lg"
       >
         {loading ? (
           <ActivityIndicator color="white" />
         ) : (
-          <Text className="text-white font-bold text-lg">Generate Plan</Text>
+          <Text className="text-lg font-bold text-white">Generate Plan</Text>
         )}
       </TouchableOpacity>
 
       {/* Plan Display */}
       {plan.length > 0 && (
         <>
-          <Text className="text-xl font-bold mb-3">Your Study Plan</Text>
+          <Text className="mb-3 text-xl font-bold">Your Study Plan</Text>
           {plan.map((item, index) => (
-            <View key={index} className="bg-gray-50 rounded-lg p-4 mb-3 border border-gray-200">
-              <Text className="text-lg font-semibold mb-1">{item.topic}</Text>
-              <Text className="text-gray-600 mb-2">{item.duration} minutes</Text>
+            <View key={index} className="p-4 mb-3 border border-gray-200 rounded-lg bg-gray-50">
+              <Text className="mb-1 text-lg font-semibold">{item.topic}</Text>
+              <Text className="mb-2 text-gray-600">{item.duration} minutes</Text>
               <View className={`${getDifficultyColor(item.difficulty)} px-3 py-1 rounded-full self-start`}>
-                <Text className="text-white text-sm font-medium">{item.difficulty}</Text>
+                <Text className="text-sm font-medium text-white">{item.difficulty}</Text>
               </View>
             </View>
           ))}
