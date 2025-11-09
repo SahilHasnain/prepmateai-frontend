@@ -58,8 +58,7 @@ function Flashcards() {
   const [flashcards, setFlashcards] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Generate flashcards
-  const generateFlashcards = async () => {
+  const generateFlashcards = useCallback(async () => {
     if (!topic.trim()) {
       Alert.alert('Error', 'Please enter a topic');
       return;
@@ -89,7 +88,7 @@ function Flashcards() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [topic, user]);
 
   return (
     <View className="flex-1 bg-white">
@@ -128,14 +127,14 @@ function Flashcards() {
             horizontal
             pagingEnabled
             showsHorizontalScrollIndicator={false}
-            onMomentumScrollEnd={useCallback((e) => {
+            onMomentumScrollEnd={(e) => {
               const index = Math.round(e.nativeEvent.contentOffset.x / 320);
               setActiveIndex(index);
-            }, [])}
-            renderItem={useCallback(({ item }) => (
+            }}
+            renderItem={({ item }) => (
               <FlashcardItem question={item.question} answer={item.answer} />
-            ), [])}
-            keyExtractor={useCallback((item, index) => `flashcard-${index}`, [])}
+            )}
+            keyExtractor={(item, index) => `flashcard-${index}`}
           />
 
           {/* Progress Indicator */}
