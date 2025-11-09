@@ -1,5 +1,5 @@
-import { Client, Account, ID } from "appwrite";
-import { APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID } from "../config/env";
+import { Client, Account, Databases, ID, Query } from "appwrite";
+import { APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID, APPWRITE_DATABASE_ID } from "../config/env";
 
 // Initialize Appwrite client
 const client = new Client()
@@ -8,6 +8,9 @@ const client = new Client()
 
 // Initialize Account service
 const account = new Account(client);
+
+// Initialize Databases service
+const databases = new Databases(client);
 
 /**
  * Create new user account
@@ -63,5 +66,41 @@ export const getCurrentUser = async () => {
     return { success: true, data: user, error: null };
   } catch (error) {
     return { success: false, data: null, error: error.message };
+  }
+};
+
+/**
+ * Get user's study plans from Appwrite
+ * @param {string} userId - User ID
+ * @returns {Object} { success, data, error }
+ */
+export const getUserPlans = async (userId) => {
+  try {
+    const response = await databases.listDocuments(
+      APPWRITE_DATABASE_ID,
+      process.env.EXPO_PUBLIC_APPWRITE_PLANS_COLLECTION_ID,
+      [Query.equal('userId', userId)]
+    );
+    return { success: true, data: response.documents, error: null };
+  } catch (error) {
+    return { success: false, data: [], error: error.message };
+  }
+};
+
+/**
+ * Get user's flashcards from Appwrite
+ * @param {string} userId - User ID
+ * @returns {Object} { success, data, error }
+ */
+export const getUserFlashcards = async (userId) => {
+  try {
+    const response = await databases.listDocuments(
+      APPWRITE_DATABASE_ID,
+      process.env.EXPO_PUBLIC_APPWRITE_FLASHCARDS_COLLECTION_ID,
+      [Query.equal('userId', userId)]
+    );
+    return { success: true, data: response.documents, error: null };
+  } catch (error) {
+    return { success: false, data: [], error: error.message };
   }
 };
