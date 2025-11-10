@@ -1,5 +1,9 @@
 import { Client, Account, Databases, ID, Query } from "appwrite";
-import { APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID, APPWRITE_DATABASE_ID } from "../config/env";
+import {
+  APPWRITE_ENDPOINT,
+  APPWRITE_PROJECT_ID,
+  APPWRITE_DATABASE_ID,
+} from "../config/env";
 
 // Initialize Appwrite client
 const client = new Client()
@@ -79,7 +83,7 @@ export const getUserPlans = async (userId) => {
     const response = await databases.listDocuments(
       APPWRITE_DATABASE_ID,
       process.env.EXPO_PUBLIC_APPWRITE_PLANS_COLLECTION_ID,
-      [Query.equal('userId', userId)]
+      [Query.equal("userId", userId)],
     );
     return { success: true, data: response.documents, error: null };
   } catch (error) {
@@ -97,7 +101,7 @@ export const getUserFlashcards = async (userId) => {
     const response = await databases.listDocuments(
       APPWRITE_DATABASE_ID,
       process.env.EXPO_PUBLIC_APPWRITE_FLASHCARDS_COLLECTION_ID,
-      [Query.equal('userId', userId)]
+      [Query.equal("userId", userId)],
     );
     return { success: true, data: response.documents, error: null };
   } catch (error) {

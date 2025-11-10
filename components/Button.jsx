@@ -14,9 +14,7 @@ export default function Button({
       onPress={onPress}
       disabled={loading}
       className={`py-3 rounded-xl items-center ${
-        isOutline
-          ? "border border-blue-500 bg-transparent"
-          : "bg-blue-500"
+        isOutline ? "border border-blue-500 bg-transparent" : "bg-blue-500"
       }`}
     >
       {loading ? (

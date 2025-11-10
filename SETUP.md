@@ -42,6 +42,7 @@ npm start
 ```
 
 This will open Expo Dev Tools. You can then:
+
 - Press `a` to open on Android emulator
 - Press `i` to open on iOS simulator (macOS only)
 - Press `w` to open in web browser
@@ -74,16 +75,19 @@ prepmateai/
 ## Key Technologies
 
 ### Expo Router
+
 - File-based routing system
 - Create new routes by adding files to the `app/` directory
 - Example: `app/profile.tsx` becomes `/profile` route
 
 ### NativeWind (Tailwind CSS)
+
 - Use Tailwind utility classes with `className` prop
 - Example: `<View className="flex-1 bg-blue-500" />`
 - Supports dark mode, responsive design, and custom themes
 
 ### Appwrite
+
 - Backend as a Service (BaaS)
 - Provides authentication, database, storage, and more
 - Pre-configured authentication functions in `services/appwrite.js`
@@ -98,17 +102,20 @@ prepmateai/
 ## Troubleshooting
 
 ### Metro bundler issues
+
 ```bash
 npm start -- --clear
 ```
 
 ### Dependency issues
+
 ```bash
 rm -rf node_modules package-lock.json
 npm install
 ```
 
 ### TypeScript errors
+
 The project supports both JavaScript and TypeScript. TypeScript files will be type-checked automatically.
 
 ## Next Steps

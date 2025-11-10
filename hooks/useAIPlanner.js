@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { NODE_API_BASE_URL } from '../config/env';
+import { useState } from "react";
+import { NODE_API_BASE_URL } from "../config/env";
 
 // Custom hook for AI planner and flashcards
 export default function useAIPlanner() {
@@ -14,15 +14,18 @@ export default function useAIPlanner() {
     setError(null);
 
     try {
-      const response = await fetch(`${NODE_API_BASE_URL}/api/ai/generate-plan`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId,
-          weakTopics,
-          availableHours: hours
-        })
-      });
+      const response = await fetch(
+        `${NODE_API_BASE_URL}/api/ai/generate-plan`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId,
+            weakTopics,
+            availableHours: hours,
+          }),
+        },
+      );
 
       const result = await response.json();
 
@@ -30,7 +33,7 @@ export default function useAIPlanner() {
         setPlan(result.data);
         return result.data;
       } else {
-        throw new Error(result.message || 'Failed to generate plan');
+        throw new Error(result.message || "Failed to generate plan");
       }
     } catch (err) {
       setError(err.message);
@@ -46,14 +49,17 @@ export default function useAIPlanner() {
     setError(null);
 
     try {
-      const response = await fetch(`${NODE_API_BASE_URL}/api/ai/generate-flashcards`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId,
-          topic
-        })
-      });
+      const response = await fetch(
+        `${NODE_API_BASE_URL}/api/ai/generate-flashcards`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId,
+            topic,
+          }),
+        },
+      );
 
       const result = await response.json();
 
@@ -61,7 +67,7 @@ export default function useAIPlanner() {
         setFlashcards(result.data.flashcards);
         return result.data.flashcards;
       } else {
-        throw new Error(result.message || 'Failed to generate flashcards');
+        throw new Error(result.message || "Failed to generate flashcards");
       }
     } catch (err) {
       setError(err.message);
@@ -77,6 +83,6 @@ export default function useAIPlanner() {
     loading,
     error,
     generatePlan,
-    generateFlashcards
+    generateFlashcards,
   };
 }

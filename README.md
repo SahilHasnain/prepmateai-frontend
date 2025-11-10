@@ -27,6 +27,7 @@ A mobile-first AI education app built with Expo + NativeWind + Appwrite.
 ## Setup for Developers
 
 1. **Install dependencies:**
+
 ```bash
 npm install
 ```
@@ -35,13 +36,15 @@ npm install
    - Replace `<PROJECT_ID>` in `services/appwrite.js` with your Appwrite project ID
 
 3. **Start the app:**
+
 ```bash
 expo start
 ```
-   - Press `a` for Android
-   - Press `i` for iOS
-   - Press `w` for web
-   - Scan QR code with Expo Go app
+
+- Press `a` for Android
+- Press `i` for iOS
+- Press `w` for web
+- Scan QR code with Expo Go app
 
 ## Available Scripts
 

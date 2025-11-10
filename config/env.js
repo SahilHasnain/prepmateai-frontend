@@ -1,18 +1,15 @@
 // Environment configuration - Sensitive data isolated from UI logic
-export const APPWRITE_PROJECT_ID =
-  process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID;
+export const APPWRITE_PROJECT_ID = process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID;
 
 export const APPWRITE_PROJECT_NAME =
   process.env.EXPO_PUBLIC_APPWRITE_PROJECT_NAME || "PrepMate AI";
 
-export const APPWRITE_ENDPOINT =
-  process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT;
+export const APPWRITE_ENDPOINT = process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT;
 
 export const APPWRITE_DATABASE_ID =
   process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID;
 
-export const APPWRITE_BUCKET_ID =
-  process.env.EXPO_PUBLIC_APPWRITE_BUCKET_ID;
+export const APPWRITE_BUCKET_ID = process.env.EXPO_PUBLIC_APPWRITE_BUCKET_ID;
 
 export const APPWRITE_PLANS_COLLECTION_ID =
   process.env.EXPO_PUBLIC_APPWRITE_PLANS_COLLECTION_ID;
@@ -24,4 +21,5 @@ export const APPWRITE_SECRET_KEY = process.env.APPWRITE_SECRET_KEY;
 
 export const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-export const NODE_API_BASE_URL = process.env.EXPO_PUBLIC_NODE_API_BASE_URL || 'http://10.0.2.2:5000';
+export const NODE_API_BASE_URL =
+  process.env.EXPO_PUBLIC_NODE_API_BASE_URL || "http://10.0.2.2:5000";

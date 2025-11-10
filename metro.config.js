@@ -8,6 +8,6 @@ const config = getDefaultConfig(__dirname);
 
 // Optional: pass options (keep TypeScript generation enabled for className intellisense)
 module.exports = withNativeWind(config, {
-	// Provide path to global stylesheet if you want explicit reference (not required when importing in entry)
-	input: "./global.css",
+  // Provide path to global stylesheet if you want explicit reference (not required when importing in entry)
+  input: "./global.css",
 });

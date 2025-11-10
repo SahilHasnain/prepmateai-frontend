@@ -50,18 +50,13 @@ export default function Login() {
           secureTextEntry
         />
 
-        <Button
-          title="Login"
-          onPress={handleLogin}
-          loading={loading}
-        />
+        <Button title="Login" onPress={handleLogin} loading={loading} />
 
         <Text
           className="text-center text-gray-600 mt-6"
           onPress={() => router.push("/signup")}
         >
-          New here?{" "}
-          <Text className="text-blue-500 font-semibold">Sign Up</Text>
+          New here? <Text className="text-blue-500 font-semibold">Sign Up</Text>
         </Text>
       </View>
     </ScrollView>

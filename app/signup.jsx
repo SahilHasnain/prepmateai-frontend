@@ -24,7 +24,11 @@ export default function Signup() {
     }
 
     setLoading(true);
-    const { success, error } = await signup(form.email, form.password, form.name);
+    const { success, error } = await signup(
+      form.email,
+      form.password,
+      form.name,
+    );
     setLoading(false);
 
     if (success) {
@@ -72,11 +76,7 @@ export default function Signup() {
           secureTextEntry
         />
 
-        <Button
-          title="Sign Up"
-          onPress={handleSignup}
-          loading={loading}
-        />
+        <Button title="Sign Up" onPress={handleSignup} loading={loading} />
 
         <Text
           className="text-center text-gray-600 mt-6"
