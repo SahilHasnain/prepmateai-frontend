@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
+import { NODE_API_BASE_URL } from "../../config/env";
 
 // Show toast notification
 const showToast = (message) => {
@@ -49,15 +50,22 @@ export default function Planner() {
 
   // Generate study plan
   const generatePlan = async () => {
-    if (selectedTopics.length === 0 || !hours) {
-      Alert.alert("Error", "Please select topics and enter hours");
+    // Validate planner input before sending request
+    if (selectedTopics.length === 0) {
+      Alert.alert("Error", "Please select at least one topic.");
+      return;
+    }
+
+    if (!hours || isNaN(hours) || parseFloat(hours) <= 0) {
+      Alert.alert("Error", "Please enter valid study hours greater than 0.");
       return;
     }
 
     setLoading(true);
     try {
+      // Use dynamic base URL from env
       const response = await fetch(
-        "http://192.168.31.143:5000/api/ai/generate-plan",
+        `${NODE_API_BASE_URL}/api/ai/generate-plan`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

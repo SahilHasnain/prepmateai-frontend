@@ -1,10 +1,13 @@
-import { View } from 'react-native';
-import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import { View } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 
 // Simple Progress Bar Component with Animation
 const ProgressBar = ({ progress }) => {
   const animatedStyle = useAnimatedStyle(() => ({
-    width: withTiming(`${progress * 100}%`, { duration: 500 })
+    width: withTiming(`${progress * 100}%`, { duration: 500 }),
   }));
 
   return (

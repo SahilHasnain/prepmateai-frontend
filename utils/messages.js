@@ -11,7 +11,7 @@ export const MESSAGES = [
 // Get random daily message (same message per day)
 export const getDailyMessage = () => {
   const dayOfYear = Math.floor(
-    (Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000
+    (Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000,
   );
   return MESSAGES[dayOfYear % MESSAGES.length];
 };

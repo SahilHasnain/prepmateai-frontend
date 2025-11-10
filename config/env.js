@@ -1,4 +1,4 @@
-// Environment configuration - Sensitive data isolated from UI logic
+// Environment configuration - Only public configs (no secrets)
 export const APPWRITE_PROJECT_ID = process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID;
 
 export const APPWRITE_PROJECT_NAME =
@@ -16,10 +16,6 @@ export const APPWRITE_PLANS_COLLECTION_ID =
 
 export const APPWRITE_FLASHCARDS_COLLECTION_ID =
   process.env.EXPO_PUBLIC_APPWRITE_FLASHCARDS_COLLECTION_ID;
-
-export const APPWRITE_SECRET_KEY = process.env.APPWRITE_SECRET_KEY;
-
-export const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 export const NODE_API_BASE_URL =
   process.env.EXPO_PUBLIC_NODE_API_BASE_URL || "http://10.0.2.2:5000";

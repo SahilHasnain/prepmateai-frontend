@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text } from "react-native";
 
 // Daily Progress Summary Banner Component
 const DailySummary = ({ cardsReviewed, cardsMastered }) => {
