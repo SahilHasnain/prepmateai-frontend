@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { View, Text, ScrollView, Alert } from "react-native";
+import { View, Text, Alert } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useRouter } from "expo-router";
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -50,8 +52,9 @@ export default function Signup() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-white">
-      <View className="flex-1 justify-center px-6 py-12">
+    <SafeAreaView className="flex-1 bg-white">
+      <KeyboardAwareScrollView className="flex-1" contentContainerStyle={{ flexGrow: 1 }}>
+        <View className="flex-1 justify-center px-6 py-12">
         <Text className="text-3xl font-bold text-center mb-8">
           Create Account
         </Text>
@@ -96,7 +99,8 @@ export default function Signup() {
           Already have an account?{" "}
           <Text className="text-blue-500 font-semibold">Login</Text>
         </Text>
-      </View>
-    </ScrollView>
+        </View>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 }

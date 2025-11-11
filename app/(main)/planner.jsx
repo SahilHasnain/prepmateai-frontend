@@ -9,6 +9,7 @@ import {
   ToastAndroid,
   Platform,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { NODE_API_BASE_URL } from "../../config/env";
@@ -107,7 +108,8 @@ export default function Planner() {
   };
 
   return (
-    <ScrollView className="flex-1 p-4 bg-white">
+    <SafeAreaView className="flex-1 bg-white">
+      <ScrollView className="flex-1 p-4">
       <Text className="mb-4 text-2xl font-bold">Study Planner</Text>
 
       {/* Topic Selection */}
@@ -179,6 +181,7 @@ export default function Planner() {
           ))}
         </>
       )}
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

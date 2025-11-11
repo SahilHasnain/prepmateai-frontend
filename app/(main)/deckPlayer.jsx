@@ -36,20 +36,44 @@ function DeckPlayer() {
   const [settingReminder, setSettingReminder] = useState(false);
   const [nextReview, setNextReview] = useState(null);
 
-  // Load today's cards and progress summary on mount
+  // Load cards for this topic
+  const [topicCards, setTopicCards] = useState([]);
+  
   useEffect(() => {
-    // Prevent memory leaks if user leaves screen early
     const controller = new AbortController();
 
     const loadData = async () => {
-      if (user?.$id) {
+      if (user?.$id && topic) {
+        try {
+          const response = await fetch(
+            `${NODE_API_BASE_URL}/api/flashcards/decks/${user.$id}`,
+            { signal: controller.signal }
+          );
+          const result = await response.json();
+          if (result.success) {
+            const deck = result.data.find(d => d.topic === topic);
+            if (deck) {
+              const flashcards = JSON.parse(deck.flashcards || '[]');
+              const formattedCards = flashcards.map((card, index) => ({
+                cardId: `${deck.$id}_${index}`,
+                question: card.question,
+                answer: card.answer,
+                topic: deck.topic,
+              }));
+              setTopicCards(formattedCards);
+            }
+          }
+        } catch (error) {
+          if (error.name === "AbortError") return;
+        }
+        
         loadToday(user.$id);
 
         // Fetch next review time
         try {
           const response = await fetch(
             `${NODE_API_BASE_URL}/api/progress/summary/${user.$id}`,
-            { signal: controller.signal },
+            { signal: controller.signal }
           );
           const result = await response.json();
           if (result.success && result.data.nextReview) {
@@ -139,8 +163,10 @@ function DeckPlayer() {
     }
   };
 
-  const currentCard = useMemo(() => cards[currentIndex], [cards, currentIndex]);
-  const deckCompleted = cards.length > 0 && reviewedCount === cards.length;
+  // Use topic cards if available, otherwise use due cards
+  const displayCards = topicCards.length > 0 ? topicCards : cards;
+  const currentCard = useMemo(() => displayCards[currentIndex], [displayCards, currentIndex]);
+  const deckCompleted = displayCards.length > 0 && reviewedCount === displayCards.length;
 
   return (
     <View className="flex-1 bg-gray-50">
@@ -177,10 +203,14 @@ function DeckPlayer() {
 
       {/* Card Area */}
       <View className="items-center justify-center flex-1 px-6">
-        <FlashcardItem
-          question={currentCard.question}
-          answer={currentCard.answer}
-        />
+        {currentCard ? (
+          <FlashcardItem
+            question={currentCard.question}
+            answer={currentCard.answer}
+          />
+        ) : (
+          <Text className="text-lg text-gray-500">No cards available</Text>
+        )}
       </View>
 
       {/* Feedback Buttons */}
@@ -225,7 +255,7 @@ function DeckPlayer() {
           <ActivityIndicator size="large" color="#3b82f6" />
         ) : (
           <Text className="text-lg font-medium text-gray-600">
-            {reviewedCount} / {cards.length} cards reviewed
+            {reviewedCount} / {displayCards.length} cards reviewed
           </Text>
         )}
       </View>

@@ -1,4 +1,5 @@
 import { View, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useAuth } from "../../hooks/useAuth";
 import Button from "../../components/Button";
@@ -18,7 +19,8 @@ export default function Dashboard() {
   };
 
   return (
-    <View className="flex-1 justify-center items-center bg-white px-6">
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="flex-1 justify-center items-center px-6">
       <Text className="text-3xl font-bold mb-4">Dashboard</Text>
       <Text className="text-lg text-gray-600 mb-8">Welcome, {user?.name}!</Text>
 
@@ -35,6 +37,7 @@ export default function Dashboard() {
       </View>
 
       <Button title="Logout" onPress={handleLogout} variant="outline" />
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
