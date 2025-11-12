@@ -55,6 +55,7 @@ function DeckPlayer() {
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [reminderTime, setReminderTime] = useState(new Date());
   const [settingReminder, setSettingReminder] = useState(false);
+  const [feedbackCounts, setFeedbackCounts] = useState({ greens: 0, yellows: 0, reds: 0 });
 
   const currentCard = cards[currentIndex];
   const deckCompleted = cards.length === 0 && reviewedCount > 0;
@@ -86,6 +87,14 @@ function DeckPlayer() {
         index: currentIndex,
       });
 
+      // Track feedback counts
+      setFeedbackCounts((prev) => ({
+        ...prev,
+        greens: prev.greens + (feedback === "remembered" ? 1 : 0),
+        yellows: prev.yellows + (feedback === "unsure" ? 1 : 0),
+        reds: prev.reds + (feedback === "forgot" ? 1 : 0),
+      }));
+
       // Instant UI update
       setCards((prev) => prev.filter((_, idx) => idx !== currentIndex));
       setReviewedCount((prev) => prev + 1);
@@ -109,6 +118,15 @@ function DeckPlayer() {
   const handleUndo = useCallback(() => {
     const feedback = undo();
     if (!feedback) return;
+
+    // Revert feedback counts
+    const lastFeedbackType = feedback.feedback.feedback;
+    setFeedbackCounts((prev) => ({
+      ...prev,
+      greens: prev.greens - (lastFeedbackType === "remembered" ? 1 : 0),
+      yellows: prev.yellows - (lastFeedbackType === "unsure" ? 1 : 0),
+      reds: prev.reds - (lastFeedbackType === "forgot" ? 1 : 0),
+    }));
 
     setCards((prev) => {
       const newCards = [...prev];
@@ -237,6 +255,9 @@ function DeckPlayer() {
           totalCards={totalCards}
           streak={streak}
           topic={topic}
+          greens={feedbackCounts.greens}
+          yellows={feedbackCounts.yellows}
+          reds={feedbackCounts.reds}
         />
       )}
 

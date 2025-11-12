@@ -22,11 +22,29 @@ const DeckCompleted = ({
   totalCards,
   streak,
   topic,
+  greens = 0,
+  yellows = 0,
+  reds = 0,
 }) => {
   const router = useRouter();
-  const percentage =
-    totalCards > 0 ? Math.round((reviewedCount / totalCards) * 100) : 0;
-  const randomMessage = getRandomQuote();
+  
+  // Motivational result system - replaces numeric score with positive reinforcement
+  // Inspired by mastery learning psychology (low anxiety, high consistency)
+  const score = totalCards > 0 ? (greens * 1 + yellows * 0.5) / totalCards : 0;
+  
+  let message, bgGradient;
+  if (score >= 0.85) {
+    message = "🔥 Outstanding recall! You're mastering this topic.";
+    bgGradient = "bg-gradient-to-r from-blue-100 to-blue-200";
+  } else if (score >= 0.6) {
+    message = "💪 Good job! A few cards need a quick review.";
+    bgGradient = "bg-gradient-to-r from-yellow-100 to-yellow-200";
+  } else {
+    message = "📘 Keep going! Every try makes you smarter.";
+    bgGradient = "bg-gradient-to-r from-gray-100 to-gray-200";
+  }
+  
+  const percentage = Math.round(score * 100);
   const stats = { cardsReviewed: reviewedCount, accuracy: percentage, streak };
 
   useEffect(() => {
@@ -50,15 +68,13 @@ const DeckCompleted = ({
             🎉 Deck Completed!
           </Text>
 
-          {/* Circular Progress */}
-          <View className="items-center mb-4">
-            <CircularProgress
-              percentage={percentage}
-              size={100}
-              strokeWidth={10}
-            />
-            <Text className="mt-2 text-sm text-gray-600">
-              {reviewedCount} / {totalCards} cards
+          {/* Motivational Message */}
+          <View className={`p-4 mb-4 rounded-xl ${bgGradient}`}>
+            <Text className="text-lg font-bold text-center text-gray-800">
+              {message}
+            </Text>
+            <Text className="mt-2 text-sm text-center text-gray-600">
+              You're getting sharper with every deck! 🔥
             </Text>
           </View>
 
@@ -72,10 +88,7 @@ const DeckCompleted = ({
             <AchievementBadge stats={stats} />
           </View>
 
-          {/* Motivational Quote */}
-          <Text className="text-base font-medium text-center text-blue-600">
-            {randomMessage}
-          </Text>
+
         </View>
 
         {/* Action Buttons */}
@@ -87,7 +100,7 @@ const DeckCompleted = ({
             accessibilityRole="button"
           >
             <Text className="font-bold text-center text-white">
-              📝 Review Mistakes
+              Review Mistakes
             </Text>
           </TouchableOpacity>
 
@@ -95,14 +108,14 @@ const DeckCompleted = ({
             onPress={() => setShowTimePicker(true)}
             disabled={settingReminder}
             className="p-3 bg-blue-500 rounded-lg"
-            accessibilityLabel="Set daily reminder"
+            accessibilityLabel="Set reminder"
             accessibilityRole="button"
           >
             {settingReminder ? (
               <ActivityIndicator color="#fff" />
             ) : (
               <Text className="font-bold text-center text-white">
-                ⏰ Set Daily Reminder
+                Set Reminder
               </Text>
             )}
           </TouchableOpacity>
