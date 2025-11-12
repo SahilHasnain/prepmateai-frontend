@@ -1,4 +1,4 @@
- import { useState } from "react";
+import { useState } from "react";
 import { NODE_API_BASE_URL } from "../config/env";
 
 // Custom hook for flashcard management
@@ -16,7 +16,7 @@ export const useFlashcards = () => {
 
     try {
       const response = await fetch(
-        `${NODE_API_BASE_URL}/api/due/today/${userId}`,
+        `${NODE_API_BASE_URL}/api/due/today/${userId}`
       );
       const result = await response.json();
 
@@ -46,7 +46,7 @@ export const useFlashcards = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId, topic }),
-        },
+        }
       );
 
       const result = await response.json();
@@ -85,7 +85,7 @@ export const useFlashcards = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId, cardId, topic, feedback }),
-        },
+        }
       );
 
       const result = await response.json();

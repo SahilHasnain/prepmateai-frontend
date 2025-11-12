@@ -20,35 +20,36 @@ const showToast = (message) => {
 };
 
 // Flashcard Feedback Buttons Component
-const FlashcardFeedback = ({ userId, cardId, topic, onNext }) => {
-  const [submitting, setSubmitting] = useState(false);
-
-  // Submit feedback to API
+const FlashcardFeedback = ({ userId, cardId, topic, onNext, onFeedback }) => {
+  // Submit feedback
   const submitFeedback = async (feedback) => {
-    setSubmitting(true);
-
     try {
-      const response = await fetch(
-        `${NODE_API_BASE_URL}/api/progress/update-progress`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId, cardId, topic, feedback }),
-        },
-      );
-
-      const result = await response.json();
-
-      if (result.success) {
+      // Use parent callback if provided (for offline support)
+      if (onFeedback) {
+        await onFeedback(feedback);
         showToast("Saved ✓");
-        onNext?.();
       } else {
-        throw new Error(result.message || "Failed to save");
+        // Fallback to direct API call
+        const response = await fetch(
+          `${NODE_API_BASE_URL}/api/progress/update-progress`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId, cardId, topic, feedback }),
+          },
+        );
+
+        const result = await response.json();
+
+        if (result.success) {
+          showToast("Saved ✓");
+          onNext?.();
+        } else {
+          throw new Error(result.message || "Failed to save");
+        }
       }
     } catch (error) {
       Alert.alert("Error", error.message);
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -57,46 +58,31 @@ const FlashcardFeedback = ({ userId, cardId, topic, onNext }) => {
       {/* Forgot Button */}
       <TouchableOpacity
         onPress={() => submitFeedback("forgot")}
-        disabled={submitting}
-        className={`p-3 mx-2 rounded-full ${submitting ? "bg-red-300" : "bg-red-500"}`}
+        className="p-3 mx-2 bg-red-500 rounded-full"
         accessibilityLabel="I forgot this card"
         accessibilityRole="button"
       >
-        {submitting ? (
-          <ActivityIndicator size="small" color="#fff" />
-        ) : (
-          <Text className="text-2xl">❌</Text>
-        )}
+        <Text className="text-2xl">❌</Text>
       </TouchableOpacity>
 
       {/* Not Sure Button */}
       <TouchableOpacity
         onPress={() => submitFeedback("unsure")}
-        disabled={submitting}
-        className={`p-3 mx-2 rounded-full ${submitting ? "bg-yellow-300" : "bg-yellow-500"}`}
+        className="p-3 mx-2 bg-yellow-500 rounded-full"
         accessibilityLabel="I'm not sure about this card"
         accessibilityRole="button"
       >
-        {submitting ? (
-          <ActivityIndicator size="small" color="#fff" />
-        ) : (
-          <Text className="text-2xl">🤔</Text>
-        )}
+        <Text className="text-2xl">🤔</Text>
       </TouchableOpacity>
 
       {/* Remembered Button */}
       <TouchableOpacity
         onPress={() => submitFeedback("remembered")}
-        disabled={submitting}
-        className={`p-3 mx-2 rounded-full ${submitting ? "bg-green-300" : "bg-green-500"}`}
+        className="p-3 mx-2 bg-green-500 rounded-full"
         accessibilityLabel="I remembered this card"
         accessibilityRole="button"
       >
-        {submitting ? (
-          <ActivityIndicator size="small" color="#fff" />
-        ) : (
-          <Text className="text-2xl">✅</Text>
-        )}
+        <Text className="text-2xl">✅</Text>
       </TouchableOpacity>
     </View>
   );

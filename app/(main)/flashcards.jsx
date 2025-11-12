@@ -1,54 +1,55 @@
-// Imports
-import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, Alert } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, RefreshControl, TextInput, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "expo-router";
 import DeckCard from "../../components/DeckCard";
 import DailySummary from "../../components/DailySummary";
-import Button from "../../components/Button";
+import DeckSkeleton from "../../components/DeckSkeleton";
 import { getDailyMessage } from "../../utils/messages";
-import { NODE_API_BASE_URL } from "../../config/env";
 import { useAuth } from "../../hooks/useAuth";
+import { useFlashcardStats } from "../../hooks/useFlashcardStats";
 
-// Main Flashcards Screen
 function Flashcards() {
   const router = useRouter();
   const { user } = useAuth();
-  
-  // State
-  const [decks, setDecks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { stats, decks, loading, error, refresh, deleteDeck } = useFlashcardStats(user?.$id);
   const [message] = useState(getDailyMessage());
+  const [refreshing, setRefreshing] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Fetch real decks from backend instead of mock data
-  useEffect(() => {
-    const loadDecks = async () => {
-      if (!user?.$id) return;
-      
-      try {
-        const res = await fetch(`${NODE_API_BASE_URL}/api/flashcards/decks/${user.$id}`);
-        const json = await res.json();
-        if (json.success) setDecks(json.data);
-      } catch (e) {
-        Alert.alert('Error', 'Failed to load flashcards');
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadDecks();
-  }, [user]);
-
-  // Navigate to deck player
   const handleDeckPress = (topic) => {
     router.push(`/deckPlayer?topic=${encodeURIComponent(topic)}`);
   };
 
-  // Consistent CTA for generating new flashcards (same behavior everywhere)
-  const GenerateDeckButton = () => (
-    <View className="mb-4">
-      <Button title="Generate Deck" onPress={() => router.push('/new-deck')} />
-    </View>
-  );
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await refresh();
+    setRefreshing(false);
+  };
+
+  const filteredDecks = useMemo(() => {
+    if (!searchQuery.trim()) return decks;
+    return decks.filter((deck) =>
+      deck.topic.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [decks, searchQuery]);
+
+  const handleDelete = (deckId, topic) => {
+    Alert.alert(
+      "Delete Deck",
+      `Are you sure you want to delete "${topic}"?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => deleteDeck(deckId),
+        },
+      ]
+    );
+  };
+
+
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
@@ -59,42 +60,88 @@ function Flashcards() {
         </Text>
       </View>
 
-      {/* Daily Motivational Message */}
+      {/* Daily Message */}
       <View className="p-3 mx-4 mt-4 rounded-xl bg-blue-100">
         <Text className="text-center text-gray-800">{message}</Text>
       </View>
 
-      {/* Render */}
-      {loading ? (
-        <View className="flex-1 justify-center items-center">
-          <ActivityIndicator size="large" color="#3b82f6" />
+      {/* Search Bar */}
+      {!loading && !error && decks.length > 0 && (
+        <View className="px-4 mt-4">
+          <TextInput
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            placeholder="Search decks..."
+            className="p-3 bg-white border border-gray-300 rounded-lg"
+          />
         </View>
-      ) : decks.length === 0 ? (
-        // Empty state
+      )}
+
+      {/* Error State */}
+      {error && (
+        <View className="flex-1 justify-center items-center px-6">
+          <Text className="text-lg text-red-600 mb-4">⚠️ {error}</Text>
+          <TouchableOpacity
+            onPress={refresh}
+            className="px-6 py-3 bg-blue-500 rounded-lg"
+          >
+            <Text className="font-bold text-white">Retry</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {/* Skeleton Loading */}
+      {!error && loading && (
+        <View className="px-4 mt-4">
+          <DeckSkeleton />
+          <DeckSkeleton />
+          <DeckSkeleton />
+        </View>
+      )}
+
+      {/* Empty State */}
+      {!error && !loading && decks.length === 0 && (
         <View className="flex-1 justify-center items-center px-6">
           <Text className="text-lg font-semibold text-gray-700 mb-2">No decks yet 😅</Text>
           <Text className="text-gray-500 mb-4">Generate your first deck to start learning!</Text>
-          <GenerateDeckButton />
         </View>
-      ) : (
-        // Deck List
+      )}
+
+      {/* No Search Results */}
+      {!error && !loading && decks.length > 0 && filteredDecks.length === 0 && (
+        <View className="flex-1 justify-center items-center px-6">
+          <Text className="text-lg font-semibold text-gray-700 mb-2">No results found</Text>
+          <Text className="text-gray-500">Try a different search term</Text>
+        </View>
+      )}
+
+      {/* Deck List */}
+      {!error && !loading && filteredDecks.length > 0 && (
         <FlatList
-          data={decks}
+          data={filteredDecks}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          }
           ListHeaderComponent={
-            <>
-              <DailySummary cardsReviewed={7} cardsMastered={3} />
-              <GenerateDeckButton />
-            </>
+            stats && stats.cardsReviewedToday > 0 ? (
+              <DailySummary
+                cardsReviewed={stats.cardsReviewedToday}
+                cardsMastered={stats.cardsMasteredToday}
+              />
+            ) : null
           }
           renderItem={({ item }) => (
             <DeckCard
               topic={item.topic}
-              progress={item.progress || 0}
-              difficulty={item.difficulty || "medium"}
+              progress={item.progress}
+              totalCards={item.totalCards}
+              masteredCards={item.masteredCards}
+              lastReviewed={item.lastReviewed}
               onPress={() => handleDeckPress(item.topic)}
+              onDelete={() => handleDelete(item.deckId, item.topic)}
             />
           )}
-          keyExtractor={(item) => item.$id || item.id}
+          keyExtractor={(item) => item.deckId}
           contentContainerStyle={{ padding: 16 }}
         />
       )}

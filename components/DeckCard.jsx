@@ -6,8 +6,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 
-// Reusable Deck Card Component
-const DeckCard = ({ topic, progress, difficulty, onPress }) => {
+const DeckCard = ({ topic, progress, totalCards, masteredCards, lastReviewed, onPress, onDelete }) => {
   const scale = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -21,14 +20,12 @@ const DeckCard = ({ topic, progress, difficulty, onPress }) => {
   const handlePressOut = useCallback(() => {
     scale.value = withSpring(1);
   }, [scale]);
-  const borderColors = {
-    easy: "border-green-400",
-    medium: "border-yellow-400",
-    hard: "border-red-400",
-  };
 
-  const learned = useMemo(() => Math.round(progress * 10), [progress]);
-  const total = 10;
+  const getBorderColor = () => {
+    if (progress >= 0.7) return "border-green-400";
+    if (progress >= 0.4) return "border-yellow-400";
+    return "border-red-400";
+  };
 
   return (
     <Animated.View style={animatedStyle}>
@@ -36,14 +33,23 @@ const DeckCard = ({ topic, progress, difficulty, onPress }) => {
         onPress={onPress}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
-        className={`p-4 mb-3 bg-white border-2 rounded-xl ${borderColors[difficulty]}`}
+        className={`p-4 mb-3 bg-white border-2 rounded-xl ${getBorderColor()}`}
       >
-        {/* Topic Title */}
-        <Text className="mb-3 text-lg font-semibold text-gray-800">
-          {topic}
-        </Text>
+        <View className="flex-row items-center justify-between mb-3">
+          <Text className="flex-1 text-lg font-semibold text-gray-800">{topic}</Text>
+          {onDelete && (
+            <TouchableOpacity
+              onPress={(e) => {
+                e.stopPropagation();
+                onDelete();
+              }}
+              className="p-2"
+            >
+              <Text className="text-red-500">🗑️</Text>
+            </TouchableOpacity>
+          )}
+        </View>
 
-        {/* Progress Bar */}
         <View className="h-2 mb-2 overflow-hidden bg-gray-200 rounded-full">
           <View
             className="h-full bg-blue-500"
@@ -51,10 +57,16 @@ const DeckCard = ({ topic, progress, difficulty, onPress }) => {
           />
         </View>
 
-        {/* Mastered Text */}
-        <Text className="text-sm text-gray-600">
-          {learned}/{total} Mastered
-        </Text>
+        <View className="flex-row justify-between">
+          <Text className="text-sm text-gray-600">
+            {masteredCards}/{totalCards} Mastered
+          </Text>
+          {lastReviewed && (
+            <Text className="text-xs text-gray-400">
+              {new Date(lastReviewed).toLocaleDateString()}
+            </Text>
+          )}
+        </View>
       </TouchableOpacity>
     </Animated.View>
   );
