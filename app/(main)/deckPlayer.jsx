@@ -1,4 +1,5 @@
 import { View, Text, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import LottieView from "lottie-react-native";
@@ -140,7 +141,7 @@ function DeckPlayer() {
   };
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-gray-50">
       <DeckHeader
         topic={topic}
         nextReview={nextReview}
@@ -230,7 +231,7 @@ function DeckPlayer() {
           />
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 
