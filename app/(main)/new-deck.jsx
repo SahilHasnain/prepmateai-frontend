@@ -22,11 +22,14 @@ export default function NewDeck() {
 
     setLoading(true);
     try {
-      const res = await fetch(`${NODE_API_BASE_URL}/api/ai/generate-flashcards`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user.$id, topic: topic.trim() }),
-      });
+      const res = await fetch(
+        `${NODE_API_BASE_URL}/api/ai/generate-flashcards`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: user.$id, topic: topic.trim() }),
+        },
+      );
       const json = await res.json();
 
       if (json.success) {

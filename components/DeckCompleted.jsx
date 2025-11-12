@@ -24,7 +24,8 @@ const DeckCompleted = ({
   topic,
 }) => {
   const router = useRouter();
-  const percentage = totalCards > 0 ? Math.round((reviewedCount / totalCards) * 100) : 0;
+  const percentage =
+    totalCards > 0 ? Math.round((reviewedCount / totalCards) * 100) : 0;
   const randomMessage = getRandomQuote();
   const stats = { cardsReviewed: reviewedCount, accuracy: percentage, streak };
 
@@ -36,14 +37,12 @@ const DeckCompleted = ({
     <>
       <View className="items-center px-6 mb-6">
         {/* Trophy Animation */}
-        <View className="w-32 h-32 mb-4">
-          <LottieView
-            source={require("../assets/trophy.json")}
-            autoPlay
-            loop={false}
-            style={{ width: "100%", height: "100%" }}
-          />
-        </View>
+        <LottieView
+          source={require("../assets/Trophy.json")}
+          autoPlay
+          loop={false}
+          style={{ width: 200, height: 200, alignSelf: "center", marginBottom: 16 }}
+        />
 
         {/* Summary Card */}
         <View className="w-full p-6 mb-4 bg-white shadow-sm rounded-2xl">
@@ -53,7 +52,11 @@ const DeckCompleted = ({
 
           {/* Circular Progress */}
           <View className="items-center mb-4">
-            <CircularProgress percentage={percentage} size={100} strokeWidth={10} />
+            <CircularProgress
+              percentage={percentage}
+              size={100}
+              strokeWidth={10}
+            />
             <Text className="mt-2 text-sm text-gray-600">
               {reviewedCount} / {totalCards} cards
             </Text>

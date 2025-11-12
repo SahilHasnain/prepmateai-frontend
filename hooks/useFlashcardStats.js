@@ -22,7 +22,7 @@ export const useFlashcardStats = (userId) => {
       try {
         const response = await fetch(
           `${NODE_API_BASE_URL}/api/stats/${userId}`,
-          { signal: controller.signal }
+          { signal: controller.signal },
         );
         const result = await response.json();
 
@@ -59,10 +59,9 @@ export const useFlashcardStats = (userId) => {
 
   const deleteDeck = useCallback(async (deckId) => {
     try {
-      const response = await fetch(
-        `${NODE_API_BASE_URL}/api/decks/${deckId}`,
-        { method: "DELETE" }
-      );
+      const response = await fetch(`${NODE_API_BASE_URL}/api/decks/${deckId}`, {
+        method: "DELETE",
+      });
       const result = await response.json();
 
       if (result.success) {

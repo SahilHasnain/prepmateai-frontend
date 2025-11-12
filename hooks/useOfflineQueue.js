@@ -35,7 +35,7 @@ export const useOfflineQueue = (userId) => {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(item),
-            }
+            },
           );
 
           if (!response.ok) {
@@ -50,7 +50,7 @@ export const useOfflineQueue = (userId) => {
         setOfflineQueue(remainingQueue);
         await AsyncStorage.setItem(
           `offline_queue_${userId}`,
-          JSON.stringify(remainingQueue)
+          JSON.stringify(remainingQueue),
         );
       }
     };
@@ -70,7 +70,7 @@ export const useOfflineQueue = (userId) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(feedbackData),
-          }
+          },
         );
 
         if (!response.ok) throw new Error("Failed to save");
@@ -82,16 +82,19 @@ export const useOfflineQueue = (userId) => {
         setOfflineQueue(newQueue);
         await AsyncStorage.setItem(
           `offline_queue_${userId}`,
-          JSON.stringify(newQueue)
+          JSON.stringify(newQueue),
         );
 
-        Alert.alert("Offline", "Progress saved locally. Will sync when online.");
+        Alert.alert(
+          "Offline",
+          "Progress saved locally. Will sync when online.",
+        );
         return { success: true, offline: true };
       } finally {
         setSubmitting(false);
       }
     },
-    [offlineQueue, userId]
+    [offlineQueue, userId],
   );
 
   const undo = useCallback(() => {

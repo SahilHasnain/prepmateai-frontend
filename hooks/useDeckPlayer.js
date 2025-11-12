@@ -28,7 +28,7 @@ export const useDeckPlayer = (userId, topic) => {
         if (topic) {
           const response = await fetch(
             `${NODE_API_BASE_URL}/api/flashcards/decks/${userId}`,
-            { signal: controller.signal }
+            { signal: controller.signal },
           );
           const result = await response.json();
 
@@ -47,7 +47,7 @@ export const useDeckPlayer = (userId, topic) => {
         } else {
           const response = await fetch(
             `${NODE_API_BASE_URL}/api/due/today/${userId}`,
-            { signal: controller.signal }
+            { signal: controller.signal },
           );
           const result = await response.json();
 
@@ -65,10 +65,10 @@ export const useDeckPlayer = (userId, topic) => {
 
         const summaryResponse = await fetch(
           `${NODE_API_BASE_URL}/api/progress/summary/${userId}`,
-          { signal: controller.signal }
+          { signal: controller.signal },
         );
         const summaryResult = await summaryResponse.json();
-        
+
         if (isMounted && summaryResult.success) {
           if (summaryResult.data.nextReview) {
             setNextReview(summaryResult.data.nextReview);

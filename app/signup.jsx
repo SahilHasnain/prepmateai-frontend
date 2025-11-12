@@ -53,52 +53,55 @@ export default function Signup() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <KeyboardAwareScrollView className="flex-1" contentContainerStyle={{ flexGrow: 1 }}>
+      <KeyboardAwareScrollView
+        className="flex-1"
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
         <View className="flex-1 justify-center px-6 py-12">
-        <Text className="text-3xl font-bold text-center mb-8">
-          Create Account
-        </Text>
+          <Text className="text-3xl font-bold text-center mb-8">
+            Create Account
+          </Text>
 
-        <Input
-          label="Full Name"
-          value={form.name}
-          onChangeText={(text) => setForm({ ...form, name: text })}
-          placeholder="Enter your name"
-        />
+          <Input
+            label="Full Name"
+            value={form.name}
+            onChangeText={(text) => setForm({ ...form, name: text })}
+            placeholder="Enter your name"
+          />
 
-        <Input
-          label="Email"
-          value={form.email}
-          onChangeText={(text) => setForm({ ...form, email: text })}
-          placeholder="Enter your email"
-          keyboardType="email-address"
-        />
+          <Input
+            label="Email"
+            value={form.email}
+            onChangeText={(text) => setForm({ ...form, email: text })}
+            placeholder="Enter your email"
+            keyboardType="email-address"
+          />
 
-        <Input
-          label="Password"
-          value={form.password}
-          onChangeText={(text) => setForm({ ...form, password: text })}
-          placeholder="Enter your password"
-          secureTextEntry
-        />
+          <Input
+            label="Password"
+            value={form.password}
+            onChangeText={(text) => setForm({ ...form, password: text })}
+            placeholder="Enter your password"
+            secureTextEntry
+          />
 
-        <Input
-          label="Confirm Password"
-          value={form.confirmPassword}
-          onChangeText={(text) => setForm({ ...form, confirmPassword: text })}
-          placeholder="Confirm your password"
-          secureTextEntry
-        />
+          <Input
+            label="Confirm Password"
+            value={form.confirmPassword}
+            onChangeText={(text) => setForm({ ...form, confirmPassword: text })}
+            placeholder="Confirm your password"
+            secureTextEntry
+          />
 
-        <Button title="Sign Up" onPress={handleSignup} loading={loading} />
+          <Button title="Sign Up" onPress={handleSignup} loading={loading} />
 
-        <Text
-          className="text-center text-gray-600 mt-6"
-          onPress={() => router.push("/login")}
-        >
-          Already have an account?{" "}
-          <Text className="text-blue-500 font-semibold">Login</Text>
-        </Text>
+          <Text
+            className="text-center text-gray-600 mt-6"
+            onPress={() => router.push("/login")}
+          >
+            Already have an account?{" "}
+            <Text className="text-blue-500 font-semibold">Login</Text>
+          </Text>
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>

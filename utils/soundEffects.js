@@ -21,7 +21,7 @@ export const playSuccessSound = async () => {
       try {
         const { sound } = await Audio.Sound.createAsync(
           require("../assets/success.mp3"),
-          { shouldPlay: false, volume: 0.5 }
+          { shouldPlay: false, volume: 0.5 },
         );
         successSound = sound;
       } catch (loadError) {

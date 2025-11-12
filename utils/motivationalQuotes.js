@@ -13,5 +13,7 @@ export const motivationalQuotes = [
 ];
 
 export const getRandomQuote = () => {
-  return motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+  return motivationalQuotes[
+    Math.floor(Math.random() * motivationalQuotes.length)
+  ];
 };

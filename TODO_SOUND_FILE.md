@@ -9,20 +9,24 @@ The app is fully functional but missing the success sound file for maximum dopam
 ## 📥 How to Add Sound
 
 ### Step 1: Download Sound
+
 Visit one of these free sound libraries:
 
 **Option A: Freesound.org**
+
 1. Go to https://freesound.org
 2. Search: "success chime" or "positive notification"
 3. Filter: Duration < 1 second
 4. Download MP3 format
 
 **Option B: Zapsplat.com**
+
 1. Go to https://zapsplat.com
 2. Browse: UI Sounds → Success
 3. Download short chime sound
 
 **Option C: Pixabay**
+
 1. Go to https://pixabay.com/sound-effects
 2. Search: "success sound"
 3. Download free MP3
@@ -30,6 +34,7 @@ Visit one of these free sound libraries:
 ---
 
 ### Step 2: Prepare File
+
 - **Format:** MP3
 - **Duration:** 0.3 - 0.7 seconds (optimal: 0.5s)
 - **Quality:** 128kbps is fine
@@ -39,12 +44,14 @@ Visit one of these free sound libraries:
 ---
 
 ### Step 3: Add to Project
+
 ```bash
 # Place file here:
 prepmateai-frontend/assets/success.mp3
 ```
 
 **File structure:**
+
 ```
 assets/
 ├── confetti.json
@@ -57,6 +64,7 @@ assets/
 ---
 
 ### Step 4: Test
+
 1. Run app: `npm start`
 2. Answer a flashcard correctly
 3. Listen for success sound
@@ -67,12 +75,14 @@ assets/
 ## 🎵 Recommended Sound Characteristics
 
 ### Good Examples:
+
 ✅ Soft bell chime
 ✅ Gentle "ding"
 ✅ Positive notification tone
 ✅ Uplifting musical note
 
 ### Avoid:
+
 ❌ Loud or jarring sounds
 ❌ Long sounds (> 1 second)
 ❌ Negative tones
@@ -85,21 +95,25 @@ assets/
 ### Sound not playing?
 
 **Check 1: File exists**
+
 ```bash
 # Verify file is present
 ls assets/success.mp3
 ```
 
 **Check 2: File format**
+
 - Must be MP3 (not WAV, OGG, etc.)
 - Use online converter if needed
 
 **Check 3: Console logs**
+
 ```
 Look for: "Success sound file not found"
 ```
 
 **Check 4: Device volume**
+
 - Ensure device volume is up
 - Check silent mode is off
 
@@ -115,11 +129,13 @@ Look for: "Success sound file not found"
 ```
 
 **Impact without sound:**
+
 - App works perfectly
 - All visual dopamine triggers active
 - Only missing auditory feedback
 
 **Impact with sound:**
+
 - +10% engagement boost
 - Stronger habit formation
 - Complete dopamine loop
@@ -157,15 +173,14 @@ ls -lh assets/success.mp3
 If you can't add custom sound, use device haptics instead:
 
 ```jsx
-import * as Haptics from 'expo-haptics';
+import * as Haptics from "expo-haptics";
 
 // Replace playSuccessSound() with:
-await Haptics.notificationAsync(
-  Haptics.NotificationFeedbackType.Success
-);
+await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 ```
 
 **Install haptics:**
+
 ```bash
 npm install expo-haptics --legacy-peer-deps
 ```

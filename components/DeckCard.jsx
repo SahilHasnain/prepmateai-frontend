@@ -6,7 +6,15 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 
-const DeckCard = ({ topic, progress, totalCards, masteredCards, lastReviewed, onPress, onDelete }) => {
+const DeckCard = ({
+  topic,
+  progress,
+  totalCards,
+  masteredCards,
+  lastReviewed,
+  onPress,
+  onDelete,
+}) => {
   const scale = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -36,7 +44,9 @@ const DeckCard = ({ topic, progress, totalCards, masteredCards, lastReviewed, on
         className={`p-4 mb-3 bg-white border-2 rounded-xl ${getBorderColor()}`}
       >
         <View className="flex-row items-center justify-between mb-3">
-          <Text className="flex-1 text-lg font-semibold text-gray-800">{topic}</Text>
+          <Text className="flex-1 text-lg font-semibold text-gray-800">
+            {topic}
+          </Text>
           {onDelete && (
             <TouchableOpacity
               onPress={(e) => {

@@ -110,77 +110,77 @@ export default function Planner() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView className="flex-1 p-4">
-      <Text className="mb-4 text-2xl font-bold">Study Planner</Text>
+        <Text className="mb-4 text-2xl font-bold">Study Planner</Text>
 
-      {/* Topic Selection */}
-      <Text className="mb-2 text-lg font-semibold">Select Weak Topics</Text>
-      <View className="flex-row flex-wrap gap-2 mb-4">
-        {topics.map((topic) => (
-          <TouchableOpacity
-            key={topic}
-            onPress={() => toggleTopic(topic)}
-            className={`px-4 py-2 rounded-full ${
-              selectedTopics.includes(topic) ? "bg-blue-500" : "bg-gray-200"
-            }`}
-          >
-            <Text
-              className={
-                selectedTopics.includes(topic) ? "text-white" : "text-black"
-              }
+        {/* Topic Selection */}
+        <Text className="mb-2 text-lg font-semibold">Select Weak Topics</Text>
+        <View className="flex-row flex-wrap gap-2 mb-4">
+          {topics.map((topic) => (
+            <TouchableOpacity
+              key={topic}
+              onPress={() => toggleTopic(topic)}
+              className={`px-4 py-2 rounded-full ${
+                selectedTopics.includes(topic) ? "bg-blue-500" : "bg-gray-200"
+              }`}
             >
-              {topic}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* Hours Input */}
-      <Text className="mb-2 text-lg font-semibold">Available Hours</Text>
-      <TextInput
-        value={hours}
-        onChangeText={setHours}
-        keyboardType="numeric"
-        placeholder="Enter hours (e.g., 5)"
-        className="p-3 mb-4 border border-gray-300 rounded-lg"
-      />
-
-      {/* Generate Button */}
-      <TouchableOpacity
-        onPress={generatePlan}
-        disabled={loading}
-        className="items-center p-4 mb-6 bg-blue-500 rounded-lg"
-      >
-        {loading ? (
-          <ActivityIndicator color="white" />
-        ) : (
-          <Text className="text-lg font-bold text-white">Generate Plan</Text>
-        )}
-      </TouchableOpacity>
-
-      {/* Plan Display */}
-      {plan.length > 0 && (
-        <>
-          <Text className="mb-3 text-xl font-bold">Your Study Plan</Text>
-          {plan.map((item, index) => (
-            <View
-              key={index}
-              className="p-4 mb-3 border border-gray-200 rounded-lg bg-gray-50"
-            >
-              <Text className="mb-1 text-lg font-semibold">{item.topic}</Text>
-              <Text className="mb-2 text-gray-600">
-                {item.duration} minutes
-              </Text>
-              <View
-                className={`${getDifficultyColor(item.difficulty)} px-3 py-1 rounded-full self-start`}
+              <Text
+                className={
+                  selectedTopics.includes(topic) ? "text-white" : "text-black"
+                }
               >
-                <Text className="text-sm font-medium text-white">
-                  {item.difficulty}
-                </Text>
-              </View>
-            </View>
+                {topic}
+              </Text>
+            </TouchableOpacity>
           ))}
-        </>
-      )}
+        </View>
+
+        {/* Hours Input */}
+        <Text className="mb-2 text-lg font-semibold">Available Hours</Text>
+        <TextInput
+          value={hours}
+          onChangeText={setHours}
+          keyboardType="numeric"
+          placeholder="Enter hours (e.g., 5)"
+          className="p-3 mb-4 border border-gray-300 rounded-lg"
+        />
+
+        {/* Generate Button */}
+        <TouchableOpacity
+          onPress={generatePlan}
+          disabled={loading}
+          className="items-center p-4 mb-6 bg-blue-500 rounded-lg"
+        >
+          {loading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text className="text-lg font-bold text-white">Generate Plan</Text>
+          )}
+        </TouchableOpacity>
+
+        {/* Plan Display */}
+        {plan.length > 0 && (
+          <>
+            <Text className="mb-3 text-xl font-bold">Your Study Plan</Text>
+            {plan.map((item, index) => (
+              <View
+                key={index}
+                className="p-4 mb-3 border border-gray-200 rounded-lg bg-gray-50"
+              >
+                <Text className="mb-1 text-lg font-semibold">{item.topic}</Text>
+                <Text className="mb-2 text-gray-600">
+                  {item.duration} minutes
+                </Text>
+                <View
+                  className={`${getDifficultyColor(item.difficulty)} px-3 py-1 rounded-full self-start`}
+                >
+                  <Text className="text-sm font-medium text-white">
+                    {item.difficulty}
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

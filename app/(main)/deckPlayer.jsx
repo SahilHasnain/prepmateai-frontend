@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  Alert,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useLocalSearchParams } from "expo-router";
@@ -87,7 +93,16 @@ function DeckPlayer() {
       // Background API call
       submitFeedback(feedbackData);
     },
-    [currentCard, currentIndex, user, topic, submitFeedback, setCards, setReviewedCount, setLastFeedback]
+    [
+      currentCard,
+      currentIndex,
+      user,
+      topic,
+      submitFeedback,
+      setCards,
+      setReviewedCount,
+      setLastFeedback,
+    ],
   );
 
   // Handle undo
@@ -155,8 +170,13 @@ function DeckPlayer() {
       {/* Error State */}
       {error && (
         <View className="items-center justify-center flex-1 px-6">
-          <Text className="mb-4 text-lg text-center text-red-600">⚠️ {error}</Text>
-          <TouchableOpacity onPress={retry} className="px-6 py-3 bg-blue-500 rounded-lg">
+          <Text className="mb-4 text-lg text-center text-red-600">
+            ⚠️ {error}
+          </Text>
+          <TouchableOpacity
+            onPress={retry}
+            className="px-6 py-3 bg-blue-500 rounded-lg"
+          >
             <Text className="font-bold text-white">Retry</Text>
           </TouchableOpacity>
         </View>
@@ -168,7 +188,10 @@ function DeckPlayer() {
           {loading ? (
             <ActivityIndicator size="large" color="#3b82f6" />
           ) : currentCard ? (
-            <FlashcardItem question={currentCard.question} answer={currentCard.answer} />
+            <FlashcardItem
+              question={currentCard.question}
+              answer={currentCard.answer}
+            />
           ) : (
             <Text className="text-lg text-gray-500">No cards available</Text>
           )}

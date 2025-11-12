@@ -31,36 +31,40 @@ export default function Login() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <KeyboardAwareScrollView className="flex-1" contentContainerStyle={{ flexGrow: 1 }}>
+      <KeyboardAwareScrollView
+        className="flex-1"
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
         <View className="flex-1 justify-center px-6 py-12">
-        <Text className="text-3xl font-bold text-center mb-8">
-          Welcome Back
-        </Text>
+          <Text className="text-3xl font-bold text-center mb-8">
+            Welcome Back
+          </Text>
 
-        <Input
-          label="Email"
-          value={form.email}
-          onChangeText={(text) => setForm({ ...form, email: text })}
-          placeholder="Enter your email"
-          keyboardType="email-address"
-        />
+          <Input
+            label="Email"
+            value={form.email}
+            onChangeText={(text) => setForm({ ...form, email: text })}
+            placeholder="Enter your email"
+            keyboardType="email-address"
+          />
 
-        <Input
-          label="Password"
-          value={form.password}
-          onChangeText={(text) => setForm({ ...form, password: text })}
-          placeholder="Enter your password"
-          secureTextEntry
-        />
+          <Input
+            label="Password"
+            value={form.password}
+            onChangeText={(text) => setForm({ ...form, password: text })}
+            placeholder="Enter your password"
+            secureTextEntry
+          />
 
-        <Button title="Login" onPress={handleLogin} loading={loading} />
+          <Button title="Login" onPress={handleLogin} loading={loading} />
 
-        <Text
-          className="text-center text-gray-600 mt-6"
-          onPress={() => router.push("/signup")}
-        >
-          New here? <Text className="text-blue-500 font-semibold">Sign Up</Text>
-        </Text>
+          <Text
+            className="text-center text-gray-600 mt-6"
+            onPress={() => router.push("/signup")}
+          >
+            New here?{" "}
+            <Text className="text-blue-500 font-semibold">Sign Up</Text>
+          </Text>
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>

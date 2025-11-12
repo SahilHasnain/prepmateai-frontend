@@ -8,7 +8,10 @@ const CircularProgress = ({ percentage, size = 80, strokeWidth = 8 }) => {
   const progress = circumference - (percentage / 100) * circumference;
 
   return (
-    <View className="items-center justify-center" style={{ width: size, height: size }}>
+    <View
+      className="items-center justify-center"
+      style={{ width: size, height: size }}
+    >
       <Svg width={size} height={size}>
         <Circle
           cx={size / 2}

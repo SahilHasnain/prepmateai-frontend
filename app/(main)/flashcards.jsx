@@ -1,4 +1,12 @@
-import { View, Text, TouchableOpacity, FlatList, RefreshControl, TextInput, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  RefreshControl,
+  TextInput,
+  Alert,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useMemo } from "react";
 import { useRouter } from "expo-router";
@@ -12,7 +20,8 @@ import { useFlashcardStats } from "../../hooks/useFlashcardStats";
 function Flashcards() {
   const router = useRouter();
   const { user } = useAuth();
-  const { stats, decks, loading, error, refresh, deleteDeck } = useFlashcardStats(user?.$id);
+  const { stats, decks, loading, error, refresh, deleteDeck } =
+    useFlashcardStats(user?.$id);
   const [message] = useState(getDailyMessage());
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,26 +39,20 @@ function Flashcards() {
   const filteredDecks = useMemo(() => {
     if (!searchQuery.trim()) return decks;
     return decks.filter((deck) =>
-      deck.topic.toLowerCase().includes(searchQuery.toLowerCase())
+      deck.topic.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   }, [decks, searchQuery]);
 
   const handleDelete = (deckId, topic) => {
-    Alert.alert(
-      "Delete Deck",
-      `Are you sure you want to delete "${topic}"?`,
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: () => deleteDeck(deckId),
-        },
-      ]
-    );
+    Alert.alert("Delete Deck", `Are you sure you want to delete "${topic}"?`, [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: () => deleteDeck(deckId),
+      },
+    ]);
   };
-
-
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
@@ -102,15 +105,21 @@ function Flashcards() {
       {/* Empty State */}
       {!error && !loading && decks.length === 0 && (
         <View className="flex-1 justify-center items-center px-6">
-          <Text className="text-lg font-semibold text-gray-700 mb-2">No decks yet 😅</Text>
-          <Text className="text-gray-500 mb-4">Generate your first deck to start learning!</Text>
+          <Text className="text-lg font-semibold text-gray-700 mb-2">
+            No decks yet 😅
+          </Text>
+          <Text className="text-gray-500 mb-4">
+            Generate your first deck to start learning!
+          </Text>
         </View>
       )}
 
       {/* No Search Results */}
       {!error && !loading && decks.length > 0 && filteredDecks.length === 0 && (
         <View className="flex-1 justify-center items-center px-6">
-          <Text className="text-lg font-semibold text-gray-700 mb-2">No results found</Text>
+          <Text className="text-lg font-semibold text-gray-700 mb-2">
+            No results found
+          </Text>
           <Text className="text-gray-500">Try a different search term</Text>
         </View>
       )}
