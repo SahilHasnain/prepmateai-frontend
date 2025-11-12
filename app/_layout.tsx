@@ -6,13 +6,16 @@ import "../global.css";
 import { registerForPushNotificationsAsync } from "../services/notificationService";
 import { useAuth } from "../hooks/useAuth";
 import { NODE_API_BASE_URL } from "../config/env";
+import { initSounds, cleanupSounds } from "../utils/soundEffects";
 
 // Root layout - Main navigation wrapper with SafeAreaProvider
 export default function RootLayout() {
   const { user } = useAuth();
 
-  // Register for push notifications on app start
+  // Initialize sound system and register notifications
   useEffect(() => {
+    initSounds();
+
     const registerNotifications = async () => {
       if (user?.$id) {
         const token = await registerForPushNotificationsAsync();
@@ -43,6 +46,10 @@ export default function RootLayout() {
     };
 
     registerNotifications();
+
+    return () => {
+      cleanupSounds();
+    };
   }, [user]);
 
   return (

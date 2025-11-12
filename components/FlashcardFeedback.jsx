@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { NODE_API_BASE_URL } from "../config/env";
+import { playSuccessSound } from "../utils/soundEffects";
 
 // Show toast notification
 const showToast = (message) => {
@@ -21,9 +22,14 @@ const showToast = (message) => {
 
 // Flashcard Feedback Buttons Component
 const FlashcardFeedback = ({ userId, cardId, topic, onNext, onFeedback }) => {
-  // Submit feedback
+  // Submit feedback with dopamine boost
   const submitFeedback = async (feedback) => {
     try {
+      // Play success sound for correct answers
+      if (feedback === "remembered") {
+        playSuccessSound();
+      }
+
       // Use parent callback if provided (for offline support)
       if (onFeedback) {
         await onFeedback(feedback);

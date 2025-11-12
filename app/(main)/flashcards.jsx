@@ -127,6 +127,8 @@ function Flashcards() {
               <DailySummary
                 cardsReviewed={stats.cardsReviewedToday}
                 cardsMastered={stats.cardsMasteredToday}
+                streak={stats.streak || 0}
+                accuracy={stats.accuracy || 0}
               />
             ) : null
           }

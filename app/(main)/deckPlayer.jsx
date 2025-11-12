@@ -27,6 +27,8 @@ function DeckPlayer() {
     currentIndex,
     reviewedCount,
     nextReview,
+    streak,
+    totalCards,
     setCards,
     setReviewedCount,
     retry,
@@ -161,7 +163,7 @@ function DeckPlayer() {
       )}
 
       {/* Card Area */}
-      {!error && (
+      {!error && !deckCompleted && (
         <View className="items-center justify-center flex-1 px-6">
           {loading ? (
             <ActivityIndicator size="large" color="#3b82f6" />
@@ -208,6 +210,10 @@ function DeckPlayer() {
           setReminderTime={setReminderTime}
           onSetReminder={setDailyReminder}
           settingReminder={settingReminder}
+          reviewedCount={reviewedCount}
+          totalCards={totalCards}
+          streak={streak}
+          topic={topic}
         />
       )}
 

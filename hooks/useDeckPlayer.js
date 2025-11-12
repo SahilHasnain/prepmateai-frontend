@@ -8,6 +8,8 @@ export const useDeckPlayer = (userId, topic) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [reviewedCount, setReviewedCount] = useState(0);
   const [nextReview, setNextReview] = useState(null);
+  const [streak, setStreak] = useState(0);
+  const [totalCards, setTotalCards] = useState(0);
   const [retryTrigger, setRetryTrigger] = useState(0);
 
   useEffect(() => {
@@ -59,6 +61,7 @@ export const useDeckPlayer = (userId, topic) => {
         setCards(loadedCards);
         setCurrentIndex(0);
         setReviewedCount(0);
+        setTotalCards(loadedCards.length);
 
         const summaryResponse = await fetch(
           `${NODE_API_BASE_URL}/api/progress/summary/${userId}`,
@@ -66,8 +69,13 @@ export const useDeckPlayer = (userId, topic) => {
         );
         const summaryResult = await summaryResponse.json();
         
-        if (isMounted && summaryResult.success && summaryResult.data.nextReview) {
-          setNextReview(summaryResult.data.nextReview);
+        if (isMounted && summaryResult.success) {
+          if (summaryResult.data.nextReview) {
+            setNextReview(summaryResult.data.nextReview);
+          }
+          if (summaryResult.data.streak !== undefined) {
+            setStreak(summaryResult.data.streak);
+          }
         }
       } catch (err) {
         if (err.name === "AbortError" || !isMounted) return;
@@ -103,6 +111,8 @@ export const useDeckPlayer = (userId, topic) => {
     currentIndex,
     reviewedCount,
     nextReview,
+    streak,
+    totalCards,
     setCards,
     setReviewedCount,
     retry,
