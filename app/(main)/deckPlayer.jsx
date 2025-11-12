@@ -59,10 +59,10 @@ function DeckPlayer() {
     }
   }, [deckCompleted]);
 
-  // Handle feedback
+  // Handle feedback with optimistic UI
   const handleFeedback = useCallback(
     async (feedback) => {
-      if (!currentCard || submitting) return;
+      if (!currentCard) return;
 
       const feedbackData = {
         userId: user.$id,
@@ -77,12 +77,14 @@ function DeckPlayer() {
         index: currentIndex,
       });
 
-      await submitFeedback(feedbackData);
-
+      // Instant UI update
       setCards((prev) => prev.filter((_, idx) => idx !== currentIndex));
       setReviewedCount((prev) => prev + 1);
+
+      // Background API call
+      submitFeedback(feedbackData);
     },
-    [currentCard, currentIndex, user, topic, submitting, submitFeedback, setCards, setReviewedCount, setLastFeedback]
+    [currentCard, currentIndex, user, topic, submitFeedback, setCards, setReviewedCount, setLastFeedback]
   );
 
   // Handle undo
@@ -162,11 +164,6 @@ function DeckPlayer() {
         <View className="items-center justify-center flex-1 px-6">
           {loading ? (
             <ActivityIndicator size="large" color="#3b82f6" />
-          ) : submitting ? (
-            <View className="items-center">
-              <ActivityIndicator size="large" color="#3b82f6" />
-              <Text className="mt-4 text-gray-600">Saving...</Text>
-            </View>
           ) : currentCard ? (
             <FlashcardItem question={currentCard.question} answer={currentCard.answer} />
           ) : (
@@ -176,7 +173,7 @@ function DeckPlayer() {
       )}
 
       {/* Feedback Buttons */}
-      {!error && !loading && !deckCompleted && currentCard && !submitting && (
+      {!error && !loading && !deckCompleted && currentCard && (
         <View className="px-6 mb-4">
           <FlashcardFeedback
             userId={user?.$id}
@@ -188,7 +185,7 @@ function DeckPlayer() {
       )}
 
       {/* Undo Button */}
-      {!error && !loading && !submitting && lastFeedback && cards.length > 0 && (
+      {!error && !loading && lastFeedback && cards.length > 0 && (
         <View className="items-center mb-4">
           <TouchableOpacity
             onPress={handleUndo}
