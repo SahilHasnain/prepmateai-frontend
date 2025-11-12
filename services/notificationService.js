@@ -37,7 +37,7 @@ export const registerForPushNotificationsAsync = async () => {
 
       // Get Expo push token
       const tokenData = await Notifications.getExpoPushTokenAsync({
-        projectId: process.env.EXPO_PUBLIC_PROJECT_ID || "your-project-id",
+        projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
       });
 
       console.log("Push token obtained:", tokenData.data);
