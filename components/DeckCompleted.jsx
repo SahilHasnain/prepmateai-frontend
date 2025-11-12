@@ -1,4 +1,5 @@
 import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import Animated, { FadeInUp } from "react-native-reanimated";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -27,11 +28,11 @@ const DeckCompleted = ({
   reds = 0,
 }) => {
   const router = useRouter();
-  
+
   // Motivational result system - replaces numeric score with positive reinforcement
   // Inspired by mastery learning psychology (low anxiety, high consistency)
   const score = totalCards > 0 ? (greens * 1 + yellows * 0.5) / totalCards : 0;
-  
+
   let message, bgGradient;
   if (score >= 0.85) {
     message = "🔥 Outstanding recall! You're mastering this topic.";
@@ -43,7 +44,7 @@ const DeckCompleted = ({
     message = "📘 Keep going! Every try makes you smarter.";
     bgGradient = "bg-gradient-to-r from-gray-100 to-gray-200";
   }
-  
+
   const percentage = Math.round(score * 100);
   const stats = { cardsReviewed: reviewedCount, accuracy: percentage, streak };
 
@@ -53,13 +54,22 @@ const DeckCompleted = ({
 
   return (
     <>
-      <View className="items-center px-6 mb-6">
+      {/* subtle enter animation to celebrate completion without being distracting */}
+      <Animated.View
+        entering={FadeInUp.duration(350)}
+        className="items-center px-6 mb-6"
+      >
         {/* Trophy Animation */}
         <LottieView
           source={require("../assets/Trophy.json")}
           autoPlay
           loop={false}
-          style={{ width: 200, height: 200, alignSelf: "center", marginBottom: 16 }}
+          style={{
+            width: 200,
+            height: 200,
+            alignSelf: "center",
+            marginBottom: 16,
+          }}
         />
 
         {/* Summary Card */}
@@ -87,8 +97,6 @@ const DeckCompleted = ({
           <View className="items-center mb-3">
             <AchievementBadge stats={stats} />
           </View>
-
-
         </View>
 
         {/* Action Buttons */}
@@ -120,7 +128,7 @@ const DeckCompleted = ({
             )}
           </TouchableOpacity>
         </View>
-      </View>
+      </Animated.View>
 
       {showTimePicker && (
         <View className="absolute inset-0 items-center justify-center bg-black/50">

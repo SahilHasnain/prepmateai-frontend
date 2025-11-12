@@ -28,7 +28,7 @@ export const useDeckPlayer = (userId, topic) => {
         if (topic) {
           const response = await fetch(
             `${NODE_API_BASE_URL}/api/flashcards/decks/${userId}`,
-            { signal: controller.signal },
+            { signal: controller.signal }
           );
           const result = await response.json();
 
@@ -40,6 +40,7 @@ export const useDeckPlayer = (userId, topic) => {
                 cardId: `${deck.$id}_${index}`,
                 question: card.question,
                 answer: card.answer,
+                difficulty: card.difficulty || "medium", // AI-generated difficulty level
                 topic: deck.topic,
               }));
             }
@@ -47,11 +48,12 @@ export const useDeckPlayer = (userId, topic) => {
         } else {
           const response = await fetch(
             `${NODE_API_BASE_URL}/api/due/today/${userId}`,
-            { signal: controller.signal },
+            { signal: controller.signal }
           );
           const result = await response.json();
 
           if (result.success) {
+            // Due cards already include difficulty from backend
             loadedCards = result.data;
           }
         }
@@ -65,7 +67,7 @@ export const useDeckPlayer = (userId, topic) => {
 
         const summaryResponse = await fetch(
           `${NODE_API_BASE_URL}/api/progress/summary/${userId}`,
-          { signal: controller.signal },
+          { signal: controller.signal }
         );
         const summaryResult = await summaryResponse.json();
 

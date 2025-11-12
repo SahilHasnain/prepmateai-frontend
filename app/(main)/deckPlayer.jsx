@@ -10,6 +10,11 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import LottieView from "lottie-react-native";
 import * as Notifications from "expo-notifications";
+import Animated, {
+  FadeInRight,
+  FadeOutLeft,
+  Easing,
+} from "react-native-reanimated";
 import FlashcardItem from "../../components/FlashcardItem";
 import FlashcardFeedback from "../../components/FlashcardFeedback";
 import DeckHeader from "../../components/DeckHeader";
@@ -55,7 +60,11 @@ function DeckPlayer() {
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [reminderTime, setReminderTime] = useState(new Date());
   const [settingReminder, setSettingReminder] = useState(false);
-  const [feedbackCounts, setFeedbackCounts] = useState({ greens: 0, yellows: 0, reds: 0 });
+  const [feedbackCounts, setFeedbackCounts] = useState({
+    greens: 0,
+    yellows: 0,
+    reds: 0,
+  });
 
   const currentCard = cards[currentIndex];
   const deckCompleted = cards.length === 0 && reviewedCount > 0;
@@ -111,7 +120,7 @@ function DeckPlayer() {
       setCards,
       setReviewedCount,
       setLastFeedback,
-    ],
+    ]
   );
 
   // Handle undo
@@ -206,10 +215,23 @@ function DeckPlayer() {
           {loading ? (
             <ActivityIndicator size="large" color="#3b82f6" />
           ) : currentCard ? (
-            <FlashcardItem
-              question={currentCard.question}
-              answer={currentCard.answer}
-            />
+            // Smooth card transition with custom easing for natural feel
+            <Animated.View
+              key={currentCard.cardId}
+              entering={FadeInRight.duration(400).easing(
+                Easing.out(Easing.cubic)
+              )}
+              exiting={FadeOutLeft.duration(300).easing(
+                Easing.in(Easing.cubic)
+              )}
+              className="w-full"
+            >
+              <FlashcardItem
+                question={currentCard.question}
+                answer={currentCard.answer}
+                difficulty={currentCard.difficulty || "medium"}
+              />
+            </Animated.View>
           ) : (
             <Text className="text-lg text-gray-500">No cards available</Text>
           )}
