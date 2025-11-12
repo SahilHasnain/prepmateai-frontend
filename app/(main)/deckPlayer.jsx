@@ -126,7 +126,6 @@ function DeckPlayer() {
 
       if (result.success) {
         Alert.alert("Success", `Daily reminder set for ${timeOfDay}`);
-        setShowTimePicker(false);
       } else {
         throw new Error(result.message || "Failed to set reminder");
       }
@@ -134,6 +133,7 @@ function DeckPlayer() {
       Alert.alert("Error", error.message);
     } finally {
       setSettingReminder(false);
+      setShowTimePicker(false);
     }
   };
 
