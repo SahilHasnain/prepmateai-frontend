@@ -29,12 +29,15 @@ export default function NewDeck() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId: user.$id, topic: topic.trim() }),
-        },
+        }
       );
       const json = await res.json();
 
       if (json.success) {
-        Alert.alert(getMessage("success.deckCreated"), getMessage("success.deckCreated"));
+        Alert.alert(
+          getMessage("success.deckCreated"),
+          getMessage("success.deckCreated")
+        );
         router.back();
       } else {
         Alert.alert("Error", json.message || getMessage("errors.saveFailed"));

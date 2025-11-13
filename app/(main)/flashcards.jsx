@@ -4,24 +4,19 @@ import {
   TouchableOpacity,
   FlatList,
   RefreshControl,
-  TextInput,
   Alert,
   Animated,
-  Pressable,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useRouter } from "expo-router";
-import LottieView from "lottie-react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { Feather } from "@expo/vector-icons";
 import DeckSkeleton from "../../components/DeckSkeleton";
-import {
-  getMessage,
-  getDailyMessage,
-  getMasteryText,
-  getProgressFeedback,
-} from "../../utils/messages";
+import HeaderHero from "../../components/HeaderHero";
+import SearchBar from "../../components/SearchBar";
+import Fab from "../../components/Fab";
+import EmptyState from "../../components/EmptyState";
+import DeckCardItem from "../../components/DeckCardItem";
+import { getMessage, getDailyMessage } from "../../utils/messages";
 import { useAuth } from "../../hooks/useAuth";
 import { useFlashcardStats } from "../../hooks/useFlashcardStats";
 
@@ -90,88 +85,36 @@ function Flashcards() {
     );
   };
 
-  return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      {/* Final dopamine-balanced polish – calm, friendly, focus-centric */}
-      <LinearGradient
-        colors={["#6366f1", "#8b5cf6", "#a78bfa"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        className="relative px-6 py-6 mb-4 rounded-b-3xl"
-        style={{
-          shadowColor: "#6366f1",
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          shadowOffset: { width: 0, height: 1 },
-          elevation: 2,
-        }}
-      >
-        <LottieView
-          source={require("../../assets/header-glow.json")}
-          autoPlay
-          loop={false}
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            opacity: 0.15,
-          }}
-        />
+  const handleFabPress = () => {
+    Animated.sequence([
+      Animated.timing(fabRotateAnim, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: true,
+      }),
+      Animated.timing(fabRotateAnim, {
+        toValue: 0,
+        duration: 150,
+        useNativeDriver: true,
+      }),
+    ]).start();
+    router.push("/new-deck");
+  };
 
-        <View className="flex-row items-center justify-between">
-          <View className="flex-1">
-            <Text className="text-2xl font-semibold text-white">
-              {getMessage("header.title")}
-            </Text>
-            <Animated.Text
-              className="mt-1.5 text-sm text-indigo-100 leading-5"
-              style={{ opacity: subtitleFadeAnim }}
-            >
-              {getMessage("header.subtitle")}
-            </Animated.Text>
-          </View>
-          {stats && stats.streak > 0 && (
-            <View className="px-3 py-1.5 rounded-full bg-white/15 border border-white/20">
-              <Text className="text-xs font-medium text-amber-200">
-                {getMessage("header.streakPrefix")}{stats.streak}
-                {getMessage("header.streakSuffix")}
-              </Text>
-            </View>
-          )}
-        </View>
-      </LinearGradient>
+  return (
+    <SafeAreaView className="flex-1 bg-gray-50" edges={["top"]}>
+      {/* Sticky Header */}
+      <HeaderHero stats={stats} subtitleFadeAnim={subtitleFadeAnim} />
+
+      {/* Sticky Search Bar (only show when decks exist) */}
+      {!loading && !error && decks.length > 0 && (
+        <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
+      )}
 
       {/* Daily Message */}
       <View className="p-3 mx-4 mt-4 bg-blue-100 border border-blue-200 rounded-xl">
         <Text className="text-center text-gray-800">{message}</Text>
       </View>
-
-      {/* Friendly discovery search bar with calm dopamine tone. */}
-      {!loading && !error && decks.length > 0 && (
-        <View className="px-4 mt-4">
-          <View
-            className="flex-row items-center px-4 py-3 rounded-2xl"
-            style={{
-              backgroundColor: "rgba(255, 255, 255, 0.95)",
-              shadowColor: "#6366f1",
-              shadowOpacity: 0.04,
-              shadowRadius: 10,
-              shadowOffset: { width: 0, height: 2 },
-              elevation: 2,
-            }}
-          >
-            <Feather name="search" size={20} color="#9ca3af" />
-            <TextInput
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-              placeholder={getMessage("search.placeholder")}
-              placeholderTextColor="#9ca3af"
-              className="flex-1 ml-3 text-gray-700"
-              style={{ fontSize: 15 }}
-            />
-          </View>
-        </View>
-      )}
 
       {/* Error State */}
       {error && (
@@ -197,81 +140,7 @@ function Flashcards() {
 
       {/* Premium calm empty state – emotional onboarding for first-time learners */}
       {!error && !loading && decks.length === 0 && (
-        <View
-          className="items-center justify-center flex-1 px-6"
-          style={{ marginTop: -20 }}
-        >
-          {/* Illustration */}
-          <View className="items-center">
-            <Text style={{ fontSize: 80, lineHeight: 90 }}>📚</Text>
-            <View
-              className="px-6 py-2 bg-white rounded-full"
-              style={{
-                marginTop: 10,
-                shadowColor: "#6366f1",
-                shadowOpacity: 0.1,
-                shadowRadius: 12,
-                shadowOffset: { width: 0, height: 4 },
-                elevation: 3,
-              }}
-            >
-              <Text className="text-xs font-medium text-indigo-500">
-                {getMessage("emptyState.badge")}
-              </Text>
-            </View>
-          </View>
-
-          {/* Big Title */}
-          <Text
-            className="mb-2 text-2xl font-bold text-center text-gray-800"
-            style={{ marginTop: 24 }}
-          >
-            {getMessage("emptyState.title")}
-          </Text>
-
-          {/* Subtitle */}
-          <Text
-            className="max-w-xs text-base leading-6 text-center text-gray-500"
-            style={{ marginBottom: 24 }}
-          >
-            {getMessage("emptyState.subtitle")}
-          </Text>
-
-          {/* CTA Button */}
-          <TouchableOpacity
-            onPress={() => router.push("/new-deck")}
-            activeOpacity={0.8}
-            style={{ marginTop: 12 }}
-          >
-            <LinearGradient
-              colors={["#6366f1", "#8b5cf6"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={{
-                paddingVertical: 16,
-                paddingHorizontal: 32,
-                borderRadius: 12,
-                shadowColor: "#6366f1",
-                shadowOpacity: 0.2,
-                shadowRadius: 10,
-                shadowOffset: { width: 0, height: 4 },
-                elevation: 5,
-              }}
-            >
-              <Text className="text-base font-semibold text-center text-white">
-                {getMessage("emptyState.ctaButton")}
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
-
-          {/* Helper text */}
-          <Text
-            className="text-xs text-center text-gray-400"
-            style={{ marginTop: 16 }}
-          >
-            {getMessage("emptyState.helperText")}
-          </Text>
-        </View>
+        <EmptyState onCreateDeck={() => router.push("/new-deck")} />
       )}
 
       {/* No Search Results */}
@@ -330,56 +199,13 @@ function Flashcards() {
               </Animated.View>
             ) : null
           }
-          renderItem={({ item }) => {
-            // calm dopamine design – emotional encouragement with visual clarity
-            const leftBorderColor =
-              item.progress >= 1
-                ? "#9ff0bf" // green-300 (-10% saturation)
-                : item.progress >= 0.6
-                  ? "#fde66d" // yellow-300 (-10% saturation)
-                  : "#fcb8b8"; // red-300 (-10% saturation)
-
-            const progressBarColor =
-              item.progress >= 1
-                ? "#9ff0bf" // green-300 (reduced saturation)
-                : item.progress >= 0.6
-                  ? "#fde66d" // yellow-300 (reduced saturation)
-                  : "#fcb8b8"; // red-300 (reduced saturation)
-
-            return (
-              <Pressable
-                onPress={() => handleDeckPress(item.topic)}
-                className="p-4 mb-6 bg-white shadow-sm rounded-2xl"
-                style={{ borderLeftWidth: 4, borderLeftColor: leftBorderColor }}
-              >
-                <View className="flex-row items-start justify-between mb-3">
-                  <Text className="flex-1 pr-2 text-lg font-bold text-gray-800">
-                    {item.topic}
-                  </Text>
-                  <TouchableOpacity
-                    onPress={() => handleDelete(item.deckId, item.topic)}
-                    style={{ opacity: 0.5 }}
-                  >
-                    <Text className="text-lg text-gray-400">🗑️</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View className="h-2 overflow-hidden bg-gray-200 rounded-full">
-                  <View
-                    className="h-full rounded-full"
-                    style={{
-                      width: `${item.progress * 100}%`,
-                      backgroundColor: progressBarColor,
-                    }}
-                  />
-                </View>
-
-                <Text className="mt-2 text-xs italic text-gray-500">
-                  {getProgressFeedback(item.progress)}
-                </Text>
-              </Pressable>
-            );
-          }}
+          renderItem={({ item }) => (
+            <DeckCardItem
+              deck={item}
+              onPress={() => handleDeckPress(item.topic)}
+              onDelete={() => handleDelete(item.deckId, item.topic)}
+            />
+          )}
           keyExtractor={(item) => item.deckId}
           contentContainerStyle={{ padding: 16 }}
           ListFooterComponent={
@@ -390,66 +216,8 @@ function Flashcards() {
         />
       )}
 
-      {/* Dopamine-based action button – represents "add next success", not utility. */}
-      <TouchableOpacity
-        onPress={() => {
-          Animated.sequence([
-            Animated.timing(fabRotateAnim, {
-              toValue: 1,
-              duration: 150,
-              useNativeDriver: true,
-            }),
-            Animated.timing(fabRotateAnim, {
-              toValue: 0,
-              duration: 150,
-              useNativeDriver: true,
-            }),
-          ]).start();
-          router.push("/new-deck");
-        }}
-        className="absolute shadow-xl"
-        style={{ bottom: 80, right: 22, zIndex: 10 }}
-        accessibilityLabel="Add new deck"
-        accessibilityRole="button"
-      >
-        <Animated.View
-          style={{
-            transform: [
-              {
-                rotate: fabRotateAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: ["0deg", "90deg"],
-                }),
-              },
-            ],
-          }}
-        >
-          <LinearGradient
-            colors={["#6366f1", "#8b5cf6"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            className="items-center justify-center w-16 h-16"
-            style={{
-              borderRadius: 9999,
-              shadowColor: "#6366f1",
-              shadowOpacity: 0.35,
-              shadowRadius: 8,
-              shadowOffset: { width: 0, height: 3 },
-              elevation: 6,
-              borderWidth: 1,
-              borderColor: "rgba(255, 255, 255, 0.2)",
-            }}
-          >
-            <LottieView
-              source={require("../../assets/plus-glow.json")}
-              autoPlay
-              loop
-              style={{ width: 80, height: 80, position: "absolute" }}
-            />
-            <Text className="z-10 text-3xl font-bold text-white">+</Text>
-          </LinearGradient>
-        </Animated.View>
-      </TouchableOpacity>
+      {/* FAB - Floating Action Button */}
+      <Fab onPress={handleFabPress} rotateAnim={fabRotateAnim} />
     </SafeAreaView>
   );
 }

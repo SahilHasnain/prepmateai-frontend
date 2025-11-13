@@ -7,7 +7,8 @@
 const TONES = {
   atomic: {
     // Atomic Habits-inspired: systems thinking, 1% better, identity formation
-    philosophy: "Systems over goals. Small wins compound. Identity drives action.",
+    philosophy:
+      "Systems over goals. Small wins compound. Identity drives action.",
   },
   default: {
     // Fallback: standard motivational copy

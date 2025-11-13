@@ -46,7 +46,7 @@ export default function Planner() {
   // Toggle topic selection
   const toggleTopic = (topic) => {
     setSelectedTopics((prev) =>
-      prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic],
+      prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic]
     );
   };
 
@@ -76,7 +76,7 @@ export default function Planner() {
             weakTopics: selectedTopics,
             availableHours: parseFloat(hours),
           }),
-        },
+        }
       );
 
       const result = await response.json();
@@ -172,7 +172,9 @@ export default function Planner() {
                   {item.duration} minutes
                 </Text>
                 <View
-                  className={`${getDifficultyColor(item.difficulty)} px-3 py-1 rounded-full self-start`}
+                  className={`${getDifficultyColor(
+                    item.difficulty
+                  )} px-3 py-1 rounded-full self-start`}
                 >
                   <Text className="text-sm font-medium text-white">
                     {item.difficulty}
