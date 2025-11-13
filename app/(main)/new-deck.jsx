@@ -7,6 +7,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { NODE_API_BASE_URL } from "../../config/env";
 import { useAuth } from "../../hooks/useAuth";
+import { getMessage } from "../../utils/messages";
 
 export default function NewDeck() {
   const router = useRouter();
@@ -16,7 +17,7 @@ export default function NewDeck() {
 
   const handleGenerate = async () => {
     if (!topic.trim()) {
-      Alert.alert("Error", "Please enter a topic");
+      Alert.alert("Error", getMessage("errors.invalidTopic"));
       return;
     }
 
@@ -33,13 +34,13 @@ export default function NewDeck() {
       const json = await res.json();
 
       if (json.success) {
-        Alert.alert("Success", "Deck Created!");
+        Alert.alert(getMessage("success.deckCreated"), getMessage("success.deckCreated"));
         router.back();
       } else {
-        Alert.alert("Error", json.message || "Failed to generate deck");
+        Alert.alert("Error", json.message || getMessage("errors.saveFailed"));
       }
     } catch (e) {
-      Alert.alert("Error", "Failed to generate flashcards");
+      Alert.alert("Error", getMessage("errors.networkError"));
     } finally {
       setLoading(false);
     }

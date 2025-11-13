@@ -6,6 +6,7 @@ import { useRouter } from "expo-router";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { signup } from "../services/appwrite";
+import { getMessage } from "../utils/messages";
 
 // Signup screen with form validation
 export default function Signup() {
@@ -21,18 +22,18 @@ export default function Signup() {
   const handleSignup = async () => {
     // Basic frontend validation before Appwrite signup
     if (form.password !== form.confirmPassword) {
-      Alert.alert("Error", "Passwords do not match");
+      Alert.alert("Error", getMessage("errors.passwordMismatch"));
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(form.email)) {
-      Alert.alert("Error", "Please enter a valid email address");
+      Alert.alert("Error", getMessage("errors.invalidEmail"));
       return;
     }
 
     if (form.password.length < 6) {
-      Alert.alert("Error", "Password must be at least 6 characters long");
+      Alert.alert("Error", getMessage("errors.passwordTooShort"));
       return;
     }
 
@@ -47,7 +48,7 @@ export default function Signup() {
     if (success) {
       router.push("/dashboard");
     } else {
-      Alert.alert("Signup Failed", error);
+      Alert.alert(getMessage("errors.signupFailed"), error);
     }
   };
 
@@ -66,14 +67,14 @@ export default function Signup() {
             label="Full Name"
             value={form.name}
             onChangeText={(text) => setForm({ ...form, name: text })}
-            placeholder="Enter your name"
+            placeholder={getMessage("auth.namePlaceholder")}
           />
 
           <Input
             label="Email"
             value={form.email}
             onChangeText={(text) => setForm({ ...form, email: text })}
-            placeholder="Enter your email"
+            placeholder={getMessage("auth.emailPlaceholder")}
             keyboardType="email-address"
           />
 
@@ -81,7 +82,7 @@ export default function Signup() {
             label="Password"
             value={form.password}
             onChangeText={(text) => setForm({ ...form, password: text })}
-            placeholder="Enter your password"
+            placeholder={getMessage("auth.passwordPlaceholder")}
             secureTextEntry
           />
 
@@ -89,7 +90,7 @@ export default function Signup() {
             label="Confirm Password"
             value={form.confirmPassword}
             onChangeText={(text) => setForm({ ...form, confirmPassword: text })}
-            placeholder="Confirm your password"
+            placeholder={getMessage("auth.confirmPasswordPlaceholder")}
             secureTextEntry
           />
 

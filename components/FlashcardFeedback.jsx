@@ -10,13 +10,14 @@ import {
 import { useState } from "react";
 import { NODE_API_BASE_URL } from "../config/env";
 import { playSuccessSound } from "../utils/soundEffects";
+import { getMessage } from "../utils/messages";
 
 // Show toast notification
 const showToast = (message) => {
   if (Platform.OS === "android") {
     ToastAndroid.show(message, ToastAndroid.SHORT);
   } else {
-    Alert.alert("Success", message);
+    Alert.alert(getMessage("success.progressSaved"), message);
   }
 };
 
@@ -51,11 +52,11 @@ const FlashcardFeedback = ({ userId, cardId, topic, onNext, onFeedback }) => {
           showToast("Saved ✓");
           onNext?.();
         } else {
-          throw new Error(result.message || "Failed to save");
+          throw new Error(result.message || getMessage("errors.saveFailed"));
         }
       }
     } catch (error) {
-      Alert.alert("Error", error.message);
+      Alert.alert("Error", error.message || getMessage("errors.saveFailed"));
     }
   };
 
@@ -65,7 +66,7 @@ const FlashcardFeedback = ({ userId, cardId, topic, onNext, onFeedback }) => {
       <TouchableOpacity
         onPress={() => submitFeedback("forgot")}
         className="p-3 mx-2 bg-red-500 rounded-full"
-        accessibilityLabel="I forgot this card"
+        accessibilityLabel={getMessage("flashcardActions.forgot")}
         accessibilityRole="button"
       >
         <Text className="text-2xl">❌</Text>
@@ -75,7 +76,7 @@ const FlashcardFeedback = ({ userId, cardId, topic, onNext, onFeedback }) => {
       <TouchableOpacity
         onPress={() => submitFeedback("unsure")}
         className="p-3 mx-2 bg-yellow-500 rounded-full"
-        accessibilityLabel="I'm not sure about this card"
+        accessibilityLabel={getMessage("flashcardActions.unsure")}
         accessibilityRole="button"
       >
         <Text className="text-2xl">🤔</Text>
@@ -85,7 +86,7 @@ const FlashcardFeedback = ({ userId, cardId, topic, onNext, onFeedback }) => {
       <TouchableOpacity
         onPress={() => submitFeedback("remembered")}
         className="p-3 mx-2 bg-green-500 rounded-full"
-        accessibilityLabel="I remembered this card"
+        accessibilityLabel={getMessage("flashcardActions.remembered")}
         accessibilityRole="button"
       >
         <Text className="text-2xl">✅</Text>

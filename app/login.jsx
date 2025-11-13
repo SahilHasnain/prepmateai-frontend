@@ -6,6 +6,7 @@ import { useRouter } from "expo-router";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { login } from "../services/appwrite";
+import { getMessage } from "../utils/messages";
 
 // Login screen with authentication
 export default function Login() {
@@ -25,7 +26,7 @@ export default function Login() {
     if (success) {
       router.push("/dashboard");
     } else {
-      Alert.alert("Login Failed", error);
+      Alert.alert(getMessage("errors.loginFailed"), error);
     }
   };
 
@@ -44,7 +45,7 @@ export default function Login() {
             label="Email"
             value={form.email}
             onChangeText={(text) => setForm({ ...form, email: text })}
-            placeholder="Enter your email"
+            placeholder={getMessage("auth.emailPlaceholder")}
             keyboardType="email-address"
           />
 
@@ -52,7 +53,7 @@ export default function Login() {
             label="Password"
             value={form.password}
             onChangeText={(text) => setForm({ ...form, password: text })}
-            placeholder="Enter your password"
+            placeholder={getMessage("auth.passwordPlaceholder")}
             secureTextEntry
           />
 

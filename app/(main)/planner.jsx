@@ -13,13 +13,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { NODE_API_BASE_URL } from "../../config/env";
+import { getMessage } from "../../utils/messages";
 
 // Show toast notification
 const showToast = (message) => {
   if (Platform.OS === "android") {
     ToastAndroid.show(message, ToastAndroid.SHORT);
   } else {
-    Alert.alert("Success", message);
+    Alert.alert(getMessage("success.planGenerated"), message);
   }
 };
 
@@ -53,12 +54,12 @@ export default function Planner() {
   const generatePlan = async () => {
     // Validate planner input before sending request
     if (selectedTopics.length === 0) {
-      Alert.alert("Error", "Please select at least one topic.");
+      Alert.alert("Error", getMessage("planner.selectTopicError"));
       return;
     }
 
     if (!hours || isNaN(hours) || parseFloat(hours) <= 0) {
-      Alert.alert("Error", "Please enter valid study hours greater than 0.");
+      Alert.alert("Error", getMessage("planner.invalidHoursError"));
       return;
     }
 
@@ -84,10 +85,10 @@ export default function Planner() {
         setPlan(result.data);
         showToast("AI Plan Generated ✅");
       } else {
-        Alert.alert("Error", result.message || "Failed to generate plan");
+        Alert.alert("Error", result.message || getMessage("errors.saveFailed"));
       }
     } catch (error) {
-      Alert.alert("Error", "Network error. Please check your connection.");
+      Alert.alert("Error", getMessage("errors.networkError"));
     } finally {
       setLoading(false);
     }
@@ -140,7 +141,7 @@ export default function Planner() {
           value={hours}
           onChangeText={setHours}
           keyboardType="numeric"
-          placeholder="Enter hours (e.g., 5)"
+          placeholder={getMessage("planner.hoursPlaceholder")}
           className="p-3 mb-4 border border-gray-300 rounded-lg"
         />
 

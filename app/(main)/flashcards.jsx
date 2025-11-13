@@ -16,7 +16,12 @@ import LottieView from "lottie-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Feather } from "@expo/vector-icons";
 import DeckSkeleton from "../../components/DeckSkeleton";
-import { getDailyMessage } from "../../utils/messages";
+import {
+  getMessage,
+  getDailyMessage,
+  getMasteryText,
+  getProgressFeedback,
+} from "../../utils/messages";
 import { useAuth } from "../../hooks/useAuth";
 import { useFlashcardStats } from "../../hooks/useFlashcardStats";
 
@@ -31,24 +36,6 @@ function Flashcards() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const subtitleFadeAnim = useRef(new Animated.Value(0)).current;
   const fabRotateAnim = useRef(new Animated.Value(0)).current;
-
-  // Microcopy revamp – each line motivates and reassures the student
-  const getMasteryText = (masteredCards, totalCards) => {
-    const progress = masteredCards / totalCards;
-    if (progress >= 1) return "🎯 Fully Mastered!";
-    if (progress >= 0.6) return "🔥 Making progress!";
-    return "🌱 Growing stronger!";
-  };
-
-  // Honest motivation system — real encouragement, no fake praise.
-  const getProgressFeedback = (progress) => {
-    if (progress === 1.0) return "🎯 Fully mastered! Brilliant work!";
-    if (progress >= 0.76) return "⚡ Almost there! Great focus today!";
-    if (progress >= 0.51) return "🔥 Making real progress — you're on track!";
-    if (progress >= 0.26)
-      return "💪 You're warming up — keep that spark alive!";
-    return "🌱 Just getting started — every step counts.";
-  };
 
   // Fade-in animation for progress card
   useEffect(() => {
@@ -89,14 +76,18 @@ function Flashcards() {
   }, [decks, searchQuery]);
 
   const handleDelete = (deckId, topic) => {
-    Alert.alert("Delete Deck", `Are you sure you want to delete "${topic}"?`, [
-      { text: "Cancel", style: "cancel" },
-      {
-        text: "Delete",
-        style: "destructive",
-        onPress: () => deleteDeck(deckId),
-      },
-    ]);
+    Alert.alert(
+      getMessage("delete.title"),
+      getMessage("delete.message", { topic }),
+      [
+        { text: getMessage("delete.cancel"), style: "cancel" },
+        {
+          text: getMessage("delete.confirm"),
+          style: "destructive",
+          onPress: () => deleteDeck(deckId),
+        },
+      ]
+    );
   };
 
   return (
@@ -130,19 +121,20 @@ function Flashcards() {
         <View className="flex-row items-center justify-between">
           <View className="flex-1">
             <Text className="text-2xl font-semibold text-white">
-              Welcome back! 📚
+              {getMessage("header.title")}
             </Text>
             <Animated.Text
               className="mt-1.5 text-sm text-indigo-100 leading-5"
               style={{ opacity: subtitleFadeAnim }}
             >
-              Every revision brings you closer to your goal
+              {getMessage("header.subtitle")}
             </Animated.Text>
           </View>
           {stats && stats.streak > 0 && (
             <View className="px-3 py-1.5 rounded-full bg-white/15 border border-white/20">
               <Text className="text-xs font-medium text-amber-200">
-                {stats.streak} day streak
+                {getMessage("header.streakPrefix")}{stats.streak}
+                {getMessage("header.streakSuffix")}
               </Text>
             </View>
           )}
@@ -172,7 +164,7 @@ function Flashcards() {
             <TextInput
               value={searchQuery}
               onChangeText={setSearchQuery}
-              placeholder="🔍 Search or explore new topics..."
+              placeholder={getMessage("search.placeholder")}
               placeholderTextColor="#9ca3af"
               className="flex-1 ml-3 text-gray-700"
               style={{ fontSize: 15 }}
@@ -224,7 +216,7 @@ function Flashcards() {
               }}
             >
               <Text className="text-xs font-medium text-indigo-500">
-                Your journey starts here
+                {getMessage("emptyState.badge")}
               </Text>
             </View>
           </View>
@@ -234,7 +226,7 @@ function Flashcards() {
             className="mb-2 text-2xl font-bold text-center text-gray-800"
             style={{ marginTop: 24 }}
           >
-            Let's build your first deck! 🌱
+            {getMessage("emptyState.title")}
           </Text>
 
           {/* Subtitle */}
@@ -242,7 +234,7 @@ function Flashcards() {
             className="max-w-xs text-base leading-6 text-center text-gray-500"
             style={{ marginBottom: 24 }}
           >
-            Every big rank starts with the first small step.
+            {getMessage("emptyState.subtitle")}
           </Text>
 
           {/* CTA Button */}
@@ -267,7 +259,7 @@ function Flashcards() {
               }}
             >
               <Text className="text-base font-semibold text-center text-white">
-                📘 Create your first deck
+                {getMessage("emptyState.ctaButton")}
               </Text>
             </LinearGradient>
           </TouchableOpacity>
@@ -277,7 +269,7 @@ function Flashcards() {
             className="text-xs text-center text-gray-400"
             style={{ marginTop: 16 }}
           >
-            Start with any topic you want to master
+            {getMessage("emptyState.helperText")}
           </Text>
         </View>
       )}
@@ -286,9 +278,11 @@ function Flashcards() {
       {!error && !loading && decks.length > 0 && filteredDecks.length === 0 && (
         <View className="items-center justify-center flex-1 px-6">
           <Text className="mb-2 text-lg font-semibold text-gray-700">
-            No results found
+            {getMessage("noResults.title")}
           </Text>
-          <Text className="text-gray-500">Try a different search term</Text>
+          <Text className="text-gray-500">
+            {getMessage("noResults.subtitle")}
+          </Text>
         </View>
       )}
 
@@ -307,22 +301,26 @@ function Flashcards() {
                 className="p-4 mx-4 mt-4 bg-white border border-blue-100 shadow-lg rounded-2xl"
               >
                 <Text className="text-lg font-bold text-gray-800">
-                  ⚡ Keep your streak alive!
+                  {getMessage("summary.title")}
                 </Text>
 
                 <View className="flex-row items-center mt-2">
                   <Text className="mr-2 text-base text-blue-600">
-                    📘 {stats.cardsReviewedToday} cards reviewed
+                    {getMessage("summary.cardsReviewed", {
+                      count: stats.cardsReviewedToday,
+                    })}
                   </Text>
                   <Text className="text-base text-green-600">
-                    ✨ {stats.cardsMasteredToday || 0} mastered
+                    {getMessage("summary.cardsMastered", {
+                      count: stats.cardsMasteredToday || 0,
+                    })}
                   </Text>
                 </View>
 
                 <View className="flex-row items-center justify-between mt-3">
                   <View className="px-3 py-1 bg-yellow-100 rounded-full">
                     <Text className="font-semibold text-yellow-700">
-                      🏅 Focus Hero
+                      {getMessage("summary.badge")}
                     </Text>
                   </View>
                   <Text className="text-xs text-gray-400">
@@ -386,7 +384,7 @@ function Flashcards() {
           contentContainerStyle={{ padding: 16 }}
           ListFooterComponent={
             <Text className="mt-6 mb-12 text-center text-gray-400">
-              "Small wins today make big ranks tomorrow 🧠"
+              {getMessage("footer.quote")}
             </Text>
           }
         />
