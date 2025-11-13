@@ -20,7 +20,7 @@ const DeckHeader = ({ topic, nextReview, onBack, onShuffle, showShuffle }) => {
         {showShuffle && (
           <TouchableOpacity
             onPress={onShuffle}
-            className="px-3 py-1 bg-white/20 rounded-lg"
+            className="px-3 py-1 rounded-lg bg-white/20"
             accessibilityLabel="Shuffle cards"
             accessibilityRole="button"
           >
