@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import CircularProgress from "./CircularProgress";
 import StreakDisplay from "./StreakDisplay";
-import AchievementBadge from "./AchievementBadge";
+import AchievementBadge from "./molecules/AchievementBadge";
 
 // Daily Progress Summary Banner Component with dopamine triggers
 const DailySummary = ({ cardsReviewed, cardsMastered, streak, accuracy }) => {

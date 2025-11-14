@@ -1,31 +1,30 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
+import IconButton from "./atoms/IconButton";
 
 const DeckHeader = ({ topic, nextReview, onBack, onShuffle, showShuffle }) => {
   return (
     <View className="p-4 bg-blue-500">
       <View className="flex-row items-center justify-between">
         <View className="flex-row items-center flex-1">
-          <TouchableOpacity
+          <IconButton
+            icon="←"
             onPress={onBack}
-            className="mr-3"
+            variant="transparent"
+            size="large"
             accessibilityLabel="Go back"
-            accessibilityRole="button"
-          >
-            <Text className="text-2xl text-white">←</Text>
-          </TouchableOpacity>
-          <Text className="text-xl font-bold text-white">
+          />
+          <Text className="ml-2 text-xl font-bold text-white">
             {topic || "Flashcards"}
           </Text>
         </View>
         {showShuffle && (
-          <TouchableOpacity
+          <IconButton
+            icon="🔀"
             onPress={onShuffle}
-            className="px-3 py-1 rounded-lg bg-white/20"
+            variant="transparent"
+            size="medium"
             accessibilityLabel="Shuffle cards"
-            accessibilityRole="button"
-          >
-            <Text className="text-white">🔀</Text>
-          </TouchableOpacity>
+          />
         )}
       </View>
       {nextReview && (

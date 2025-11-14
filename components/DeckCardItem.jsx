@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity, Animated } from "react-native";
 import { useRef, useEffect } from "react";
 import { getProgressFeedback } from "../utils/messages";
+import IconButton from "./atoms/IconButton";
 
 /**
  * DeckCard Component
@@ -48,9 +49,16 @@ const DeckCard = ({ deck, onPress, onDelete }) => {
         <Text className="flex-1 pr-2 text-lg font-bold text-gray-800">
           {deck.topic}
         </Text>
-        <TouchableOpacity onPress={onDelete} style={{ opacity: 0.5 }}>
-          <Text className="text-lg text-gray-400">🗑️</Text>
-        </TouchableOpacity>
+        <IconButton
+          icon="🗑️"
+          onPress={(e) => {
+            e?.stopPropagation?.();
+            onDelete();
+          }}
+          variant="transparent"
+          size="small"
+          accessibilityLabel="Delete deck"
+        />
       </View>
 
       {/* Animated Progress Bar */}

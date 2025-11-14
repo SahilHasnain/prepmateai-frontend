@@ -1,20 +1,21 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, Text } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import LottieView from "lottie-react-native";
 import CircularProgress from "./CircularProgress";
-import AchievementBadge from "./AchievementBadge";
+import AchievementBadge from "./molecules/AchievementBadge";
 import StreakDisplay from "./StreakDisplay";
-import { getRandomQuote } from "../utils/motivationalQuotes";
+import ActionButtons from "./molecules/ActionButtons";
+import ReminderModal from "./molecules/ReminderModal";
 import { playSuccessSound } from "../utils/soundEffects";
 
 // dopamine booster achievement screen after deck completion
 
 const DeckCompleted = ({
   showTimePicker,
-  setShowTimePicker,
+  onShowTimePicker,
+  onHideTimePicker,
   reminderTime,
   setReminderTime,
   onSetReminder,
@@ -100,73 +101,21 @@ const DeckCompleted = ({
         </View>
 
         {/* Action Buttons */}
-        <View className="w-full gap-3">
-          <TouchableOpacity
-            onPress={() => router.push(`/(main)/review?topic=${topic}`)}
-            className="p-3 bg-purple-500 rounded-lg"
-            accessibilityLabel="Review mistakes"
-            accessibilityRole="button"
-          >
-            <Text className="font-bold text-center text-white">
-              Review Mistakes
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => setShowTimePicker(true)}
-            disabled={settingReminder}
-            className="p-3 bg-blue-500 rounded-lg"
-            accessibilityLabel="Set reminder"
-            accessibilityRole="button"
-          >
-            {settingReminder ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text className="font-bold text-center text-white">
-                Set Reminder
-              </Text>
-            )}
-          </TouchableOpacity>
-        </View>
+        <ActionButtons
+          onReviewMistakes={() => router.push(`/(main)/review?topic=${topic}`)}
+          onSetReminder={onShowTimePicker}
+          settingReminder={settingReminder}
+        />
       </Animated.View>
 
-      {showTimePicker && (
-        <View className="absolute inset-0 items-center justify-center bg-black/50">
-          <View className="p-6 bg-white rounded-xl">
-            <Text className="mb-4 text-lg font-bold text-center">
-              Select Reminder Time
-            </Text>
-            <DateTimePicker
-              value={reminderTime}
-              mode="time"
-              display="spinner"
-              onChange={(event, selectedTime) => {
-                if (selectedTime) {
-                  setReminderTime(selectedTime);
-                }
-              }}
-            />
-            <View className="flex-row justify-around mt-4">
-              <TouchableOpacity
-                onPress={() => setShowTimePicker(false)}
-                className="px-6 py-2 bg-gray-300 rounded-lg"
-                accessibilityLabel="Cancel"
-                accessibilityRole="button"
-              >
-                <Text className="font-bold">Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={onSetReminder}
-                className="px-6 py-2 bg-blue-500 rounded-lg"
-                accessibilityLabel="Set reminder time"
-                accessibilityRole="button"
-              >
-                <Text className="font-bold text-white">Set</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      )}
+      {/* Reminder Modal */}
+      <ReminderModal
+        visible={showTimePicker}
+        onClose={onHideTimePicker}
+        onConfirm={onSetReminder}
+        reminderTime={reminderTime}
+        onTimeChange={setReminderTime}
+      />
     </>
   );
 };

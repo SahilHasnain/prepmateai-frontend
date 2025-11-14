@@ -3,8 +3,8 @@ import { View, Text, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useRouter } from "expo-router";
-import Input from "../components/Input";
-import Button from "../components/Button";
+import Input from "../components/atoms/Input";
+import Button from "../components/atoms/Button";
 import { signup } from "../services/appwrite";
 import { getMessage } from "../utils/messages";
 

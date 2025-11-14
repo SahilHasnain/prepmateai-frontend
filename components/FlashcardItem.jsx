@@ -6,6 +6,7 @@ import {
   interpolate,
 } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
+import Badge from "./atoms/Badge";
 
 // Flashcard Item Component with Flip Animation
 const FlashcardItem = ({ question, answer, onFlip, difficulty = "medium" }) => {
@@ -37,19 +38,6 @@ const FlashcardItem = ({ question, answer, onFlip, difficulty = "medium" }) => {
     backfaceVisibility: "hidden",
   }));
 
-  // difficulty tag helps user gauge challenge level (low stress visual cue)
-  const difficultyColors = {
-    easy: "bg-green-100",
-    medium: "bg-yellow-100",
-    hard: "bg-red-100",
-  };
-
-  const difficultyTextColors = {
-    easy: "text-green-700",
-    medium: "text-yellow-700",
-    hard: "text-red-700",
-  };
-
   return (
     <TouchableOpacity
       onPress={flipCard}
@@ -64,14 +52,12 @@ const FlashcardItem = ({ question, answer, onFlip, difficulty = "medium" }) => {
           className="absolute items-center justify-center w-full h-full p-6 bg-white shadow-lg rounded-2xl"
         >
           {/* Difficulty Badge - Top Right Corner */}
-          <View
-            className={`absolute top-4 right-4 px-3 py-1 rounded-full ${difficultyColors[difficulty]}`}
-          >
-            <Text
-              className={`text-xs font-bold uppercase ${difficultyTextColors[difficulty]}`}
-            >
-              {difficulty}
-            </Text>
+          <View className="absolute top-4 right-4">
+            <Badge
+              text={difficulty.toUpperCase()}
+              variant={difficulty}
+              size="small"
+            />
           </View>
 
           <Text className="text-xl font-bold text-center text-gray-800">

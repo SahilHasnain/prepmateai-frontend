@@ -1,15 +1,8 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-  Alert,
-} from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import LottieView from "lottie-react-native";
-import * as Notifications from "expo-notifications";
 import Animated, {
   FadeInRight,
   FadeOutLeft,
@@ -20,10 +13,12 @@ import FlashcardFeedback from "../../components/FlashcardFeedback";
 import DeckHeader from "../../components/DeckHeader";
 import DeckProgress from "../../components/DeckProgress";
 import DeckCompleted from "../../components/DeckCompleted";
+import ErrorState from "../../components/atoms/ErrorState";
 import { useDeckPlayer } from "../../hooks/useDeckPlayer";
 import { useOfflineQueue } from "../../hooks/useOfflineQueue";
 import { useAuth } from "../../hooks/useAuth";
-import { NODE_API_BASE_URL } from "../../config/env";
+import { useReminderManager } from "../../hooks/useReminderManager";
+import { useFeedbackTracking } from "../../hooks/useFeedbackTracking";
 
 function DeckPlayer() {
   const router = useRouter();
@@ -55,16 +50,22 @@ function DeckPlayer() {
     undo,
   } = useOfflineQueue(user?.$id);
 
-  // Local state
+  // Reminder management hook
+  const {
+    showTimePicker,
+    reminderTime,
+    settingReminder,
+    showPicker,
+    hidePicker,
+    setReminderTime,
+    setReminder,
+  } = useReminderManager(user?.$id);
+
+  // Feedback tracking hook
+  const { counts, trackFeedback, revertFeedback } = useFeedbackTracking();
+
+  // Local state (only UI-specific)
   const [showConfetti, setShowConfetti] = useState(false);
-  const [showTimePicker, setShowTimePicker] = useState(false);
-  const [reminderTime, setReminderTime] = useState(new Date());
-  const [settingReminder, setSettingReminder] = useState(false);
-  const [feedbackCounts, setFeedbackCounts] = useState({
-    greens: 0,
-    yellows: 0,
-    reds: 0,
-  });
 
   const currentCard = cards[currentIndex];
   const deckCompleted = cards.length === 0 && reviewedCount > 0;
@@ -96,13 +97,8 @@ function DeckPlayer() {
         index: currentIndex,
       });
 
-      // Track feedback counts
-      setFeedbackCounts((prev) => ({
-        ...prev,
-        greens: prev.greens + (feedback === "remembered" ? 1 : 0),
-        yellows: prev.yellows + (feedback === "unsure" ? 1 : 0),
-        reds: prev.reds + (feedback === "forgot" ? 1 : 0),
-      }));
+      // Track feedback using hook
+      trackFeedback(feedback);
 
       // Instant UI update
       setCards((prev) => prev.filter((_, idx) => idx !== currentIndex));
@@ -120,6 +116,7 @@ function DeckPlayer() {
       setCards,
       setReviewedCount,
       setLastFeedback,
+      trackFeedback,
     ]
   );
 
@@ -128,14 +125,9 @@ function DeckPlayer() {
     const feedback = undo();
     if (!feedback) return;
 
-    // Revert feedback counts
+    // Revert feedback using hook
     const lastFeedbackType = feedback.feedback.feedback;
-    setFeedbackCounts((prev) => ({
-      ...prev,
-      greens: prev.greens - (lastFeedbackType === "remembered" ? 1 : 0),
-      yellows: prev.yellows - (lastFeedbackType === "unsure" ? 1 : 0),
-      reds: prev.reds - (lastFeedbackType === "forgot" ? 1 : 0),
-    }));
+    revertFeedback(lastFeedbackType);
 
     setCards((prev) => {
       const newCards = [...prev];
@@ -143,46 +135,7 @@ function DeckPlayer() {
       return newCards;
     });
     setReviewedCount((prev) => Math.max(0, prev - 1));
-  }, [undo, setCards, setReviewedCount]);
-
-  // Set daily reminder
-  const setDailyReminder = async () => {
-    setSettingReminder(true);
-
-    try {
-      const { status } = await Notifications.requestPermissionsAsync();
-      if (status !== "granted") {
-        throw new Error("Permission not granted for notifications");
-      }
-
-      const pushToken = (await Notifications.getExpoPushTokenAsync()).data;
-      const timeOfDay = reminderTime.toTimeString().slice(0, 5);
-
-      const response = await fetch(`${NODE_API_BASE_URL}/api/reminders/set`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: user.$id,
-          pushToken,
-          timeOfDay,
-          enabled: true,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        Alert.alert("Success", `Daily reminder set for ${timeOfDay}`);
-      } else {
-        throw new Error(result.message || "Failed to set reminder");
-      }
-    } catch (error) {
-      Alert.alert("Error", error.message);
-    } finally {
-      setSettingReminder(false);
-      setShowTimePicker(false);
-    }
-  };
+  }, [undo, setCards, setReviewedCount, revertFeedback]);
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
@@ -195,19 +148,7 @@ function DeckPlayer() {
       />
 
       {/* Error State */}
-      {error && (
-        <View className="items-center justify-center flex-1 px-6">
-          <Text className="mb-4 text-lg text-center text-red-600">
-            ⚠️ {error}
-          </Text>
-          <TouchableOpacity
-            onPress={retry}
-            className="px-6 py-3 bg-blue-500 rounded-lg"
-          >
-            <Text className="font-bold text-white">Retry</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      {error && <ErrorState error={error} onRetry={retry} />}
 
       {/* Card Area */}
       {!error && !deckCompleted && (
@@ -268,18 +209,19 @@ function DeckPlayer() {
       {deckCompleted && (
         <DeckCompleted
           showTimePicker={showTimePicker}
-          setShowTimePicker={setShowTimePicker}
+          onShowTimePicker={showPicker}
+          onHideTimePicker={hidePicker}
           reminderTime={reminderTime}
           setReminderTime={setReminderTime}
-          onSetReminder={setDailyReminder}
+          onSetReminder={setReminder}
           settingReminder={settingReminder}
           reviewedCount={reviewedCount}
           totalCards={totalCards}
           streak={streak}
           topic={topic}
-          greens={feedbackCounts.greens}
-          yellows={feedbackCounts.yellows}
-          reds={feedbackCounts.reds}
+          greens={counts.greens}
+          yellows={counts.yellows}
+          reds={counts.reds}
         />
       )}
 

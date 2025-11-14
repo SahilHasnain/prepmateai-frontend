@@ -1,12 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  RefreshControl,
-  Alert,
-  Animated,
-} from "react-native";
+import { View, Text, Alert, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useRouter } from "expo-router";
@@ -15,7 +7,8 @@ import HeaderHero from "../../components/HeaderHero";
 import SearchBar from "../../components/SearchBar";
 import Fab from "../../components/Fab";
 import EmptyState from "../../components/EmptyState";
-import DeckCardItem from "../../components/DeckCardItem";
+import CardList from "../../components/organisms/CardList";
+import ErrorState from "../../components/atoms/ErrorState";
 import { getMessage, getDailyMessage } from "../../utils/messages";
 import { useAuth } from "../../hooks/useAuth";
 import { useFlashcardStats } from "../../hooks/useFlashcardStats";
@@ -117,17 +110,7 @@ function Flashcards() {
       </View>
 
       {/* Error State */}
-      {error && (
-        <View className="items-center justify-center flex-1 px-6">
-          <Text className="mb-4 text-lg text-red-600">⚠️ {error}</Text>
-          <TouchableOpacity
-            onPress={refresh}
-            className="px-6 py-3 bg-blue-500 rounded-lg"
-          >
-            <Text className="font-bold text-white">Retry</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      {error && <ErrorState error={error} onRetry={refresh} />}
 
       {/* Skeleton Loading */}
       {!error && loading && (
@@ -157,62 +140,14 @@ function Flashcards() {
 
       {/* Deck List */}
       {!error && !loading && filteredDecks.length > 0 && (
-        <FlatList
-          data={filteredDecks}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-          }
-          ListHeaderComponent={
-            stats && stats.cardsReviewedToday > 0 ? (
-              // Dopamine summary card – visual reward for consistency
-              <Animated.View
-                style={{ opacity: fadeAnim }}
-                className="p-4 mx-4 mt-4 bg-white border border-blue-100 shadow-lg rounded-2xl"
-              >
-                <Text className="text-lg font-bold text-gray-800">
-                  {getMessage("summary.title")}
-                </Text>
-
-                <View className="flex-row items-center mt-2">
-                  <Text className="mr-2 text-base text-blue-600">
-                    {getMessage("summary.cardsReviewed", {
-                      count: stats.cardsReviewedToday,
-                    })}
-                  </Text>
-                  <Text className="text-base text-green-600">
-                    {getMessage("summary.cardsMastered", {
-                      count: stats.cardsMasteredToday || 0,
-                    })}
-                  </Text>
-                </View>
-
-                <View className="flex-row items-center justify-between mt-3">
-                  <View className="px-3 py-1 bg-yellow-100 rounded-full">
-                    <Text className="font-semibold text-yellow-700">
-                      {getMessage("summary.badge")}
-                    </Text>
-                  </View>
-                  <Text className="text-xs text-gray-400">
-                    {new Date().toLocaleDateString()}
-                  </Text>
-                </View>
-              </Animated.View>
-            ) : null
-          }
-          renderItem={({ item }) => (
-            <DeckCardItem
-              deck={item}
-              onPress={() => handleDeckPress(item.topic)}
-              onDelete={() => handleDelete(item.deckId, item.topic)}
-            />
-          )}
-          keyExtractor={(item) => item.deckId}
-          contentContainerStyle={{ padding: 16 }}
-          ListFooterComponent={
-            <Text className="mt-6 mb-12 text-center text-gray-400">
-              {getMessage("footer.quote")}
-            </Text>
-          }
+        <CardList
+          decks={filteredDecks}
+          stats={stats}
+          fadeAnim={fadeAnim}
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+          onDeckPress={handleDeckPress}
+          onDelete={handleDelete}
         />
       )}
 
