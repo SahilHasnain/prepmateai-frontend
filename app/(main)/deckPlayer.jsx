@@ -138,7 +138,7 @@ function DeckPlayer() {
   }, [undo, setCards, setReviewedCount, revertFeedback]);
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1" style={{ backgroundColor: "#0F1115" }}>
       <DeckHeader
         topic={topic}
         nextReview={nextReview}

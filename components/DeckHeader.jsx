@@ -1,22 +1,24 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import IconButton from "./atoms/IconButton";
 
 const DeckHeader = ({ topic, nextReview, onBack, onShuffle, showShuffle }) => {
   return (
-    <View className="p-4 bg-blue-500">
-      <View className="flex-row items-center justify-between">
-        <View className="flex-row items-center flex-1">
-          <IconButton
-            icon="←"
-            onPress={onBack}
-            variant="transparent"
-            size="large"
-            accessibilityLabel="Go back"
-          />
-          <Text className="ml-2 text-xl font-bold text-white">
-            {topic || "Flashcards"}
-          </Text>
-        </View>
+    <LinearGradient
+      colors={["#14161A", "#0F1115"]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.header}
+    >
+      <View style={styles.topRow}>
+        <TouchableOpacity
+          onPress={onBack}
+          style={styles.backButton}
+          accessibilityLabel="Go back"
+          accessibilityRole="button"
+        >
+          <Text style={styles.backText}>← Back</Text>
+        </TouchableOpacity>
         {showShuffle && (
           <IconButton
             icon="🔀"
@@ -27,19 +29,73 @@ const DeckHeader = ({ topic, nextReview, onBack, onShuffle, showShuffle }) => {
           />
         )}
       </View>
-      {nextReview && (
-        <Text className="mt-2 text-sm text-white/80">
-          Next review:{" "}
-          {new Date(nextReview).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </Text>
-      )}
-    </View>
+
+      <View style={styles.content}>
+        <Text style={styles.heading}>Let's revise gently 💛</Text>
+        <Text style={styles.subtext}>One small step at a time.</Text>
+        {nextReview && (
+          <Text style={styles.nextReview}>
+            Next review:{" "}
+            {new Date(nextReview).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </Text>
+        )}
+      </View>
+    </LinearGradient>
   );
 };
+
+const styles = StyleSheet.create({
+  header: {
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    paddingBottom: 28,
+  },
+  topRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  backButton: {
+    backgroundColor: "#1C1F24",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  backText: {
+    color: "#CCCCCC",
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  content: {
+    marginTop: 8,
+  },
+  heading: {
+    color: "#EDEDED",
+    fontSize: 24,
+    fontWeight: "700",
+    marginBottom: 6,
+  },
+  subtext: {
+    color: "#9CA3AF",
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  nextReview: {
+    color: "#6B7280",
+    fontSize: 12,
+    marginTop: 4,
+  },
+});
 
 export default DeckHeader;
