@@ -28,7 +28,7 @@ export const useDeckPlayer = (userId, topic) => {
         if (topic) {
           const response = await fetch(
             `${NODE_API_BASE_URL}/api/flashcards/decks/${userId}`,
-            { signal: controller.signal },
+            { signal: controller.signal }
           );
           const result = await response.json();
 
@@ -48,7 +48,7 @@ export const useDeckPlayer = (userId, topic) => {
         } else {
           const response = await fetch(
             `${NODE_API_BASE_URL}/api/due/today/${userId}`,
-            { signal: controller.signal },
+            { signal: controller.signal }
           );
           const result = await response.json();
 
@@ -67,7 +67,7 @@ export const useDeckPlayer = (userId, topic) => {
 
         const summaryResponse = await fetch(
           `${NODE_API_BASE_URL}/api/progress/summary/${userId}`,
-          { signal: controller.signal },
+          { signal: controller.signal }
         );
         const summaryResult = await summaryResponse.json();
 
@@ -99,13 +99,6 @@ export const useDeckPlayer = (userId, topic) => {
     setRetryTrigger((prev) => prev + 1);
   }, []);
 
-  const shuffle = useCallback(() => {
-    if (cards.length === 0) return;
-    const shuffledCards = [...cards].sort(() => Math.random() - 0.5);
-    setCards(shuffledCards);
-    setCurrentIndex(0);
-  }, [cards]);
-
   return {
     cards,
     loading,
@@ -118,6 +111,5 @@ export const useDeckPlayer = (userId, topic) => {
     setCards,
     setReviewedCount,
     retry,
-    shuffle,
   };
 };

@@ -42,14 +42,8 @@ function DeckPlayer() {
     shuffle,
   } = useDeckPlayer(user?.$id, topic);
 
-  const {
-    offlineQueue,
-    submitting,
-    lastFeedback,
-    setLastFeedback,
-    submitFeedback,
-    undo,
-  } = useOfflineQueue(user?.$id);
+  const { lastFeedback, setLastFeedback, submitFeedback, undo } =
+    useOfflineQueue(user?.$id);
 
   // Reminder management hook
   const {
@@ -118,7 +112,7 @@ function DeckPlayer() {
       setReviewedCount,
       setLastFeedback,
       trackFeedback,
-    ],
+    ]
   );
 
   // Handle undo
@@ -140,13 +134,26 @@ function DeckPlayer() {
 
   return (
     <SafeAreaView className="flex-1" style={{ backgroundColor: colors.s1 }}>
-      <DeckHeader
-        topic={topic}
-        nextReview={nextReview}
-        onBack={() => router.back()}
-        onShuffle={shuffle}
-        showShuffle={!deckCompleted && cards.length > 1}
-      />
+      {!deckCompleted && (
+        <DeckHeader
+          topic={topic}
+          nextReview={nextReview}
+          onBack={() => router.back()}
+          onShuffle={shuffle}
+          showShuffle={!deckCompleted && cards.length > 1}
+        />
+      )}
+      {/* Progress Indicator directly under header */}
+      {!deckCompleted && (
+        <DeckProgress
+          reviewedCount={reviewedCount}
+          totalCards={totalCards}
+          greens={counts.greens}
+          yellows={counts.yellows}
+          reds={counts.reds}
+          remaining={cards.length}
+        />
+      )}
 
       {/* Error State */}
       {error && <ErrorState error={error} onRetry={retry} />}
@@ -161,10 +168,10 @@ function DeckPlayer() {
             <Animated.View
               key={currentCard.cardId}
               entering={FadeInRight.duration(400).easing(
-                Easing.out(Easing.cubic),
+                Easing.out(Easing.cubic)
               )}
               exiting={FadeOutLeft.duration(300).easing(
-                Easing.in(Easing.cubic),
+                Easing.in(Easing.cubic)
               )}
               className="w-full"
             >
@@ -223,15 +230,6 @@ function DeckPlayer() {
           greens={counts.greens}
           yellows={counts.yellows}
           reds={counts.reds}
-        />
-      )}
-
-      {/* Progress */}
-      {!error && (
-        <DeckProgress
-          reviewedCount={reviewedCount}
-          remainingCount={cards.length}
-          offlineCount={offlineQueue.length}
         />
       )}
 

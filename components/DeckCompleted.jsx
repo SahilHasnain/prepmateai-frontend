@@ -1,17 +1,19 @@
-import { View, Text } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import Animated, { FadeInUp, FadeIn } from "react-native-reanimated";
 import { useRouter } from "expo-router";
-import { useEffect } from "react";
-import LottieView from "lottie-react-native";
-import CircularProgress from "./CircularProgress";
-import AchievementBadge from "./molecules/AchievementBadge";
-import StreakDisplay from "./StreakDisplay";
-import ActionButtons from "./molecules/ActionButtons";
 import ReminderModal from "./molecules/ReminderModal";
-import { playSuccessSound } from "../utils/soundEffects";
 import { colors } from "../utils/colors";
 
-// dopamine booster achievement screen after deck completion
+/**
+ * DeckCompleted - Atomic Habits + Subtle Art Psychology
+ *
+ * Philosophy:
+ * - No trophies, fireworks, or hype (avoids dopamine addiction)
+ * - Calm reinforcement: "You showed up" > "You're the best!"
+ * - Process over outcome: consistency, not intensity
+ * - Gentle nudges: micro-text, soft animations
+ * - Breathing room: spacious layout, no clustering
+ */
 
 const DeckCompleted = ({
   showTimePicker,
@@ -31,82 +33,103 @@ const DeckCompleted = ({
 }) => {
   const router = useRouter();
 
-  // Motivational result system - replaces numeric score with positive reinforcement
-  // Inspired by mastery learning psychology (low anxiety, high consistency)
-  const score = totalCards > 0 ? (greens * 1 + yellows * 0.5) / totalCards : 0;
-
-  let message, bgGradient;
-  if (score >= 0.85) {
-    message = "🔥 Outstanding recall! You're mastering this topic.";
-    bgGradient = "bg-gradient-to-r from-blue-100 to-blue-200";
-  } else if (score >= 0.6) {
-    message = "💪 Good job! A few cards need a quick review.";
-    bgGradient = "bg-gradient-to-r from-yellow-100 to-yellow-200";
-  } else {
-    message = "📘 Keep going! Every try makes you smarter.";
-    bgGradient = "bg-gradient-to-r from-gray-100 to-gray-200";
-  }
-
-  const percentage = Math.round(score * 100);
-  const stats = { cardsReviewed: reviewedCount, accuracy: percentage, streak };
-
-  useEffect(() => {
-    playSuccessSound();
-  }, []);
-
   return (
     <>
-      {/* subtle enter animation to celebrate completion without being distracting */}
       <Animated.View
-        entering={FadeInUp.duration(350)}
-        className="items-center px-6 mb-6"
+        entering={FadeInUp.duration(600).delay(100)}
+        style={styles.container}
       >
-        {/* Trophy Animation */}
-        <LottieView
-          source={require("../assets/Trophy.json")}
-          autoPlay
-          loop={false}
-          style={{
-            width: 200,
-            height: 200,
-            alignSelf: "center",
-            marginBottom: 16,
-          }}
-        />
-
-        {/* Summary Card */}
-        <View className="w-full p-6 mb-4 bg-white shadow-sm rounded-2xl">
-          <Text className="mb-4 text-2xl font-bold text-center text-gray-800">
-            🎉 Deck Completed!
+        {/* Calm Header */}
+        <Animated.View
+          entering={FadeIn.duration(800).delay(200)}
+          style={styles.header}
+        >
+          <Text style={styles.heading}>Good work today. 🌱</Text>
+          <Text style={styles.subtext}>
+            You learned without forcing — that's real progress. ✨
           </Text>
+        </Animated.View>
 
-          {/* Motivational Message */}
-          <View className={`p-4 mb-4 rounded-xl ${bgGradient}`}>
-            <Text className="text-lg font-bold text-center text-gray-800">
-              {message}
+        {/* Soft Card */}
+        <Animated.View
+          entering={FadeInUp.duration(700).delay(300)}
+          style={styles.card}
+        >
+          <Text style={styles.cardTitle}>🌼 Session complete</Text>
+
+          <View style={styles.messageBlock}>
+            <Text style={styles.message}>
+              Consistency isn't intensity — it's showing up gently.
             </Text>
-            <Text className="mt-2 text-sm text-center text-gray-600">
-              You're getting sharper with every deck! 🔥
+            <Text style={[styles.message, { marginTop: 12 }]}>
+              You added another layer of clarity today. ✨
             </Text>
           </View>
 
-          {/* Streak Display */}
-          <View className="items-center mb-4">
-            <StreakDisplay streak={streak} />
+          {/* Subtle Stats (non-judgmental) */}
+          <View style={styles.statsRow}>
+            <View style={styles.statItem}>
+              <Text style={styles.statLabel}>Reviewed</Text>
+              <Text style={styles.statValue}>{reviewedCount}</Text>
+            </View>
+            <View style={styles.statDivider} />
+            <View style={styles.statItem}>
+              <Text style={styles.statLabel}>Remembered</Text>
+              <Text style={styles.statValue}>{greens}</Text>
+            </View>
+            <View style={styles.statDivider} />
+            <View style={styles.statItem}>
+              <Text style={styles.statLabel}>To revisit</Text>
+              <Text style={styles.statValue}>{reds + yellows}</Text>
+            </View>
           </View>
+        </Animated.View>
 
-          {/* Achievement Badges */}
-          <View className="items-center mb-3">
-            <AchievementBadge stats={stats} />
-          </View>
-        </View>
+        {/* CTAs */}
+        <Animated.View
+          entering={FadeInUp.duration(600).delay(400)}
+          style={styles.ctaContainer}
+        >
+          {/* Primary: Review Mistakes */}
+          <TouchableOpacity
+            style={[styles.button, styles.buttonPrimary]}
+            onPress={() => router.push(`/(main)/flashcards`)}
+            accessibilityLabel="Review mistakes from this session"
+          >
+            <Text style={styles.buttonTextPrimary}>🔍 Review Mistakes</Text>
+          </TouchableOpacity>
 
-        {/* Action Buttons */}
-        <ActionButtons
-          onReviewMistakes={() => router.push(`/(main)/review?topic=${topic}`)}
-          onSetReminder={onShowTimePicker}
-          settingReminder={settingReminder}
-        />
+          {/* Secondary: Set Reminder */}
+          <TouchableOpacity
+            style={[styles.button, styles.buttonSecondary]}
+            onPress={onShowTimePicker}
+            disabled={settingReminder}
+            accessibilityLabel="Set a reminder for next review"
+          >
+            <Text style={styles.buttonTextSecondary}>
+              {settingReminder ? "Setting..." : "⏳ Set a Reminder"}
+            </Text>
+          </TouchableOpacity>
+
+          {/* Ghost: Finish for Now */}
+          <TouchableOpacity
+            style={styles.buttonGhost}
+            onPress={() => router.push("/(main)/dashboard")}
+            accessibilityLabel="Return to dashboard"
+          >
+            <Text style={styles.buttonTextGhost}>Finish for Now</Text>
+          </TouchableOpacity>
+        </Animated.View>
+
+        {/* Micro-text footer */}
+        <Animated.View
+          entering={FadeIn.duration(1000).delay(500)}
+          style={styles.footer}
+        >
+          <Text style={styles.microText}>
+            Tiny reviews compound quietly — trust the process. 🌿
+          </Text>
+        </Animated.View>
       </Animated.View>
 
       {/* Reminder Modal */}
@@ -122,3 +145,143 @@ const DeckCompleted = ({
 };
 
 export default DeckCompleted;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingTop: 32,
+    paddingBottom: 24,
+    backgroundColor: colors.s1,
+  },
+  header: {
+    alignItems: "center",
+    marginBottom: 36,
+  },
+  heading: {
+    fontSize: 28,
+    fontWeight: "600",
+    color: colors.p4,
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  subtext: {
+    fontSize: 15,
+    fontWeight: "400",
+    color: colors.p5,
+    textAlign: "center",
+    lineHeight: 22,
+  },
+  card: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 16,
+    padding: 24,
+    marginBottom: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.064,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#1F2937",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  messageBlock: {
+    marginBottom: 24,
+  },
+  message: {
+    fontSize: 15,
+    fontWeight: "400",
+    color: "#4B5563",
+    lineHeight: 24,
+    textAlign: "center",
+  },
+  statsRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    paddingTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: "#E5E7EB",
+  },
+  statItem: {
+    alignItems: "center",
+  },
+  statLabel: {
+    fontSize: 12,
+    fontWeight: "500",
+    color: "#9CA3AF",
+    marginBottom: 4,
+  },
+  statValue: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#1F2937",
+  },
+  statDivider: {
+    width: 1,
+    height: 40,
+    backgroundColor: "#E5E7EB",
+  },
+  ctaContainer: {
+    gap: 12,
+    marginBottom: 30,
+  },
+  button: {
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonPrimary: {
+    backgroundColor: "#8B5CF6",
+    shadowColor: "#8B5CF6",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  buttonSecondary: {
+    backgroundColor: colors.p2,
+    shadowColor: colors.p2,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  buttonGhost: {
+    backgroundColor: "transparent",
+  },
+  buttonTextPrimary: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#FFFFFF",
+  },
+  buttonTextSecondary: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#FFFFFF",
+  },
+  buttonTextGhost: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: colors.p5,
+  },
+  footer: {
+    alignItems: "center",
+    paddingTop: 16,
+  },
+  microText: {
+    fontSize: 12,
+    fontWeight: "400",
+    color: colors.p5,
+    textAlign: "center",
+    fontStyle: "italic",
+    opacity: 0.8,
+  },
+});
