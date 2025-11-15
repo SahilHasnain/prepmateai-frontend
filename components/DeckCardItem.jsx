@@ -1,12 +1,17 @@
-import { View, Text, TouchableOpacity, Animated } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Animated,
+  StyleSheet,
+} from "react-native";
 import { useRef, useEffect } from "react";
 import { getProgressFeedback } from "../utils/messages";
 import IconButton from "./atoms/IconButton";
 
 /**
- * DeckCard Component
+ * DeckCard Component - Dark mode
  * Individual deck card with animated progress bar and left accent border
- * White background with calm color-coded progress indicators
  */
 const DeckCard = ({ deck, onPress, onDelete }) => {
   const progressAnim = useRef(new Animated.Value(0)).current;
@@ -20,35 +25,35 @@ const DeckCard = ({ deck, onPress, onDelete }) => {
     }).start();
   }, [deck.progress]);
 
-  // Color mapping based on progress (calm, desaturated colors)
+  // Color mapping based on progress (pastel colors for calm aesthetic)
   const leftBorderColor =
     deck.progress >= 1
-      ? "#9ff0bf" // green-300 (-10% saturation)
+      ? "#45F6C3" // Mint
       : deck.progress >= 0.6
-        ? "#fde66d" // yellow-300 (-10% saturation)
-        : "#fcb8b8"; // red-300 (-10% saturation)
+        ? "#FDE68A" // Soft yellow
+        : "#F8B4B4"; // Soft red
 
   const progressBarColor =
     deck.progress >= 1
-      ? "#9ff0bf" // green-300 (reduced saturation)
+      ? "#45F6C3"
       : deck.progress >= 0.6
-        ? "#fde66d" // yellow-300 (reduced saturation)
-        : "#fcb8b8"; // red-300 (reduced saturation)
+        ? "#FDE68A"
+        : "#F8B4B4";
 
   return (
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.7}
-      className="p-4 mb-6 bg-white shadow-sm rounded-2xl"
-      style={{
-        borderLeftWidth: 4,
-        borderLeftColor: leftBorderColor,
-      }}
+      style={[
+        styles.card,
+        {
+          borderLeftWidth: 4,
+          borderLeftColor: leftBorderColor,
+        },
+      ]}
     >
-      <View className="flex-row items-start justify-between mb-3">
-        <Text className="flex-1 pr-2 text-lg font-bold text-gray-800">
-          {deck.topic}
-        </Text>
+      <View style={styles.header}>
+        <Text style={styles.topic}>{deck.topic}</Text>
         <IconButton
           icon="🗑️"
           onPress={(e) => {
@@ -62,25 +67,70 @@ const DeckCard = ({ deck, onPress, onDelete }) => {
       </View>
 
       {/* Animated Progress Bar */}
-      <View className="h-2 overflow-hidden bg-gray-200 rounded-full">
+      <View style={styles.progressBarBg}>
         <Animated.View
-          className="h-full rounded-full"
-          style={{
-            width: progressAnim.interpolate({
-              inputRange: [0, 1],
-              outputRange: ["0%", "100%"],
-            }),
-            backgroundColor: progressBarColor,
-          }}
+          style={[
+            styles.progressBarFill,
+            {
+              width: progressAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: ["0%", "100%"],
+              }),
+              backgroundColor: progressBarColor,
+            },
+          ]}
         />
       </View>
 
       {/* Progress Feedback Text */}
-      <Text className="mt-2 text-xs italic text-gray-500">
+      <Text style={styles.feedbackText}>
         {getProgressFeedback(deck.progress)}
       </Text>
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  card: {
+    padding: 16,
+    marginBottom: 24,
+    backgroundColor: "#1C1F24",
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+    borderRadius: 16,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  },
+  topic: {
+    flex: 1,
+    paddingRight: 8,
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#E5E7EB",
+  },
+  progressBarBg: {
+    height: 8,
+    overflow: "hidden",
+    backgroundColor: "#2A2D33",
+    borderRadius: 9999,
+  },
+  progressBarFill: {
+    height: "100%",
+    borderRadius: 9999,
+  },
+  feedbackText: {
+    marginTop: 8,
+    fontSize: 12,
+    fontStyle: "italic",
+    color: "#9CA3AF",
+  },
+});
 
 export default DeckCard;

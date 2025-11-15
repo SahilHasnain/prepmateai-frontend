@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import { useCallback, useMemo } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useCallback } from "react";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -30,9 +30,9 @@ const DeckCard = ({
   }, [scale]);
 
   const getBorderColor = () => {
-    if (progress >= 0.7) return "border-green-400";
-    if (progress >= 0.4) return "border-yellow-400";
-    return "border-red-400";
+    if (progress >= 0.7) return "#45F6C3"; // Mint
+    if (progress >= 0.4) return "#FDE68A"; // Soft yellow
+    return "#F8B4B4"; // Soft red
   };
 
   return (
@@ -41,38 +41,35 @@ const DeckCard = ({
         onPress={onPress}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
-        className={`p-4 mb-3 bg-white border-2 rounded-xl ${getBorderColor()}`}
+        style={[styles.card, { borderColor: getBorderColor() }]}
       >
-        <View className="flex-row items-center justify-between mb-3">
-          <Text className="flex-1 text-lg font-semibold text-gray-800">
-            {topic}
-          </Text>
+        <View style={styles.header}>
+          <Text style={styles.topic}>{topic}</Text>
           {onDelete && (
             <TouchableOpacity
               onPress={(e) => {
                 e.stopPropagation();
                 onDelete();
               }}
-              className="p-2"
+              style={styles.deleteButton}
             >
-              <Text className="text-red-500">🗑️</Text>
+              <Text style={styles.deleteIcon}>🗑️</Text>
             </TouchableOpacity>
           )}
         </View>
 
-        <View className="h-2 mb-2 overflow-hidden bg-gray-200 rounded-full">
+        <View style={styles.progressBarBg}>
           <View
-            className="h-full bg-blue-500"
-            style={{ width: `${progress * 100}%` }}
+            style={[styles.progressBarFill, { width: `${progress * 100}%` }]}
           />
         </View>
 
-        <View className="flex-row justify-between">
-          <Text className="text-sm text-gray-600">
+        <View style={styles.footer}>
+          <Text style={styles.masteredText}>
             {masteredCards}/{totalCards} Mastered
           </Text>
           {lastReviewed && (
-            <Text className="text-xs text-gray-400">
+            <Text style={styles.dateText}>
               {new Date(lastReviewed).toLocaleDateString()}
             </Text>
           )}
@@ -81,5 +78,63 @@ const DeckCard = ({
     </Animated.View>
   );
 };
+
+const styles = StyleSheet.create({
+  card: {
+    padding: 16,
+    marginBottom: 12,
+    backgroundColor: "#1C1F24",
+    borderWidth: 2,
+    borderRadius: 14,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  },
+  topic: {
+    flex: 1,
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#E5E7EB",
+  },
+  deleteButton: {
+    padding: 8,
+  },
+  deleteIcon: {
+    color: "#F8B4B4",
+    fontSize: 18,
+  },
+  progressBarBg: {
+    height: 8,
+    marginBottom: 8,
+    overflow: "hidden",
+    backgroundColor: "#2A2D33",
+    borderRadius: 9999,
+  },
+  progressBarFill: {
+    height: "100%",
+    backgroundColor: "#93C5FD",
+    borderRadius: 9999,
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  masteredText: {
+    fontSize: 14,
+    color: "#9CA3AF",
+  },
+  dateText: {
+    fontSize: 12,
+    color: "#6B7280",
+  },
+});
 
 export default DeckCard;

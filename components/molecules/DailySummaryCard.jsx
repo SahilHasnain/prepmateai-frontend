@@ -1,48 +1,96 @@
-import { View, Text, Animated } from "react-native";
+import { View, Text, Animated, StyleSheet } from "react-native";
 import { getMessage } from "../../utils/messages";
 
 /**
- * DailySummaryCard Component (Molecule)
- * Displays daily progress summary with dopamine-boosting design
- * Extracted from flashcards.jsx
+ * DailySummaryCard Component (Molecule) - Dark mode
+ * Displays daily progress summary with calming design
  */
 const DailySummaryCard = ({ stats, fadeAnim }) => {
   if (!stats || stats.cardsReviewedToday === 0) return null;
 
   return (
-    <Animated.View
-      style={{ opacity: fadeAnim }}
-      className="p-4 mx-4 mt-4 bg-white border border-blue-100 shadow-lg rounded-2xl"
-    >
-      <Text className="text-lg font-bold text-gray-800">
-        {getMessage("summary.title")}
-      </Text>
+    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+      <Text style={styles.title}>{getMessage("summary.title")}</Text>
 
-      <View className="flex-row items-center mt-2">
-        <Text className="mr-2 text-base text-blue-600">
+      <View style={styles.statsRow}>
+        <Text style={styles.reviewedText}>
           {getMessage("summary.cardsReviewed", {
             count: stats.cardsReviewedToday,
           })}
         </Text>
-        <Text className="text-base text-green-600">
+        <Text style={styles.masteredText}>
           {getMessage("summary.cardsMastered", {
             count: stats.cardsMasteredToday || 0,
           })}
         </Text>
       </View>
 
-      <View className="flex-row items-center justify-between mt-3">
-        <View className="px-3 py-1 bg-yellow-100 rounded-full">
-          <Text className="font-semibold text-yellow-700">
-            {getMessage("summary.badge")}
-          </Text>
+      <View style={styles.footer}>
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{getMessage("summary.badge")}</Text>
         </View>
-        <Text className="text-xs text-gray-400">
-          {new Date().toLocaleDateString()}
-        </Text>
+        <Text style={styles.dateText}>{new Date().toLocaleDateString()}</Text>
       </View>
     </Animated.View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+    marginHorizontal: 16,
+    marginTop: 16,
+    backgroundColor: "#1C1F24",
+    borderWidth: 1.5,
+    borderColor: "rgba(147, 197, 253, 0.2)",
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 6,
+    borderRadius: 16,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#E5E7EB",
+  },
+  statsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 8,
+  },
+  reviewedText: {
+    marginRight: 8,
+    fontSize: 15,
+    color: "#93C5FD",
+  },
+  masteredText: {
+    fontSize: 15,
+    color: "#45F6C3",
+  },
+  footer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 12,
+  },
+  badge: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    backgroundColor: "rgba(253, 230, 138, 0.1)",
+    borderRadius: 9999,
+    borderWidth: 1,
+    borderColor: "rgba(253, 230, 138, 0.2)",
+  },
+  badgeText: {
+    fontWeight: "600",
+    color: "#FDE68A",
+  },
+  dateText: {
+    fontSize: 12,
+    color: "#6B7280",
+  },
+});
 
 export default DailySummaryCard;

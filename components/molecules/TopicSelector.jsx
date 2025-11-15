@@ -1,31 +1,31 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 /**
- * TopicSelector Component (Molecule)
+ * TopicSelector Component (Molecule) - Dark mode
  * Multi-select topic chips for planner
- * Extracted from planner.jsx to reduce screen complexity
  */
 const TopicSelector = ({ topics, selectedTopics, onToggle }) => {
   return (
-    <View className="mb-4">
-      <Text className="mb-2 text-lg font-semibold text-gray-800">
-        Select Weak Topics
-      </Text>
-      <View className="flex-row flex-wrap gap-2">
+    <View style={styles.container}>
+      <Text style={styles.label}>Select Weak Topics</Text>
+      <View style={styles.chipsContainer}>
         {topics.map((topic) => {
           const isSelected = selectedTopics.includes(topic);
           return (
             <TouchableOpacity
               key={topic}
               onPress={() => onToggle(topic)}
-              className={`px-4 py-2 rounded-full ${
-                isSelected ? "bg-blue-500" : "bg-gray-200"
-              }`}
+              style={[
+                styles.chip,
+                isSelected ? styles.chipSelected : styles.chipUnselected,
+              ]}
               accessibilityLabel={`${topic} topic`}
               accessibilityRole="button"
               accessibilityState={{ selected: isSelected }}
             >
-              <Text className={isSelected ? "text-white" : "text-gray-800"}>
+              <Text
+                style={isSelected ? styles.textSelected : styles.textUnselected}
+              >
                 {topic}
               </Text>
             </TouchableOpacity>
@@ -35,5 +35,43 @@ const TopicSelector = ({ topics, selectedTopics, onToggle }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 16,
+  },
+  label: {
+    marginBottom: 8,
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#E5E7EB",
+  },
+  chipsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  chip: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 9999,
+    borderWidth: 1.5,
+  },
+  chipSelected: {
+    backgroundColor: "#93C5FD",
+    borderColor: "#93C5FD",
+  },
+  chipUnselected: {
+    backgroundColor: "#1C1F24",
+    borderColor: "#2A2D33",
+  },
+  textSelected: {
+    color: "#0F1115",
+    fontWeight: "600",
+  },
+  textUnselected: {
+    color: "#E5E7EB",
+  },
+});
 
 export default TopicSelector;

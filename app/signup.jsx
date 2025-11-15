@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, StyleSheet, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useRouter } from "expo-router";
@@ -8,7 +8,7 @@ import Button from "../components/atoms/Button";
 import { signup } from "../services/appwrite";
 import { getMessage } from "../utils/messages";
 
-// Signup screen with form validation
+// Signup screen - dark mode with supportive language for NEET/JEE students
 export default function Signup() {
   const router = useRouter();
   const [form, setForm] = useState({
@@ -22,18 +22,18 @@ export default function Signup() {
   const handleSignup = async () => {
     // Basic frontend validation before Appwrite signup
     if (form.password !== form.confirmPassword) {
-      Alert.alert("Error", getMessage("errors.passwordMismatch"));
+      Alert.alert("Password mismatch", getMessage("errors.passwordMismatch"));
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(form.email)) {
-      Alert.alert("Error", getMessage("errors.invalidEmail"));
+      Alert.alert("Invalid email", getMessage("errors.invalidEmail"));
       return;
     }
 
     if (form.password.length < 6) {
-      Alert.alert("Error", getMessage("errors.passwordTooShort"));
+      Alert.alert("Weak password", getMessage("errors.passwordTooShort"));
       return;
     }
 
@@ -48,19 +48,21 @@ export default function Signup() {
     if (success) {
       router.push("/dashboard");
     } else {
-      Alert.alert(getMessage("errors.signupFailed"), error);
+      Alert.alert("Couldn't create account", error || "Please try again.");
     }
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView style={styles.safeArea}>
       <KeyboardAwareScrollView
-        className="flex-1"
+        style={styles.scrollView}
         contentContainerStyle={{ flexGrow: 1 }}
       >
-        <View className="flex-1 justify-center px-6 py-12">
-          <Text className="text-3xl font-bold text-center mb-8">
-            Create Account
+        <View style={styles.container}>
+          <Text style={styles.heading}>Start your journey 🌱</Text>
+          <Text style={styles.subtitle}>
+            Create an account and begin building your future, one step at a
+            time.
           </Text>
 
           <Input
@@ -96,15 +98,54 @@ export default function Signup() {
 
           <Button title="Sign Up" onPress={handleSignup} loading={loading} />
 
-          <Text
-            className="text-center text-gray-600 mt-6"
-            onPress={() => router.push("/login")}
-          >
-            Already have an account?{" "}
-            <Text className="text-blue-500 font-semibold">Login</Text>
-          </Text>
+          <TouchableOpacity onPress={() => router.push("/login")}>
+            <Text style={styles.footerText}>
+              Already have an account?{" "}
+              <Text style={styles.footerLink}>Login</Text>
+            </Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#0F1115",
+  },
+  scrollView: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: 24,
+    paddingVertical: 48,
+  },
+  heading: {
+    fontSize: 30,
+    fontWeight: "700",
+    color: "#E5E7EB",
+    textAlign: "center",
+    marginBottom: 12,
+  },
+  subtitle: {
+    fontSize: 15,
+    color: "#9CA3AF",
+    textAlign: "center",
+    marginBottom: 32,
+    lineHeight: 22,
+  },
+  footerText: {
+    textAlign: "center",
+    color: "#9CA3AF",
+    marginTop: 24,
+    fontSize: 15,
+  },
+  footerLink: {
+    color: "#93C5FD", // Pastel sky blue
+    fontWeight: "600",
+  },
+});

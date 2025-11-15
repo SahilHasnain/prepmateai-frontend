@@ -1,5 +1,5 @@
 // New Deck Generator Screen - AI creates flashcards
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { useRouter } from "expo-router";
@@ -17,7 +17,7 @@ export default function NewDeck() {
 
   const handleGenerate = async () => {
     if (!topic.trim()) {
-      Alert.alert("Error", getMessage("errors.invalidTopic"));
+      Alert.alert("Topic needed", getMessage("errors.invalidTopic"));
       return;
     }
 
@@ -34,26 +34,27 @@ export default function NewDeck() {
       const json = await res.json();
 
       if (json.success) {
-        Alert.alert(
-          getMessage("success.deckCreated"),
-          getMessage("success.deckCreated")
-        );
+        Alert.alert("Deck created! 🎉", "Your flashcards are ready to review.");
         router.back();
       } else {
-        Alert.alert("Error", json.message || getMessage("errors.saveFailed"));
+        Alert.alert(
+          "Couldn't create deck",
+          json.message || getMessage("errors.saveFailed")
+        );
       }
     } catch (e) {
-      Alert.alert("Error", getMessage("errors.networkError"));
+      Alert.alert("Network issue", getMessage("errors.networkError"));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      <View className="p-6">
-        <Text className="text-2xl font-bold text-gray-800 mb-6">
-          Create New Deck
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <Text style={styles.heading}>Create a new deck 🌱</Text>
+        <Text style={styles.subtitle}>
+          Enter any topic — AI will generate thoughtful flashcards for you.
         </Text>
 
         <Input
@@ -72,3 +73,25 @@ export default function NewDeck() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#0F1115",
+  },
+  container: {
+    padding: 24,
+  },
+  heading: {
+    fontSize: 26,
+    fontWeight: "700",
+    color: "#E5E7EB",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 15,
+    color: "#9CA3AF",
+    marginBottom: 24,
+    lineHeight: 22,
+  },
+});

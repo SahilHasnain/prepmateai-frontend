@@ -1,6 +1,6 @@
-import { View, Text } from "react-native";
-import Input from "../Input";
-import Button from "../Button";
+import { View, Text, StyleSheet } from "react-native";
+import Input from "../atoms/Input";
+import Button from "../atoms/Button";
 import TopicSelector from "../molecules/TopicSelector";
 import PlanItem from "../molecules/PlanItem";
 import { usePlannerForm } from "../../hooks/usePlannerForm";
@@ -19,7 +19,7 @@ const AVAILABLE_TOPICS = [
 ];
 
 /**
- * PlannerForm Component (Organism)
+ * PlannerForm Component (Organism) - Dark mode
  * Pure presentation component for study planner
  * Business logic extracted to usePlannerForm hook
  */
@@ -36,9 +36,10 @@ const PlannerForm = ({ userId }) => {
   } = usePlannerForm(userId);
 
   return (
-    <View className="flex-1 p-4">
-      <Text className="mb-4 text-2xl font-bold text-gray-800">
-        Study Planner
+    <View style={styles.container}>
+      <Text style={styles.heading}>Study Planner 📝</Text>
+      <Text style={styles.subtitle}>
+        Build a personalized study schedule that works for you.
       </Text>
 
       {/* Topic Selection */}
@@ -66,10 +67,8 @@ const PlannerForm = ({ userId }) => {
 
       {/* Plan Display */}
       {plan.length > 0 && (
-        <View className="mt-6">
-          <Text className="mb-3 text-xl font-bold text-gray-800">
-            Your Study Plan
-          </Text>
+        <View style={styles.planSection}>
+          <Text style={styles.planHeading}>Your Study Plan</Text>
           {plan.map((item, index) => (
             <PlanItem
               key={index}
@@ -83,5 +82,33 @@ const PlannerForm = ({ userId }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  heading: {
+    marginBottom: 8,
+    fontSize: 26,
+    fontWeight: "700",
+    color: "#E5E7EB",
+  },
+  subtitle: {
+    marginBottom: 16,
+    fontSize: 15,
+    color: "#9CA3AF",
+    lineHeight: 22,
+  },
+  planSection: {
+    marginTop: 24,
+  },
+  planHeading: {
+    marginBottom: 12,
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#E5E7EB",
+  },
+});
 
 export default PlannerForm;

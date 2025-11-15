@@ -1,19 +1,39 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Badge from "../atoms/Badge";
 
 /**
- * PlanItem Component (Molecule)
+ * PlanItem Component (Molecule) - Dark mode
  * Individual study plan item card with topic, duration, and difficulty
- * Extracted from planner.jsx
  */
 const PlanItem = ({ topic, duration, difficulty }) => {
   return (
-    <View className="p-4 mb-3 border border-gray-200 rounded-lg bg-gray-50">
-      <Text className="mb-1 text-lg font-semibold text-gray-800">{topic}</Text>
-      <Text className="mb-2 text-gray-600">{duration} minutes</Text>
+    <View style={styles.container}>
+      <Text style={styles.topic}>{topic}</Text>
+      <Text style={styles.duration}>{duration} minutes</Text>
       <Badge text={difficulty} variant={difficulty} size="small" />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+    marginBottom: 12,
+    borderWidth: 1.5,
+    borderColor: "#2A2D33",
+    borderRadius: 12,
+    backgroundColor: "#1C1F24",
+  },
+  topic: {
+    marginBottom: 4,
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#E5E7EB",
+  },
+  duration: {
+    marginBottom: 8,
+    color: "#9CA3AF",
+  },
+});
 
 export default PlanItem;

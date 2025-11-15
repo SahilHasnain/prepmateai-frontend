@@ -1,4 +1,4 @@
-import { View, Text, Alert, Animated } from "react-native";
+import { View, Text, Alert, Animated, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useRouter } from "expo-router";
@@ -95,7 +95,7 @@ function Flashcards() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50" edges={["top"]}>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
       {/* Sticky Header */}
       <HeaderHero stats={stats} subtitleFadeAnim={subtitleFadeAnim} />
 
@@ -105,8 +105,8 @@ function Flashcards() {
       )}
 
       {/* Daily Message */}
-      <View className="p-3 mx-4 mt-4 bg-blue-100 border border-blue-200 rounded-xl">
-        <Text className="text-center text-gray-800">{message}</Text>
+      <View style={styles.messageCard}>
+        <Text style={styles.messageText}>{message}</Text>
       </View>
 
       {/* Error State */}
@@ -114,25 +114,25 @@ function Flashcards() {
 
       {/* Skeleton Loading */}
       {!error && loading && (
-        <View className="px-4 mt-4">
+        <View style={styles.skeletonContainer}>
           <DeckSkeleton />
           <DeckSkeleton />
           <DeckSkeleton />
         </View>
       )}
 
-      {/* Premium calm empty state – emotional onboarding for first-time learners */}
+      {/* Premium calm empty state */}
       {!error && !loading && decks.length === 0 && (
         <EmptyState onCreateDeck={() => router.push("/new-deck")} />
       )}
 
       {/* No Search Results */}
       {!error && !loading && decks.length > 0 && filteredDecks.length === 0 && (
-        <View className="items-center justify-center flex-1 px-6">
-          <Text className="mb-2 text-lg font-semibold text-gray-700">
+        <View style={styles.noResultsContainer}>
+          <Text style={styles.noResultsTitle}>
             {getMessage("noResults.title")}
           </Text>
-          <Text className="text-gray-500">
+          <Text style={styles.noResultsSubtitle}>
             {getMessage("noResults.subtitle")}
           </Text>
         </View>
@@ -156,5 +156,47 @@ function Flashcards() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#0F1115",
+  },
+  messageCard: {
+    padding: 12,
+    marginHorizontal: 16,
+    marginTop: 16,
+    backgroundColor: "rgba(147, 197, 253, 0.1)",
+    borderWidth: 1,
+    borderColor: "rgba(147, 197, 253, 0.2)",
+    borderRadius: 14,
+  },
+  messageText: {
+    textAlign: "center",
+    color: "#93C5FD",
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  skeletonContainer: {
+    paddingHorizontal: 16,
+    marginTop: 16,
+  },
+  noResultsContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 24,
+  },
+  noResultsTitle: {
+    marginBottom: 8,
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#E5E7EB",
+  },
+  noResultsSubtitle: {
+    color: "#9CA3AF",
+    fontSize: 15,
+  },
+});
 
 export default Flashcards;

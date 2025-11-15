@@ -1,12 +1,11 @@
-import { FlatList, RefreshControl, View, Text } from "react-native";
+import { FlatList, RefreshControl, View, Text, StyleSheet } from "react-native";
 import DeckCardItem from "../DeckCardItem";
 import DailySummaryCard from "../molecules/DailySummaryCard";
 import { getMessage } from "../../utils/messages";
 
 /**
- * CardList Component (Organism)
+ * CardList Component (Organism) - Dark mode
  * Complete deck list rendering with summary, refresh control, and empty states
- * Extracted from flashcards.jsx to follow atomic design
  */
 const CardList = ({
   decks,
@@ -21,7 +20,11 @@ const CardList = ({
     <FlatList
       data={decks}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor="#9CA3AF"
+        />
       }
       ListHeaderComponent={
         <DailySummaryCard stats={stats} fadeAnim={fadeAnim} />
@@ -34,14 +37,26 @@ const CardList = ({
         />
       )}
       keyExtractor={(item) => item.deckId}
-      contentContainerStyle={{ padding: 16 }}
+      contentContainerStyle={styles.contentContainer}
       ListFooterComponent={
-        <Text className="mt-6 mb-12 text-center text-gray-400">
-          {getMessage("footer.quote")}
-        </Text>
+        <Text style={styles.footerText}>{getMessage("footer.quote")}</Text>
       }
     />
   );
 };
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    padding: 16,
+  },
+  footerText: {
+    marginTop: 24,
+    marginBottom: 48,
+    textAlign: "center",
+    color: "#6B7280",
+    fontSize: 14,
+    fontStyle: "italic",
+  },
+});
 
 export default CardList;

@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -19,15 +19,42 @@ const DeckSkeleton = () => {
   }));
 
   return (
-    <Animated.View
-      style={animatedStyle}
-      className="p-4 mb-3 bg-white border-2 border-gray-200 rounded-xl"
-    >
-      <View className="w-3/4 h-6 mb-3 bg-gray-200 rounded" />
-      <View className="h-2 mb-2 bg-gray-200 rounded-full" />
-      <View className="w-1/2 h-4 bg-gray-200 rounded" />
+    <Animated.View style={[animatedStyle, styles.container]}>
+      <View style={styles.titleBar} />
+      <View style={styles.progressBar} />
+      <View style={styles.footerBar} />
     </Animated.View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+    marginBottom: 12,
+    backgroundColor: "#1C1F24",
+    borderWidth: 2,
+    borderColor: "#2A2D33",
+    borderRadius: 14,
+  },
+  titleBar: {
+    width: "75%",
+    height: 24,
+    marginBottom: 12,
+    backgroundColor: "#2A2D33",
+    borderRadius: 6,
+  },
+  progressBar: {
+    height: 8,
+    marginBottom: 8,
+    backgroundColor: "#2A2D33",
+    borderRadius: 9999,
+  },
+  footerBar: {
+    width: "50%",
+    height: 16,
+    backgroundColor: "#2A2D33",
+    borderRadius: 6,
+  },
+});
 
 export default DeckSkeleton;

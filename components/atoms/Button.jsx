@@ -1,6 +1,11 @@
-import { TouchableOpacity, Text, ActivityIndicator } from "react-native";
+import {
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
 
-// Atom: Button - reusable action trigger with variant + loading
+// Atom: Button - dark mode action button with calming aesthetics
 export default function Button({
   title,
   onPress,
@@ -13,21 +18,49 @@ export default function Button({
     <TouchableOpacity
       onPress={onPress}
       disabled={loading}
-      className={`py-3 rounded-xl items-center ${
-        isOutline ? "border border-blue-500 bg-transparent" : "bg-blue-500"
-      }`}
+      style={[
+        styles.button,
+        isOutline ? styles.buttonOutline : styles.buttonDefault,
+      ]}
     >
       {loading ? (
-        <ActivityIndicator color={isOutline ? "#3b82f6" : "#fff"} />
+        <ActivityIndicator color={isOutline ? "#93C5FD" : "#E5E7EB"} />
       ) : (
-        <Text
-          className={`font-semibold ${
-            isOutline ? "text-blue-500" : "text-white"
-          }`}
-        >
+        <Text style={isOutline ? styles.textOutline : styles.textDefault}>
           {title}
         </Text>
       )}
     </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    paddingVertical: 14,
+    borderRadius: 14,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  buttonDefault: {
+    backgroundColor: "#2A2D33", // Soft dark button
+  },
+  buttonOutline: {
+    backgroundColor: "transparent",
+    borderWidth: 1.5,
+    borderColor: "#3A3D43",
+  },
+  textDefault: {
+    color: "#E5E7EB",
+    fontWeight: "600",
+    fontSize: 16,
+  },
+  textOutline: {
+    color: "#93C5FD", // Pastel sky blue
+    fontWeight: "600",
+    fontSize: 16,
+  },
+});

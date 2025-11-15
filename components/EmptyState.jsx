@@ -1,90 +1,117 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { getMessage } from "../utils/messages";
 
 /**
- * EmptyState Component
- * First-time user onboarding with illustration and CTA
- * Centered layout with emotional encouragement
+ * EmptyState - Dark mode first-time onboarding
+ * Encouraging message for NEET/JEE students starting their journey
  */
 const EmptyState = ({ onCreateDeck }) => {
   return (
-    <View
-      className="items-center justify-center flex-1 px-6"
-      style={{ marginTop: -20 }}
-    >
+    <View style={styles.container}>
       {/* Illustration */}
-      <View className="items-center">
-        <Text style={{ fontSize: 80, lineHeight: 90 }}>📚</Text>
-        <View
-          className="px-6 py-2 bg-white rounded-full"
-          style={{
-            marginTop: 10,
-            shadowColor: "#6366f1",
-            shadowOpacity: 0.1,
-            shadowRadius: 12,
-            shadowOffset: { width: 0, height: 4 },
-            elevation: 3,
-          }}
-        >
-          <Text className="text-xs font-medium text-indigo-500">
-            {getMessage("emptyState.badge")}
-          </Text>
+      <View style={styles.illustration}>
+        <Text style={styles.emoji}>📚</Text>
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{getMessage("emptyState.badge")}</Text>
         </View>
       </View>
 
       {/* Title */}
-      <Text
-        className="mb-2 text-2xl font-bold text-center text-gray-800"
-        style={{ marginTop: 24 }}
-      >
-        {getMessage("emptyState.title")}
-      </Text>
+      <Text style={styles.title}>{getMessage("emptyState.title")}</Text>
 
       {/* Subtitle */}
-      <Text
-        className="max-w-xs text-base leading-6 text-center text-gray-500"
-        style={{ marginBottom: 24 }}
-      >
-        {getMessage("emptyState.subtitle")}
-      </Text>
+      <Text style={styles.subtitle}>{getMessage("emptyState.subtitle")}</Text>
 
       {/* CTA Button */}
       <TouchableOpacity
         onPress={onCreateDeck}
         activeOpacity={0.8}
-        style={{ marginTop: 12 }}
+        style={styles.button}
       >
-        <LinearGradient
-          colors={["#6366f1", "#8b5cf6"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={{
-            paddingVertical: 16,
-            paddingHorizontal: 32,
-            borderRadius: 12, // rounded-xl
-            shadowColor: "#6366f1",
-            shadowOpacity: 0.25,
-            shadowRadius: 12,
-            shadowOffset: { width: 0, height: 4 },
-            elevation: 6,
-          }}
-        >
-          <Text className="text-base font-semibold text-center text-white">
-            {getMessage("emptyState.ctaButton")}
-          </Text>
-        </LinearGradient>
+        <Text style={styles.buttonText}>
+          {getMessage("emptyState.ctaButton")}
+        </Text>
       </TouchableOpacity>
 
       {/* Helper text */}
-      <Text
-        className="text-xs text-center text-gray-400"
-        style={{ marginTop: 16 }}
-      >
+      <Text style={styles.helperText}>
         {getMessage("emptyState.helperText")}
       </Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 24,
+    marginTop: -20,
+  },
+  illustration: {
+    alignItems: "center",
+  },
+  emoji: {
+    fontSize: 80,
+    lineHeight: 90,
+  },
+  badge: {
+    paddingHorizontal: 24,
+    paddingVertical: 8,
+    backgroundColor: "rgba(69, 246, 195, 0.1)",
+    borderRadius: 9999,
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: "rgba(69, 246, 195, 0.2)",
+  },
+  badgeText: {
+    fontSize: 12,
+    fontWeight: "500",
+    color: "#45F6C3",
+  },
+  title: {
+    marginTop: 24,
+    marginBottom: 8,
+    fontSize: 24,
+    fontWeight: "700",
+    textAlign: "center",
+    color: "#E5E7EB",
+  },
+  subtitle: {
+    maxWidth: 320,
+    fontSize: 16,
+    lineHeight: 24,
+    textAlign: "center",
+    color: "#9CA3AF",
+    marginBottom: 24,
+  },
+  button: {
+    marginTop: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    borderRadius: 14,
+    backgroundColor: "#2A2D33",
+    shadowColor: "#000",
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 6,
+    borderWidth: 1.5,
+    borderColor: "#3A3D43",
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "600",
+    textAlign: "center",
+    color: "#E5E7EB",
+  },
+  helperText: {
+    marginTop: 16,
+    fontSize: 12,
+    textAlign: "center",
+    color: "#6B7280",
+  },
+});
 
 export default EmptyState;

@@ -1,38 +1,55 @@
-import { View, TextInput } from "react-native";
+import { View, TextInput, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { getMessage } from "../utils/messages";
 
 /**
- * SearchBar Component
- * Glass-morphism style search input with icon
- * Sticky positioning below header
+ * SearchBar Component - Dark mode
+ * Minimalist search input for deck filtering
  */
 const SearchBar = ({ value, onChangeText }) => {
   return (
-    <View className="px-4 py-3 bg-gray-50">
-      <View
-        className="flex-row items-center px-4 py-3 rounded-2xl"
-        style={{
-          backgroundColor: "rgba(255, 255, 255, 0.95)",
-          shadowColor: "#6366f1",
-          shadowOpacity: 0.06,
-          shadowRadius: 12,
-          shadowOffset: { width: 0, height: 2 },
-          elevation: 2,
-        }}
-      >
-        <Feather name="search" size={20} color="#9ca3af" />
+    <View style={styles.container}>
+      <View style={styles.inputContainer}>
+        <Feather name="search" size={20} color="#6B7280" />
         <TextInput
           value={value}
           onChangeText={onChangeText}
           placeholder={getMessage("search.placeholder")}
-          placeholderTextColor="#9ca3af"
-          className="flex-1 ml-3 text-gray-700"
-          style={{ fontSize: 15 }}
+          placeholderTextColor="#6B7280"
+          style={styles.input}
         />
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: "#0F1115",
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 14,
+    backgroundColor: "#1C1F24",
+    borderWidth: 1.5,
+    borderColor: "#2A2D33",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+  },
+  input: {
+    flex: 1,
+    marginLeft: 12,
+    fontSize: 15,
+    color: "#E5E7EB",
+  },
+});
 
 export default SearchBar;

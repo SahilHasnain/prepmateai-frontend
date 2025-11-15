@@ -1,7 +1,7 @@
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
 /**
- * IconButton Component (Atom)
+ * IconButton Component (Atom) - Dark mode
  * Reusable icon button for actions like delete, shuffle, back
  */
 const IconButton = ({
@@ -13,36 +13,48 @@ const IconButton = ({
   disabled = false,
 }) => {
   const variantStyles = {
-    primary: "bg-blue-500",
-    danger: "bg-red-500",
-    transparent: "bg-transparent",
-    default: "bg-gray-200",
+    primary: "#93C5FD",
+    danger: "#F8B4B4",
+    transparent: "transparent",
+    default: "#2A2D33",
   };
 
   const sizeStyles = {
-    small: "p-1",
-    medium: "p-2",
-    large: "p-3",
+    small: 4,
+    medium: 8,
+    large: 12,
   };
 
   const iconSizes = {
-    small: "text-sm",
-    medium: "text-base",
-    large: "text-2xl",
+    small: 14,
+    medium: 16,
+    large: 24,
   };
 
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
-      className={`rounded-full ${variantStyles[variant]} ${sizeStyles[size]}`}
+      style={[
+        styles.button,
+        {
+          backgroundColor: variantStyles[variant],
+          padding: sizeStyles[size],
+          opacity: disabled ? 0.5 : 1,
+        },
+      ]}
       accessibilityLabel={accessibilityLabel}
       accessibilityRole="button"
-      style={{ opacity: disabled ? 0.5 : 1 }}
     >
-      <Text className={iconSizes[size]}>{icon}</Text>
+      <Text style={{ fontSize: iconSizes[size] }}>{icon}</Text>
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    borderRadius: 9999,
+  },
+});
 
 export default IconButton;
