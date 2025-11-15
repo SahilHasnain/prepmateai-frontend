@@ -8,6 +8,7 @@ import Button from "../../components/atoms/Button";
 import { NODE_API_BASE_URL } from "../../config/env";
 import { useAuth } from "../../hooks/useAuth";
 import { getMessage } from "../../utils/messages";
+import { colors, gradients } from "../../utils/colors";
 
 export default function NewDeck() {
   const router = useRouter();
@@ -77,7 +78,7 @@ export default function NewDeck() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#0F1115",
+    backgroundColor: colors.s1,
   },
   container: {
     padding: 24,
@@ -85,12 +86,12 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 26,
     fontWeight: "700",
-    color: "#E5E7EB",
+    color: colors.p4,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 15,
-    color: "#9CA3AF",
+    color: colors.p5,
     marginBottom: 24,
     lineHeight: 22,
   },

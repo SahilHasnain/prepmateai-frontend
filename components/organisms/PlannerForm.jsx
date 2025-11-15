@@ -5,6 +5,7 @@ import TopicSelector from "../molecules/TopicSelector";
 import PlanItem from "../molecules/PlanItem";
 import { usePlannerForm } from "../../hooks/usePlannerForm";
 import { getMessage } from "../../utils/messages";
+import { colors, gradients, shadows } from "../../utils/colors";
 
 // Available topics for NEET/JEE
 const AVAILABLE_TOPICS = [
@@ -92,12 +93,12 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     fontSize: 26,
     fontWeight: "700",
-    color: "#E5E7EB",
+    color: colors.p4,
   },
   subtitle: {
     marginBottom: 16,
     fontSize: 15,
-    color: "#9CA3AF",
+    color: colors.p5,
     lineHeight: 22,
   },
   planSection: {
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     fontSize: 20,
     fontWeight: "700",
-    color: "#E5E7EB",
+    color: colors.p4,
   },
 });
 

@@ -1,4 +1,5 @@
 import { View, ActivityIndicator, Text, StyleSheet } from "react-native";
+import { colors, gradients, shadows } from "../../utils/colors";
 
 /**
  * LoadingState Component (Atom) - Dark mode
@@ -7,7 +8,7 @@ import { View, ActivityIndicator, Text, StyleSheet } from "react-native";
 const LoadingState = ({ message = "Loading..." }) => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="#45F6C3" />
+      <ActivityIndicator size="large" color={colors.p1} />
       {message && <Text style={styles.message}>{message}</Text>}
     </View>
   );
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
   message: {
     marginTop: 12,
     fontSize: 16,
-    color: "#9CA3AF",
+    color: colors.p5,
   },
 });
 

@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { getMessage } from "../utils/messages";
+import { colors } from "../utils/colors";
 
 /**
  * EmptyState - Dark mode first-time onboarding
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
   badgeText: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#45F6C3",
+    color: colors.p1,
   },
   title: {
     marginTop: 24,
@@ -76,14 +77,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "700",
     textAlign: "center",
-    color: "#E5E7EB",
+    color: colors.p4,
   },
   subtitle: {
     maxWidth: 320,
     fontSize: 16,
     lineHeight: 24,
     textAlign: "center",
-    color: "#9CA3AF",
+    color: colors.p5,
     marginBottom: 24,
   },
   button: {
@@ -91,26 +92,26 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 32,
     borderRadius: 14,
-    backgroundColor: "#2A2D33",
+    backgroundColor: colors.s3,
     shadowColor: "#000",
     shadowOpacity: 0.25,
     shadowRadius: 12,
     shadowOffset: { width: 0, height: 4 },
     elevation: 6,
     borderWidth: 1.5,
-    borderColor: "#3A3D43",
+    borderColor: colors.s3,
   },
   buttonText: {
     fontSize: 16,
     fontWeight: "600",
     textAlign: "center",
-    color: "#E5E7EB",
+    color: colors.p4,
   },
   helperText: {
     marginTop: 16,
     fontSize: 12,
     textAlign: "center",
-    color: "#6B7280",
+    color: colors.p5,
   },
 });
 

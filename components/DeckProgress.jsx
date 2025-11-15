@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
+import { colors } from "../utils/colors";
 
 const DeckProgress = ({ reviewedCount, remainingCount, offlineCount }) => {
   const totalCards = reviewedCount + remainingCount;
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
   progressText: {
-    color: "#9CA3AF",
+    color: colors.p5,
     fontSize: 14,
     fontWeight: "400",
   },
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     fontSize: 12,
     textAlign: "center",
-    color: "#6B7280",
+    color: colors.p5,
     fontStyle: "italic",
   },
 });

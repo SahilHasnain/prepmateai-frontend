@@ -1,4 +1,5 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { colors, gradients, shadows } from "../../utils/colors";
 
 /**
  * ErrorState Component (Atom) - Dark mode
@@ -34,14 +35,14 @@ const styles = StyleSheet.create({
   retryButton: {
     paddingHorizontal: 24,
     paddingVertical: 12,
-    backgroundColor: "#2A2D33",
+    backgroundColor: colors.s3,
     borderRadius: 12,
     borderWidth: 1.5,
-    borderColor: "#3A3D43",
+    borderColor: colors.s3,
   },
   retryText: {
     fontWeight: "700",
-    color: "#E5E7EB",
+    color: colors.p4,
     fontSize: 16,
   },
 });

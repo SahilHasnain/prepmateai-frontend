@@ -8,6 +8,7 @@ import {
   withSpring,
 } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
+import { colors } from "../utils/colors";
 
 // Flashcard Item Component with Flip Animation - Dark Mode
 const FlashcardItem = ({ question, answer, onFlip, difficulty = "medium" }) => {
@@ -49,11 +50,11 @@ const FlashcardItem = ({ question, answer, onFlip, difficulty = "medium" }) => {
   const getDifficultyStyle = () => {
     switch (difficulty) {
       case "easy":
-        return { bg: "#324D44", text: "#45F6C3" };
+        return { bg: "#324D44", text: colors.p1 };
       case "hard":
         return { bg: "#4A2F2F", text: "#F8B4B4" };
       default:
-        return { bg: "#3F3A1F", text: "#FDE68A" };
+        return { bg: "#3F3A1F", text: colors.p3 };
     }
   };
 
@@ -107,14 +108,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     height: "100%",
-    backgroundColor: "#1C1F24",
+    backgroundColor: colors.s2,
     borderRadius: 26,
     paddingVertical: 28,
     paddingHorizontal: 22,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#2A2D33",
+    borderColor: colors.s3,
   },
   cardShadow: {
     shadowColor: "#000",
@@ -139,21 +140,21 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   questionText: {
-    color: "#E5E7EB",
+    color: colors.p4,
     fontSize: 20,
     fontWeight: "600",
     textAlign: "center",
     lineHeight: 28,
   },
   answerText: {
-    color: "#E5E7EB",
+    color: colors.p4,
     fontSize: 18,
     fontWeight: "500",
     textAlign: "center",
     lineHeight: 26,
   },
   tapHint: {
-    color: "#6B7280",
+    color: colors.p5,
     fontSize: 14,
     fontStyle: "italic",
     opacity: 0.8,

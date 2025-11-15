@@ -1,4 +1,5 @@
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { colors, gradients, shadows } from "../../utils/colors";
 
 /**
  * IconButton Component (Atom) - Dark mode
@@ -13,10 +14,10 @@ const IconButton = ({
   disabled = false,
 }) => {
   const variantStyles = {
-    primary: "#93C5FD",
+    primary: colors.p2,
     danger: "#F8B4B4",
     transparent: "transparent",
-    default: "#2A2D33",
+    default: colors.s3,
   };
 
   const sizeStyles = {

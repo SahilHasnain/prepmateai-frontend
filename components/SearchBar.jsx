@@ -1,6 +1,7 @@
 import { View, TextInput, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { getMessage } from "../utils/messages";
+import { colors } from "../utils/colors";
 
 /**
  * SearchBar Component - Dark mode
@@ -10,12 +11,12 @@ const SearchBar = ({ value, onChangeText }) => {
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <Feather name="search" size={20} color="#6B7280" />
+        <Feather name="search" size={20} color={colors.p5} />
         <TextInput
           value={value}
           onChangeText={onChangeText}
           placeholder={getMessage("search.placeholder")}
-          placeholderTextColor="#6B7280"
+          placeholderTextColor={colors.p5}
           style={styles.input}
         />
       </View>
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: "#0F1115",
+    backgroundColor: colors.s1,
   },
   inputContainer: {
     flexDirection: "row",
@@ -35,9 +36,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 14,
-    backgroundColor: "#1C1F24",
+    backgroundColor: colors.s2,
     borderWidth: 1.5,
-    borderColor: "#2A2D33",
+    borderColor: colors.s3,
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 8,
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 12,
     fontSize: 15,
-    color: "#E5E7EB",
+    color: colors.p4,
   },
 });
 

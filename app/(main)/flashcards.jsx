@@ -12,6 +12,7 @@ import ErrorState from "../../components/atoms/ErrorState";
 import { getMessage, getDailyMessage } from "../../utils/messages";
 import { useAuth } from "../../hooks/useAuth";
 import { useFlashcardStats } from "../../hooks/useFlashcardStats";
+import { colors, gradients } from "../../utils/colors";
 
 function Flashcards() {
   const router = useRouter();
@@ -160,7 +161,7 @@ function Flashcards() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#0F1115",
+    backgroundColor: colors.s1,
   },
   messageCard: {
     padding: 12,
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
   },
   messageText: {
     textAlign: "center",
-    color: "#93C5FD",
+    color: colors.p2,
     fontSize: 14,
     lineHeight: 20,
   },
@@ -191,10 +192,10 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     fontSize: 18,
     fontWeight: "600",
-    color: "#E5E7EB",
+    color: colors.p4,
   },
   noResultsSubtitle: {
-    color: "#9CA3AF",
+    color: colors.p5,
     fontSize: 15,
   },
 });

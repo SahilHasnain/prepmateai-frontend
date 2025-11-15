@@ -2,6 +2,7 @@ import { FlatList, RefreshControl, View, Text, StyleSheet } from "react-native";
 import DeckCardItem from "../DeckCardItem";
 import DailySummaryCard from "../molecules/DailySummaryCard";
 import { getMessage } from "../../utils/messages";
+import { colors, gradients, shadows } from "../../utils/colors";
 
 /**
  * CardList Component (Organism) - Dark mode
@@ -23,7 +24,7 @@ const CardList = ({
         <RefreshControl
           refreshing={refreshing}
           onRefresh={onRefresh}
-          tintColor="#9CA3AF"
+          tintColor={colors.p5}
         />
       }
       ListHeaderComponent={
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginBottom: 48,
     textAlign: "center",
-    color: "#6B7280",
+    color: colors.p5,
     fontSize: 14,
     fontStyle: "italic",
   },

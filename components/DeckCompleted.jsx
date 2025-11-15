@@ -9,6 +9,7 @@ import StreakDisplay from "./StreakDisplay";
 import ActionButtons from "./molecules/ActionButtons";
 import ReminderModal from "./molecules/ReminderModal";
 import { playSuccessSound } from "../utils/soundEffects";
+import { colors } from "../utils/colors";
 
 // dopamine booster achievement screen after deck completion
 

@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
+import { colors } from "../utils/colors";
 
 // Streak visibility badge - Dark mode with soft yellow accent
 const StreakDisplay = ({ streak }) => {
@@ -33,11 +34,11 @@ const styles = StyleSheet.create({
   streakNumber: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#FDE68A",
+    color: colors.p3,
   },
   streakLabel: {
     fontSize: 12,
-    color: "#FDE68A",
+    color: colors.p3,
     opacity: 0.8,
   },
 });

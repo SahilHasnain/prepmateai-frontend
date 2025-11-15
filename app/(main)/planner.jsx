@@ -2,6 +2,7 @@ import { ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../hooks/useAuth";
 import PlannerForm from "../../components/organisms/PlannerForm";
+import { colors, gradients } from "../../utils/colors";
 
 export default function Planner() {
   const { user } = useAuth();
@@ -18,7 +19,7 @@ export default function Planner() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#0F1115",
+    backgroundColor: colors.s1,
   },
   scrollView: {
     flex: 1,

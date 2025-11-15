@@ -1,4 +1,5 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
+import { colors, gradients, shadows } from "../../utils/colors";
 
 // Atom: Input - dark mode labeled text field with calming aesthetics
 export default function Input({
@@ -17,7 +18,7 @@ export default function Input({
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor="#6B7280"
+        placeholderTextColor={colors.p5}
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         style={styles.input}
@@ -33,18 +34,18 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    color: "#9CA3AF",
+    color: colors.p5,
     marginBottom: 8,
     fontWeight: "500",
   },
   input: {
     borderRadius: 12,
     borderWidth: 1.5,
-    borderColor: "#2A2D33",
+    borderColor: colors.s3,
     paddingVertical: 12,
     paddingHorizontal: 14,
-    backgroundColor: "#1C1F24",
-    color: "#E5E7EB",
+    backgroundColor: colors.s2,
+    color: colors.p4,
     fontSize: 15,
   },
   error: {

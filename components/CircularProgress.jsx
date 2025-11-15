@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import Svg, { Circle } from "react-native-svg";
+import { colors } from "../utils/colors";
 
 // Circular progress bar - Dark mode with mint accent
 const CircularProgress = ({ percentage, size = 80, strokeWidth = 8 }) => {
@@ -14,7 +15,7 @@ const CircularProgress = ({ percentage, size = 80, strokeWidth = 8 }) => {
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="#2A2D33"
+          stroke={colors.s3}
           strokeWidth={strokeWidth}
           fill="none"
         />
@@ -22,7 +23,7 @@ const CircularProgress = ({ percentage, size = 80, strokeWidth = 8 }) => {
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="#45F6C3"
+          stroke={colors.p1}
           strokeWidth={strokeWidth}
           fill="none"
           strokeDasharray={circumference}
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
   percentageText: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#E5E7EB",
+    color: colors.p4,
   },
 });
 

@@ -1,4 +1,5 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { colors, gradients, shadows } from "../../utils/colors";
 
 /**
  * TopicSelector Component (Molecule) - Dark mode
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     fontSize: 18,
     fontWeight: "600",
-    color: "#E5E7EB",
+    color: colors.p4,
   },
   chipsContainer: {
     flexDirection: "row",
@@ -58,19 +59,19 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
   },
   chipSelected: {
-    backgroundColor: "#93C5FD",
-    borderColor: "#93C5FD",
+    backgroundColor: colors.p2,
+    borderColor: colors.p2,
   },
   chipUnselected: {
-    backgroundColor: "#1C1F24",
-    borderColor: "#2A2D33",
+    backgroundColor: colors.s2,
+    borderColor: colors.s3,
   },
   textSelected: {
-    color: "#0F1115",
+    color: colors.s1,
     fontWeight: "600",
   },
   textUnselected: {
-    color: "#E5E7EB",
+    color: colors.p4,
   },
 });
 

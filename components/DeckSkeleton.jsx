@@ -6,6 +6,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useEffect } from "react";
+import { colors } from "../utils/colors";
 
 const DeckSkeleton = () => {
   const opacity = useSharedValue(0.3);
@@ -31,28 +32,28 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     marginBottom: 12,
-    backgroundColor: "#1C1F24",
+    backgroundColor: colors.s2,
     borderWidth: 2,
-    borderColor: "#2A2D33",
+    borderColor: colors.s3,
     borderRadius: 14,
   },
   titleBar: {
     width: "75%",
     height: 24,
     marginBottom: 12,
-    backgroundColor: "#2A2D33",
+    backgroundColor: colors.s3,
     borderRadius: 6,
   },
   progressBar: {
     height: 8,
     marginBottom: 8,
-    backgroundColor: "#2A2D33",
+    backgroundColor: colors.s3,
     borderRadius: 9999,
   },
   footerBar: {
     width: "50%",
     height: 16,
-    backgroundColor: "#2A2D33",
+    backgroundColor: colors.s3,
     borderRadius: 6,
   },
 });

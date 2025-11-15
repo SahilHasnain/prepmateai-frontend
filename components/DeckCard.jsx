@@ -5,6 +5,7 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
+import { colors } from "../utils/colors";
 
 const DeckCard = ({
   topic,
@@ -30,8 +31,8 @@ const DeckCard = ({
   }, [scale]);
 
   const getBorderColor = () => {
-    if (progress >= 0.7) return "#45F6C3"; // Mint
-    if (progress >= 0.4) return "#FDE68A"; // Soft yellow
+    if (progress >= 0.7) return colors.p1; // Mint
+    if (progress >= 0.4) return colors.p3; // Soft yellow
     return "#F8B4B4"; // Soft red
   };
 
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
   card: {
     padding: 16,
     marginBottom: 12,
-    backgroundColor: "#1C1F24",
+    backgroundColor: colors.s2,
     borderWidth: 2,
     borderRadius: 14,
     shadowColor: "#000",
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 18,
     fontWeight: "600",
-    color: "#E5E7EB",
+    color: colors.p4,
   },
   deleteButton: {
     padding: 8,
@@ -115,12 +116,12 @@ const styles = StyleSheet.create({
     height: 8,
     marginBottom: 8,
     overflow: "hidden",
-    backgroundColor: "#2A2D33",
+    backgroundColor: colors.s3,
     borderRadius: 9999,
   },
   progressBarFill: {
     height: "100%",
-    backgroundColor: "#93C5FD",
+    backgroundColor: colors.p2,
     borderRadius: 9999,
   },
   footer: {
@@ -129,11 +130,11 @@ const styles = StyleSheet.create({
   },
   masteredText: {
     fontSize: 14,
-    color: "#9CA3AF",
+    color: colors.p5,
   },
   dateText: {
     fontSize: 12,
-    color: "#6B7280",
+    color: colors.p5,
   },
 });
 

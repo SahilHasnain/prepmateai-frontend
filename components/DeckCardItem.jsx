@@ -8,6 +8,7 @@ import {
 import { useRef, useEffect } from "react";
 import { getProgressFeedback } from "../utils/messages";
 import IconButton from "./atoms/IconButton";
+import { colors } from "../utils/colors";
 
 /**
  * DeckCard Component - Dark mode
@@ -28,16 +29,16 @@ const DeckCard = ({ deck, onPress, onDelete }) => {
   // Color mapping based on progress (pastel colors for calm aesthetic)
   const leftBorderColor =
     deck.progress >= 1
-      ? "#45F6C3" // Mint
+      ? colors.p1 // Mint
       : deck.progress >= 0.6
-        ? "#FDE68A" // Soft yellow
+        ? colors.p3 // Soft yellow
         : "#F8B4B4"; // Soft red
 
   const progressBarColor =
     deck.progress >= 1
-      ? "#45F6C3"
+      ? colors.p1
       : deck.progress >= 0.6
-        ? "#FDE68A"
+        ? colors.p3
         : "#F8B4B4";
 
   return (
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
   card: {
     padding: 16,
     marginBottom: 24,
-    backgroundColor: "#1C1F24",
+    backgroundColor: colors.s2,
     shadowColor: "#000",
     shadowOpacity: 0.15,
     shadowRadius: 6,
@@ -113,12 +114,12 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     fontSize: 18,
     fontWeight: "700",
-    color: "#E5E7EB",
+    color: colors.p4,
   },
   progressBarBg: {
     height: 8,
     overflow: "hidden",
-    backgroundColor: "#2A2D33",
+    backgroundColor: colors.s3,
     borderRadius: 9999,
   },
   progressBarFill: {
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 12,
     fontStyle: "italic",
-    color: "#9CA3AF",
+    color: colors.p5,
   },
 });
 

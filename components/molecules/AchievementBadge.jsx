@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
+import { colors, gradients, shadows } from "../../utils/colors";
 
 // Molecule: AchievementBadge - collection of earned badges based on stats (dark mode)
 const badges = {
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 12,
     fontWeight: "600",
-    color: "#FDE68A",
+    color: colors.p3,
   },
 });
 

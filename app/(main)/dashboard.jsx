@@ -1,9 +1,11 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useAuth } from "../../hooks/useAuth";
 import Button from "../../components/atoms/Button";
 import { logout } from "../../services/appwrite";
+import { colors, gradients } from "../../utils/colors";
 
 // Dashboard - dark mode navigation hub with calming aesthetics for NEET/JEE students
 export default function Dashboard() {
@@ -33,25 +35,37 @@ export default function Dashboard() {
 
         <View style={styles.navigation}>
           <TouchableOpacity
-            style={styles.navCard}
             onPress={() => router.push("/(main)/planner")}
           >
-            <Text style={styles.navEmoji}>📅</Text>
-            <Text style={styles.navTitle}>Study Planner</Text>
-            <Text style={styles.navDescription}>
-              Create gentle habits that stick
-            </Text>
+            <LinearGradient
+              colors={gradients.g5}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.navCard}
+            >
+              <Text style={styles.navEmoji}>📅</Text>
+              <Text style={styles.navTitle}>Study Planner</Text>
+              <Text style={styles.navDescription}>
+                Create gentle habits that stick
+              </Text>
+            </LinearGradient>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.navCard}
             onPress={() => router.push("/(main)/flashcards")}
           >
-            <Text style={styles.navEmoji}>🎴</Text>
-            <Text style={styles.navTitle}>Flashcards</Text>
-            <Text style={styles.navDescription}>
-              Review at your own pace, no pressure
-            </Text>
+            <LinearGradient
+              colors={gradients.g6}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.navCard}
+            >
+              <Text style={styles.navEmoji}>🎴</Text>
+              <Text style={styles.navTitle}>Flashcards</Text>
+              <Text style={styles.navDescription}>
+                Review at your own pace, no pressure
+              </Text>
+            </LinearGradient>
           </TouchableOpacity>
         </View>
 
@@ -66,7 +80,7 @@ export default function Dashboard() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#0F1115",
+    backgroundColor: colors.s1,
   },
   container: {
     flex: 1,
@@ -79,17 +93,17 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 32,
     fontWeight: "700",
-    color: "#E5E7EB",
+    color: colors.p4,
     marginBottom: 8,
   },
   welcome: {
     fontSize: 18,
-    color: "#9CA3AF",
+    color: colors.p5,
     marginBottom: 6,
   },
   subtitle: {
     fontSize: 14,
-    color: "#6B7280",
+    color: colors.p5,
     fontStyle: "italic",
     lineHeight: 20,
   },
@@ -98,16 +112,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   navCard: {
-    backgroundColor: "#1C1F24",
     borderRadius: 16,
     padding: 20,
     borderWidth: 1.5,
-    borderColor: "#2A2D33",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 3,
+    borderColor: colors.s4,
+    shadowColor: colors.p2,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 6,
   },
   navEmoji: {
     fontSize: 36,
@@ -116,12 +129,12 @@ const styles = StyleSheet.create({
   navTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#E5E7EB",
+    color: colors.p4,
     marginBottom: 6,
   },
   navDescription: {
     fontSize: 14,
-    color: "#9CA3AF",
+    color: colors.p5,
     lineHeight: 20,
   },
   footer: {

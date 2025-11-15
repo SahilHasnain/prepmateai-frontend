@@ -2,6 +2,7 @@ import { View, Text, Animated, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
 import { getMessage } from "../utils/messages";
+import { colors, gradients } from "../utils/colors";
 
 /**
  * HeaderHero Component - Dark mode with calming gradient
@@ -10,7 +11,7 @@ import { getMessage } from "../utils/messages";
 const HeaderHero = ({ stats, subtitleFadeAnim }) => {
   return (
     <LinearGradient
-      colors={["#14161A", "#1C1F24"]}
+      colors={gradients.g2}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
       style={styles.gradient}
@@ -76,12 +77,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "600",
-    color: "#E5E7EB",
+    color: colors.p4,
   },
   subtitle: {
     marginTop: 6,
     fontSize: 14,
-    color: "#9CA3AF",
+    color: colors.p5,
     lineHeight: 20,
   },
   streakBadge: {
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
   streakText: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#FDE68A",
+    color: colors.p3,
   },
 });
 

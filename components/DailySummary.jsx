@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import CircularProgress from "./CircularProgress";
 import StreakDisplay from "./StreakDisplay";
 import AchievementBadge from "./molecules/AchievementBadge";
+import { colors } from "../utils/colors";
 
 // Daily Progress Summary Banner - Dark mode with calming aesthetics
 const DailySummary = ({ cardsReviewed, cardsMastered, streak, accuracy }) => {
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     marginBottom: 16,
-    backgroundColor: "#1C1F24",
+    backgroundColor: colors.s2,
     shadowColor: "#000",
     shadowOpacity: 0.15,
     shadowRadius: 6,
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderRadius: 14,
     borderWidth: 1.5,
-    borderColor: "#2A2D33",
+    borderColor: colors.s3,
   },
   header: {
     flexDirection: "row",
@@ -58,16 +59,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#E5E7EB",
+    color: colors.p4,
   },
   reviewedText: {
     fontSize: 14,
-    color: "#9CA3AF",
+    color: colors.p5,
     marginTop: 4,
   },
   masteredText: {
     fontSize: 14,
-    color: "#45F6C3",
+    color: colors.p1,
     marginTop: 2,
   },
   footer: {

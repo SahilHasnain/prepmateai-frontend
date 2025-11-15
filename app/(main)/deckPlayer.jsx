@@ -19,6 +19,7 @@ import { useOfflineQueue } from "../../hooks/useOfflineQueue";
 import { useAuth } from "../../hooks/useAuth";
 import { useReminderManager } from "../../hooks/useReminderManager";
 import { useFeedbackTracking } from "../../hooks/useFeedbackTracking";
+import { colors, gradients } from "../../utils/colors";
 
 function DeckPlayer() {
   const router = useRouter();
@@ -138,7 +139,7 @@ function DeckPlayer() {
   }, [undo, setCards, setReviewedCount, revertFeedback]);
 
   return (
-    <SafeAreaView className="flex-1" style={{ backgroundColor: "#0F1115" }}>
+    <SafeAreaView className="flex-1" style={{ backgroundColor: colors.s1 }}>
       <DeckHeader
         topic={topic}
         nextReview={nextReview}

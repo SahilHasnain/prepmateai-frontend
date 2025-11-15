@@ -1,5 +1,6 @@
 import { View, Text, Animated, StyleSheet } from "react-native";
 import { getMessage } from "../../utils/messages";
+import { colors, gradients, shadows } from "../../utils/colors";
 
 /**
  * DailySummaryCard Component (Molecule) - Dark mode
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginHorizontal: 16,
     marginTop: 16,
-    backgroundColor: "#1C1F24",
+    backgroundColor: colors.s2,
     borderWidth: 1.5,
     borderColor: "rgba(147, 197, 253, 0.2)",
     shadowColor: "#000",
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#E5E7EB",
+    color: colors.p4,
   },
   statsRow: {
     flexDirection: "row",
@@ -63,11 +64,11 @@ const styles = StyleSheet.create({
   reviewedText: {
     marginRight: 8,
     fontSize: 15,
-    color: "#93C5FD",
+    color: colors.p2,
   },
   masteredText: {
     fontSize: 15,
-    color: "#45F6C3",
+    color: colors.p1,
   },
   footer: {
     flexDirection: "row",
@@ -85,11 +86,11 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     fontWeight: "600",
-    color: "#FDE68A",
+    color: colors.p3,
   },
   dateText: {
     fontSize: 12,
-    color: "#6B7280",
+    color: colors.p5,
   },
 });
 

@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
+import { colors, gradients, shadows } from "../../utils/colors";
 
 /**
  * Badge Component (Atom) - Dark mode
@@ -7,38 +8,38 @@ import { View, Text, StyleSheet } from "react-native";
 const Badge = ({ text, variant = "default", size = "medium" }) => {
   // Variant color mappings (pastel on dark backgrounds)
   const variantStyles = {
-    easy: { bg: "rgba(69, 246, 195, 0.1)", border: "rgba(69, 246, 195, 0.2)" },
+    easy: { bg: `${colors.p1}1A`, border: `${colors.p1}33` },
     medium: {
-      bg: "rgba(253, 230, 138, 0.1)",
-      border: "rgba(253, 230, 138, 0.2)",
+      bg: `${colors.p3}1A`,
+      border: `${colors.p3}33`,
     },
     hard: {
       bg: "rgba(248, 180, 180, 0.1)",
       border: "rgba(248, 180, 180, 0.2)",
     },
     streak: {
-      bg: "rgba(253, 230, 138, 0.1)",
-      border: "rgba(253, 230, 138, 0.2)",
+      bg: `${colors.p3}1A`,
+      border: `${colors.p3}33`,
     },
     achievement: {
-      bg: "rgba(253, 230, 138, 0.1)",
-      border: "rgba(253, 230, 138, 0.2)",
+      bg: `${colors.p3}1A`,
+      border: `${colors.p3}33`,
     },
     success: {
-      bg: "rgba(147, 197, 253, 0.1)",
-      border: "rgba(147, 197, 253, 0.2)",
+      bg: `${colors.p2}1A`,
+      border: `${colors.p2}33`,
     },
-    default: { bg: "#2A2D33", border: "#3A3D43" },
+    default: { bg: colors.s3, border: colors.s3 },
   };
 
   const textStyles = {
-    easy: "#45F6C3",
-    medium: "#FDE68A",
+    easy: colors.p1,
+    medium: colors.p3,
     hard: "#F8B4B4",
-    streak: "#FDE68A",
-    achievement: "#FDE68A",
-    success: "#93C5FD",
-    default: "#9CA3AF",
+    streak: colors.p3,
+    achievement: colors.p3,
+    success: colors.p2,
+    default: colors.p5,
   };
 
   const sizeStyles = {

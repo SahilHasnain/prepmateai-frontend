@@ -11,6 +11,7 @@ import { useState } from "react";
 import { NODE_API_BASE_URL } from "../config/env";
 import { playSuccessSound } from "../utils/soundEffects";
 import { getMessage } from "../utils/messages";
+import { colors } from "../utils/colors";
 
 // Show toast notification
 const showToast = (message) => {
@@ -67,7 +68,7 @@ const FlashcardFeedback = ({ userId, cardId, topic, onNext, onFeedback }) => {
         onPress={() => submitFeedback("forgot")}
         className="flex-1"
         style={{
-          backgroundColor: "#2A2D33",
+          backgroundColor: colors.s3,
           paddingVertical: 14,
           paddingHorizontal: 22,
           borderRadius: 24,
@@ -81,10 +82,10 @@ const FlashcardFeedback = ({ userId, cardId, topic, onNext, onFeedback }) => {
         accessibilityRole="button"
       >
         <View className="flex-row items-center justify-center">
-          <Text className="mr-2 text-base" style={{ color: "#9CA3AF" }}>
+          <Text className="mr-2 text-base" style={{ color: colors.p5 }}>
             ↻
           </Text>
-          <Text className="text-sm font-semibold" style={{ color: "#E5E7EB" }}>
+          <Text className="text-sm font-semibold" style={{ color: colors.p4 }}>
             Review again
           </Text>
         </View>
@@ -110,7 +111,7 @@ const FlashcardFeedback = ({ userId, cardId, topic, onNext, onFeedback }) => {
       >
         <View className="flex-row items-center justify-center">
           <Text className="mr-2 text-base">💡</Text>
-          <Text className="text-sm font-semibold" style={{ color: "#FDE68A" }}>
+          <Text className="text-sm font-semibold" style={{ color: colors.p3 }}>
             Almost got it
           </Text>
         </View>
@@ -135,10 +136,10 @@ const FlashcardFeedback = ({ userId, cardId, topic, onNext, onFeedback }) => {
         accessibilityRole="button"
       >
         <View className="flex-row items-center justify-center">
-          <Text className="mr-2 text-base" style={{ color: "#45F6C3" }}>
+          <Text className="mr-2 text-base" style={{ color: colors.p1 }}>
             ✓
           </Text>
-          <Text className="text-sm font-semibold" style={{ color: "#45F6C3" }}>
+          <Text className="text-sm font-semibold" style={{ color: colors.p1 }}>
             I got this
           </Text>
         </View>

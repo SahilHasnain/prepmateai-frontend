@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import Badge from "../atoms/Badge";
+import { colors, gradients, shadows } from "../../utils/colors";
 
 /**
  * PlanItem Component (Molecule) - Dark mode
@@ -20,19 +21,19 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 12,
     borderWidth: 1.5,
-    borderColor: "#2A2D33",
+    borderColor: colors.s3,
     borderRadius: 12,
-    backgroundColor: "#1C1F24",
+    backgroundColor: colors.s2,
   },
   topic: {
     marginBottom: 4,
     fontSize: 18,
     fontWeight: "600",
-    color: "#E5E7EB",
+    color: colors.p4,
   },
   duration: {
     marginBottom: 8,
-    color: "#9CA3AF",
+    color: colors.p5,
   },
 });
 

@@ -3,6 +3,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { colors, gradients, shadows } from "../../utils/colors";
 
 // Atom: ProgressBar - animated horizontal progress indicator (dark mode)
 const ProgressBar = ({ progress }) => {
@@ -21,12 +22,12 @@ const styles = StyleSheet.create({
   container: {
     height: 6,
     overflow: "hidden",
-    backgroundColor: "#2A2D33",
+    backgroundColor: colors.s3,
     borderRadius: 14,
   },
   fill: {
     height: "100%",
-    backgroundColor: "#45F6C3",
+    backgroundColor: colors.p1,
     borderRadius: 14,
   },
 });

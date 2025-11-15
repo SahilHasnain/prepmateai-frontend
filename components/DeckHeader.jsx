@@ -1,11 +1,12 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import IconButton from "./atoms/IconButton";
+import { colors, gradients } from "../utils/colors";
 
 const DeckHeader = ({ topic, nextReview, onBack, onShuffle, showShuffle }) => {
   return (
     <LinearGradient
-      colors={["#14161A", "#0F1115"]}
+      colors={gradients.g4}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={styles.header}
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   backButton: {
-    backgroundColor: "#1C1F24",
+    backgroundColor: colors.s2,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   backText: {
-    color: "#CCCCCC",
+    color: colors.p4,
     fontSize: 14,
     fontWeight: "500",
   },
@@ -81,18 +82,18 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   heading: {
-    color: "#EDEDED",
+    color: colors.p4,
     fontSize: 24,
     fontWeight: "700",
     marginBottom: 6,
   },
   subtext: {
-    color: "#9CA3AF",
+    color: colors.p5,
     fontSize: 14,
     marginBottom: 8,
   },
   nextReview: {
-    color: "#6B7280",
+    color: colors.p5,
     fontSize: 12,
     marginTop: 4,
   },

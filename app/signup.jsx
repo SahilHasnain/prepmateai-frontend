@@ -7,6 +7,7 @@ import Input from "../components/atoms/Input";
 import Button from "../components/atoms/Button";
 import { signup } from "../services/appwrite";
 import { getMessage } from "../utils/messages";
+import { colors } from "../utils/colors";
 
 // Signup screen - dark mode with supportive language for NEET/JEE students
 export default function Signup() {
@@ -113,7 +114,7 @@ export default function Signup() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#0F1115",
+    backgroundColor: colors.s1,
   },
   scrollView: {
     flex: 1,
@@ -127,25 +128,25 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 30,
     fontWeight: "700",
-    color: "#E5E7EB",
+    color: colors.p4,
     textAlign: "center",
     marginBottom: 12,
   },
   subtitle: {
     fontSize: 15,
-    color: "#9CA3AF",
+    color: colors.p5,
     textAlign: "center",
     marginBottom: 32,
     lineHeight: 22,
   },
   footerText: {
     textAlign: "center",
-    color: "#9CA3AF",
+    color: colors.p5,
     marginTop: 24,
     fontSize: 15,
   },
   footerLink: {
-    color: "#93C5FD", // Pastel sky blue
+    color: colors.p1,
     fontWeight: "600",
   },
 });

@@ -2,6 +2,7 @@ import { TouchableOpacity, Text, Animated, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
 import { getMessage } from "../utils/messages";
+import { colors, gradients } from "../utils/colors";
 
 /**
  * FAB - Dark mode floating action button with calming mint accent
@@ -28,7 +29,7 @@ const Fab = ({ onPress, rotateAnim }) => {
         }}
       >
         <LinearGradient
-          colors={["#2A2D33", "#1C1F24"]}
+          colors={gradients.g3}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.gradient}
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     elevation: 8,
     borderWidth: 1.5,
-    borderColor: "#3A3D43",
+    borderColor: colors.s3,
   },
   lottie: {
     width: 80,
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
     fontSize: 32,
     fontWeight: "700",
-    color: "#45F6C3",
+    color: colors.p1,
   },
 });
 
