@@ -2,7 +2,6 @@ import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import LottieView from "lottie-react-native";
 import Animated, {
   FadeInRight,
   FadeOutLeft,
@@ -59,20 +58,8 @@ function DeckPlayer() {
   // Feedback tracking hook
   const { counts, trackFeedback, revertFeedback } = useFeedbackTracking();
 
-  // Local state (only UI-specific)
-  const [showConfetti, setShowConfetti] = useState(false);
-
   const currentCard = cards[currentIndex];
   const deckCompleted = cards.length === 0 && reviewedCount > 0;
-
-  // Show confetti on completion
-  useEffect(() => {
-    if (deckCompleted) {
-      setShowConfetti(true);
-      const timer = setTimeout(() => setShowConfetti(false), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [deckCompleted]);
 
   // Handle feedback with optimistic UI
   const handleFeedback = useCallback(
@@ -231,18 +218,6 @@ function DeckPlayer() {
           yellows={counts.yellows}
           reds={counts.reds}
         />
-      )}
-
-      {/* Confetti */}
-      {showConfetti && (
-        <View className="absolute inset-0 pointer-events-none">
-          <LottieView
-            source={require("../../assets/confetti.json")}
-            autoPlay
-            loop={false}
-            style={{ width: "100%", height: "100%" }}
-          />
-        </View>
       )}
     </SafeAreaView>
   );

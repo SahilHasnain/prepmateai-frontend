@@ -1,5 +1,15 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import Animated, { FadeInUp, FadeIn } from "react-native-reanimated";
+import Animated, {
+  FadeInUp,
+  FadeIn,
+  useSharedValue,
+  useAnimatedStyle,
+  withRepeat,
+  withSequence,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
+import { useEffect } from "react";
 import { useRouter } from "expo-router";
 import ReminderModal from "./molecules/ReminderModal";
 import { colors } from "../utils/colors";
@@ -33,6 +43,30 @@ const DeckCompleted = ({
 }) => {
   const router = useRouter();
 
+  // Breathing animation (calm, slow, therapeutic)
+  const breatheScale = useSharedValue(1);
+
+  useEffect(() => {
+    breatheScale.value = withRepeat(
+      withSequence(
+        withTiming(1.02, {
+          duration: 2000,
+          easing: Easing.inOut(Easing.ease),
+        }),
+        withTiming(1, {
+          duration: 2000,
+          easing: Easing.inOut(Easing.ease),
+        })
+      ),
+      -1, // infinite
+      false
+    );
+  }, []);
+
+  const breathingStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: breatheScale.value }],
+  }));
+
   return (
     <>
       <Animated.View
@@ -50,10 +84,10 @@ const DeckCompleted = ({
           </Text>
         </Animated.View>
 
-        {/* Soft Card */}
+        {/* Soft Card with Breathing Animation */}
         <Animated.View
           entering={FadeInUp.duration(700).delay(300)}
-          style={styles.card}
+          style={[styles.card, breathingStyle]}
         >
           <Text style={styles.cardTitle}>🌼 Session complete</Text>
 
