@@ -29,7 +29,7 @@ export default function Login() {
     } else {
       Alert.alert(
         "Couldn't log you in",
-        error || "Please check your credentials and try again."
+        error || "Please check your credentials and try again.",
       );
     }
   };

@@ -114,7 +114,7 @@ const [selected, setSelected] = useState([]);
 
 const toggleTopic = (topic) => {
   setSelected((prev) =>
-    prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic]
+    prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic],
   );
 };
 

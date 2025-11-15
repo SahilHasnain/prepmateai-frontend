@@ -31,11 +31,11 @@ console.log("");
 console.log("--- MESSAGES WITH INTERPOLATION ---");
 console.log(
   "Cards Reviewed (10):",
-  getMessage("summary.cardsReviewed", { count: 10 })
+  getMessage("summary.cardsReviewed", { count: 10 }),
 );
 console.log(
   "Delete Message (Physics):",
-  getMessage("delete.message", { topic: "Physics" })
+  getMessage("delete.message", { topic: "Physics" }),
 );
 console.log("");
 
@@ -97,5 +97,5 @@ setTone("atomic");
 console.log("\n=== ALL TESTS COMPLETE ===");
 console.log("✅ Messaging system is working correctly!");
 console.log(
-  "\nTo use in components: import { getMessage } from '../utils/messages';"
+  "\nTo use in components: import { getMessage } from '../utils/messages';",
 );

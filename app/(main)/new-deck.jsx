@@ -30,7 +30,7 @@ export default function NewDeck() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId: user.$id, topic: topic.trim() }),
-        }
+        },
       );
       const json = await res.json();
 
@@ -40,7 +40,7 @@ export default function NewDeck() {
       } else {
         Alert.alert(
           "Couldn't create deck",
-          json.message || getMessage("errors.saveFailed")
+          json.message || getMessage("errors.saveFailed"),
         );
       }
     } catch (e) {

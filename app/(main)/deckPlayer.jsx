@@ -118,7 +118,7 @@ function DeckPlayer() {
       setReviewedCount,
       setLastFeedback,
       trackFeedback,
-    ]
+    ],
   );
 
   // Handle undo
@@ -161,10 +161,10 @@ function DeckPlayer() {
             <Animated.View
               key={currentCard.cardId}
               entering={FadeInRight.duration(400).easing(
-                Easing.out(Easing.cubic)
+                Easing.out(Easing.cubic),
               )}
               exiting={FadeOutLeft.duration(300).easing(
-                Easing.in(Easing.cubic)
+                Easing.in(Easing.cubic),
               )}
               className="w-full"
             >

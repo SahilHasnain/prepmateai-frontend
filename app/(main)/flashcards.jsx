@@ -60,7 +60,7 @@ function Flashcards() {
   const filteredDecks = useMemo(() => {
     if (!searchQuery.trim()) return decks;
     return decks.filter((deck) =>
-      deck.topic.toLowerCase().includes(searchQuery.toLowerCase())
+      deck.topic.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   }, [decks, searchQuery]);
 
@@ -75,7 +75,7 @@ function Flashcards() {
           style: "destructive",
           onPress: () => deleteDeck(deckId),
         },
-      ]
+      ],
     );
   };
 

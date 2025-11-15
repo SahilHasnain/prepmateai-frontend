@@ -42,7 +42,7 @@ export default function Signup() {
     const { success, error } = await signup(
       form.email,
       form.password,
-      form.name
+      form.name,
     );
     setLoading(false);
 

@@ -34,9 +34,7 @@ export default function Dashboard() {
         </View>
 
         <View style={styles.navigation}>
-          <TouchableOpacity
-            onPress={() => router.push("/(main)/planner")}
-          >
+          <TouchableOpacity onPress={() => router.push("/(main)/planner")}>
             <LinearGradient
               colors={gradients.g5}
               start={{ x: 0, y: 0 }}
@@ -51,9 +49,7 @@ export default function Dashboard() {
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => router.push("/(main)/flashcards")}
-          >
+          <TouchableOpacity onPress={() => router.push("/(main)/flashcards")}>
             <LinearGradient
               colors={gradients.g6}
               start={{ x: 0, y: 0 }}

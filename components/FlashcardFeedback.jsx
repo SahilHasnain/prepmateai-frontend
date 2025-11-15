@@ -44,7 +44,7 @@ const FlashcardFeedback = ({ userId, cardId, topic, onNext, onFeedback }) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userId, cardId, topic, feedback }),
-          }
+          },
         );
 
         const result = await response.json();

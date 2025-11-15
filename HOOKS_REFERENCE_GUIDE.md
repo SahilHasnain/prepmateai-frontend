@@ -211,7 +211,7 @@ const StudyPlanner = () => {
 
   // Planner
   const { selectedTopics, plan, generatePlan, loading } = usePlannerForm(
-    user?.$id
+    user?.$id,
   );
 
   // Reminder

@@ -245,7 +245,7 @@ Alert.alert(
       style: "destructive",
       onPress: handleDelete,
     },
-  ]
+  ],
 );
 ```
 
@@ -350,17 +350,14 @@ analytics.logEvent("tone_assigned", { tone: userTone });
 ## Future Enhancements
 
 1. **Localization (i18n)**:
-
    - Add `locale` parameter to `getMessage`
    - Structure: `MESSAGES[locale][key][tone]`
 
 2. **User Preference**:
-
    - Let users choose their preferred tone
    - Store in AsyncStorage or user profile
 
 3. **Dynamic Loading**:
-
    - Load message catalogs from remote config
    - A/B test new copy without app updates
 

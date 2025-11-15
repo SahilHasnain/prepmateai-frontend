@@ -21,7 +21,7 @@ const badges = {
 
 const AchievementBadge = ({ stats }) => {
   const earnedBadges = Object.values(badges).filter((badge) =>
-    badge.condition(stats)
+    badge.condition(stats),
   );
 
   if (earnedBadges.length === 0) return null;

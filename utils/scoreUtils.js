@@ -28,7 +28,7 @@ export function aggregateFeedback(feedbackEvents) {
       else if (ev === "remembered") acc.remembered += 1;
       return acc;
     },
-    { forgot: 0, unsure: 0, remembered: 0 }
+    { forgot: 0, unsure: 0, remembered: 0 },
   );
 }
 

@@ -400,7 +400,7 @@ export const getMessageCategory = (category) => {
  */
 export const getDailyMessage = () => {
   const dayOfYear = Math.floor(
-    (Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000
+    (Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000,
   );
   const messages = MESSAGES.daily[activeTone] || MESSAGES.daily.default;
   return messages[dayOfYear % messages.length];
