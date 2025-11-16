@@ -36,7 +36,7 @@ const Fab = ({ onPress, rotateAnim }) => {
         >
           {/* Lottie glow animation */}
           <LottieView
-            source={require("../assets/plus-glow.json")}
+            source={require("../../assets/plus-glow.json")}
             autoPlay
             loop
             style={styles.lottie}
