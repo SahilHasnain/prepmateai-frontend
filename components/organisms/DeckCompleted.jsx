@@ -1,10 +1,10 @@
 import { View, StyleSheet } from "react-native";
 import Animated, { FadeInUp, FadeIn } from "react-native-reanimated";
-import CompletionHeader from "./molecules/CompletionHeader";
-import SessionStatsCard from "./molecules/SessionStatsCard";
-import CompletionActions from "./molecules/CompletionActions";
-import FooterText from "./atoms/FooterText";
-import ReminderModal from "./molecules/ReminderModal";
+import CompletionHeader from "../molecules/CompletionHeader";
+import SessionStatsCard from "../molecules/SessionStatsCard";
+import CompletionActions from "../molecules/CompletionActions";
+import FooterText from "../atoms/FooterText";
+import ReminderModal from "../molecules/ReminderModal";
 import { colors } from "../../utils/colors";
 
 /**
