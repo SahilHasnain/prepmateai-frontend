@@ -1,8 +1,8 @@
 import { TouchableOpacity, Text, Animated, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
-import { getMessage } from "../utils/messages";
-import { colors, gradients } from "../utils/colors";
+import { getMessage } from "../../utils/messages";
+import { colors, gradients } from "../../utils/colors";
 
 /**
  * FAB - Dark mode floating action button with calming mint accent

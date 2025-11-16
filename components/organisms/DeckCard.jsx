@@ -5,7 +5,7 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
-import { colors } from "../utils/colors";
+import { colors } from "../../utils/colors";
 
 const DeckCard = ({
   topic,

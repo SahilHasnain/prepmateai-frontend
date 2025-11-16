@@ -5,7 +5,7 @@ import SessionStatsCard from "./molecules/SessionStatsCard";
 import CompletionActions from "./molecules/CompletionActions";
 import FooterText from "./atoms/FooterText";
 import ReminderModal from "./molecules/ReminderModal";
-import { colors } from "../utils/colors";
+import { colors } from "../../utils/colors";
 
 /**
  * DeckCompleted - Atomic Habits + Subtle Art Psychology

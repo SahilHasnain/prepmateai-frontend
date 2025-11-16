@@ -1,7 +1,7 @@
 import { View, TextInput, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { getMessage } from "../utils/messages";
-import { colors } from "../utils/colors";
+import { getMessage } from "../../utils/messages";
+import { colors } from "../../utils/colors";
 
 /**
  * SearchBar Component - Dark mode

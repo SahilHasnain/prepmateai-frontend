@@ -18,7 +18,7 @@ const HeaderHero = ({ stats, subtitleFadeAnim }) => {
     >
       {/* Lottie background glow */}
       <LottieView
-        source={require("../assets/header-glow.json")}
+        source={require("../../assets/header-glow.json")}
         autoPlay
         loop={false}
         style={styles.lottie}
