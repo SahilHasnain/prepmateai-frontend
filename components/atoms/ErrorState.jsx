@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { colors, gradients, shadows } from "../../utils/colors";
+import { colors } from "../../utils/colors";
 
 /**
  * ErrorState Component (Atom) - Dark mode

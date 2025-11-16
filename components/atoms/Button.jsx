@@ -4,7 +4,7 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
-import { colors, gradients, shadows } from "../../utils/colors";
+import { colors } from "../../utils/colors";
 
 // Atom: Button - dark mode action button with calming aesthetics
 export default function Button({

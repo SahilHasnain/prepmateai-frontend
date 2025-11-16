@@ -7,11 +7,11 @@ import Animated, {
   FadeOutLeft,
   Easing,
 } from "react-native-reanimated";
-import FlashcardItem from "../../components/FlashcardItem";
-import FlashcardFeedback from "../../components/FlashcardFeedback";
-import DeckHeader from "../../components/DeckHeader";
-import DeckProgress from "../../components/DeckProgress";
-import DeckCompleted from "../../components/DeckCompleted";
+import FlashcardItem from "../../components/molecules/FlashcardItem";
+import FlashcardFeedback from "../../components/molecules/FlashcardFeedback";
+import DeckHeader from "../../components/molecules/DeckHeader";
+import DeckProgress from "../../components/molecules/DeckProgress";
+import DeckCompleted from "../../components/organisms/DeckCompleted";
 import ErrorState from "../../components/atoms/ErrorState";
 import { useDeckPlayer } from "../../hooks/useDeckPlayer";
 import { useOfflineQueue } from "../../hooks/useOfflineQueue";

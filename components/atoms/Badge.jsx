@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { colors, gradients, shadows } from "../../utils/colors";
+import { colors } from "../../utils/colors";
 
 /**
  * Badge Component (Atom) - Dark mode

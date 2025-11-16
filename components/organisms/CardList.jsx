@@ -1,5 +1,5 @@
 import { FlatList, RefreshControl, View, Text, StyleSheet } from "react-native";
-import DeckCardItem from "../DeckCardItem";
+import DeckCardItem from "../molecules/DeckCardItem";
 import DailySummaryCard from "../molecules/DailySummaryCard";
 import { getMessage } from "../../utils/messages";
 import { colors, gradients, shadows } from "../../utils/colors";

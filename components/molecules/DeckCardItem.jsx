@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useRef, useEffect } from "react";
 import { getProgressFeedback } from "../utils/messages";
-import IconButton from "./atoms/IconButton";
+import IconButton from "../atoms/IconButton";
 import { colors } from "../utils/colors";
 
 /**

@@ -2,11 +2,11 @@ import { View, Text, Alert, Animated, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useRouter } from "expo-router";
-import DeckSkeleton from "../../components/DeckSkeleton";
-import HeaderHero from "../../components/HeaderHero";
-import SearchBar from "../../components/SearchBar";
-import Fab from "../../components/Fab";
-import EmptyState from "../../components/EmptyState";
+import DeckSkeleton from "../../components/molecules/DeckSkeleton";
+import HeaderHero from "../../components/molecules/HeaderHero";
+import SearchBar from "../../components/atoms/SearchBar";
+import Fab from "../../components/atoms/Fab";
+import EmptyState from "../../components/molecules/EmptyState";
 import CardList from "../../components/organisms/CardList";
 import ErrorState from "../../components/atoms/ErrorState";
 import { getMessage, getDailyMessage } from "../../utils/messages";
@@ -60,7 +60,7 @@ function Flashcards() {
   const filteredDecks = useMemo(() => {
     if (!searchQuery.trim()) return decks;
     return decks.filter((deck) =>
-      deck.topic.toLowerCase().includes(searchQuery.toLowerCase()),
+      deck.topic.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [decks, searchQuery]);
 
@@ -75,7 +75,7 @@ function Flashcards() {
           style: "destructive",
           onPress: () => deleteDeck(deckId),
         },
-      ],
+      ]
     );
   };
 
