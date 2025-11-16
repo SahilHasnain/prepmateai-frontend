@@ -8,7 +8,6 @@ import {
 import { useRef, useEffect } from "react";
 import { getProgressFeedback } from "../../utils/messages";
 import { colors } from "../../utils/colors";
-import { colors } from "../../utils/colors";
 
 /**
  * DeckCard Component - Dark mode
