@@ -1,5 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
-import Animated from "react-native-reanimated";
+import { View, Text, StyleSheet, Animated } from "react-native";
 import { colors } from "../../utils/colors";
 
 /**
@@ -44,9 +43,7 @@ export default DailySummaryCard;
 const styles = StyleSheet.create({
   container: {
     padding: 12,
-    marginHorizontal: 16,
-    marginTop: 8,
-    marginBottom: 12,
+    marginBottom: 16,
     backgroundColor: colors.s2,
     borderRadius: 12,
     borderWidth: 1,

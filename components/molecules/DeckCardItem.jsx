@@ -94,7 +94,7 @@ const DeckCard = ({ deck, onPress, onDelete }) => {
 const styles = StyleSheet.create({
   card: {
     padding: 16,
-    marginBottom: 24,
+    marginBottom: 16,
     backgroundColor: colors.s2,
     shadowColor: "#000",
     shadowOpacity: 0.15,
