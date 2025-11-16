@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { getMessage } from "../utils/messages";
-import { colors } from "../utils/colors";
+import { getMessage } from "../../utils/messages";
+import { colors } from "../../utils/colors";
 
 /**
  * EmptyState - Dark mode first-time onboarding

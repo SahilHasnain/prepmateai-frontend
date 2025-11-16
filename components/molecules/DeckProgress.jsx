@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { colors, gradients } from "../utils/colors";
+import { colors, gradients } from "../../utils/colors";
 import { LinearGradient } from "expo-linear-gradient";
 
 /**

@@ -8,7 +8,7 @@ import {
   withSpring,
 } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
-import { colors } from "../utils/colors";
+import { colors } from "../../utils/colors";
 
 // Flashcard Item Component with Flip Animation - Dark Mode
 const FlashcardItem = ({ question, answer, onFlip, difficulty = "medium" }) => {

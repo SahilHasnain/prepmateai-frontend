@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { colors, gradients } from "../utils/colors";
+import { colors, gradients } from "../../utils/colors";
 
 const DeckHeader = () => {
   return (

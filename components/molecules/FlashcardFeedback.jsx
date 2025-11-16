@@ -8,10 +8,10 @@ import {
   Platform,
 } from "react-native";
 import { useState } from "react";
-import { NODE_API_BASE_URL } from "../config/env";
-import { playSuccessSound } from "../utils/soundEffects";
-import { getMessage } from "../utils/messages";
-import { colors } from "../utils/colors";
+import { NODE_API_BASE_URL } from "../../config/env";
+import { playSuccessSound } from "../../utils/soundEffects";
+import { getMessage } from "../../utils/messages";
+import { colors } from "../../utils/colors";
 
 // Show toast notification
 const showToast = (message) => {
@@ -44,7 +44,7 @@ const FlashcardFeedback = ({ userId, cardId, topic, onNext, onFeedback }) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userId, cardId, topic, feedback }),
-          },
+          }
         );
 
         const result = await response.json();

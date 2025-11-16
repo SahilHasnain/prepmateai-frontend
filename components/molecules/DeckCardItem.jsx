@@ -6,8 +6,8 @@ import {
   StyleSheet,
 } from "react-native";
 import { useRef, useEffect } from "react";
-import { getProgressFeedback } from "../utils/messages";
-import IconButton from "../atoms/IconButton";
+import { getProgressFeedback } from "../../utils/messages";
+import { colors } from "../../utils/colors";
 import { colors } from "../utils/colors";
 
 /**

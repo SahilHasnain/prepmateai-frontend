@@ -6,7 +6,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useEffect } from "react";
-import { colors } from "../utils/colors";
+import { colors } from "../../utils/colors";
 
 const DeckSkeleton = () => {
   const opacity = useSharedValue(0.3);
