@@ -1,6 +1,5 @@
 import { FlatList, RefreshControl, View, Text, StyleSheet } from "react-native";
 import DeckCardItem from "../molecules/DeckCardItem";
-import DailySummaryCard from "../molecules/DailySummaryCard";
 import { getMessage } from "../../utils/messages";
 import { colors, gradients, shadows } from "../../utils/colors";
 
@@ -8,15 +7,7 @@ import { colors, gradients, shadows } from "../../utils/colors";
  * CardList Component (Organism) - Dark mode
  * Complete deck list rendering with summary, refresh control, and empty states
  */
-const CardList = ({
-  decks,
-  stats,
-  fadeAnim,
-  refreshing,
-  onRefresh,
-  onDeckPress,
-  onDelete,
-}) => {
+const CardList = ({ decks, refreshing, onRefresh, onDeckPress, onDelete }) => {
   return (
     <FlatList
       data={decks}
@@ -26,9 +17,6 @@ const CardList = ({
           onRefresh={onRefresh}
           tintColor={colors.p5}
         />
-      }
-      ListHeaderComponent={
-        <DailySummaryCard stats={stats} fadeAnim={fadeAnim} />
       }
       renderItem={({ item }) => (
         <DeckCardItem
